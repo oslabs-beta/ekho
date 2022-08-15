@@ -1,2 +1,13 @@
 
 node_modules
+node_modules/
+.env
+package-lock.json
+webpack.config.js
+
+server/secrets.js
+public/bundle.js
+
+.DS_Store
+client/.DS_Store
+server/.DS_Store

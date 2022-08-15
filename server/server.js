@@ -13,7 +13,7 @@ server.use(express.urlencoded({ extended: true }));
 * - We accept POST requests from the legacy stack for each trial
 * - We accept responses from the microservice stack for each trial, but that's not a separate route
 * - For the visualization side of things, we accept some complex inputs and query the DB
-* so... just 2 then? 
+* so... just 2 then?
 * don't think we need a routes folder. we can refactor later if we need to
 */
 

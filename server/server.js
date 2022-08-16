@@ -1,8 +1,14 @@
-import path from 'path';
-import 'dotenv/config';
-import express from 'express';
-import apiController from './controllers/apiController.js';
-import dbController from './controllers/dbController.js';
+// import path from 'path';
+// import 'dotenv/config';
+// import express from 'express';
+// import apiController from './controllers/apiController.js';
+// import dbController from './controllers/dbController.js';
+
+const path = require('path');
+require('dotenv').config();
+const express = require('express');
+const apiController = require('./controllers/apiController');
+const dbController = require('./controllers/dbController');
 
 
 // TODO: remove this once we confirm that dotenv is working properly.
@@ -52,9 +58,11 @@ server.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-server.listen(PORT, () => {
+const listener = server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
 
-// TODO: NK: I don't think exporting the server file does anything, but I could be wrong.
-// export default server;
+console.log(listener.close);
+
+// NK: We need to export the listener so Jest can run it.
+module.exports = listener;

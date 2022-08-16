@@ -1,4 +1,4 @@
-import db from '../models/dbModel';
+import db from '../models/dbModel.js';
 
 const dbController = {};
 

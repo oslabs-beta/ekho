@@ -1,5 +1,5 @@
 {
-	"name": "aecubed",
+	"name": "ekho",
 	"version": "1.0.0",
 	"description": "",
 	"main": "./client/index.js",
@@ -9,7 +9,7 @@
 		"dev": "concurrently \"NODE_ENV=development nodemon server/server.js\" \"NODE_ENV=development webpack serve --open --hot\"",
 		"test": "jest --verbose"
 	},
-	"author": "aecubed",
+	"author": "ekho",
 	"jest": {
 		"testEnvironment": "jest-environment-jsdom",
 		"setupFilesAfterEnv": [
@@ -20,6 +20,7 @@
 			"^.+\\.(css|less|scss)$": "babel-jest"
 		}
 	},
+  "type": "module",
 	"dependencies": {
 		"@babel/plugin-transform-async-to-generator": "^7.18.6",
 		"@babel/runtime": "^7.18.9",

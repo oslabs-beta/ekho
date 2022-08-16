@@ -2,7 +2,7 @@ const checkRequiredProps = (body) => {
   if (!body) throw new Error('request missing body');
   const missingFields = [];
   if (!Object.hasOwn(body, 'name')) missingFields.push('name');
-  if (!Object.hasOwn(body, 'args')) missingFields.push('args');
+  // it's possible to call a function with no args
   if (!Object.hasOwn(body, 'runtime')) missingFields.push('runtime');
   if (!Object.hasOwn(body, 'result')) missingFields.push('result');
   if (missingFields.length) return `missing required field(s): ${missingFields.join(', ')}`;
@@ -15,4 +15,4 @@ const checkTypes = (body) => {
   if (typeof body.runtime !== 'number') return 'runtime should be a number representing function runtime in ms';
 };
 
-module.exports = { checkRequiredProps, checkTypes };
+export { checkRequiredProps, checkTypes };

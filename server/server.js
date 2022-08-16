@@ -1,8 +1,8 @@
 import path from 'path';
 import 'dotenv/config';
 import express from 'express';
-import apiController from './controllers/apiController';
-import dbController from './controllers/dbController';
+import apiController from './controllers/apiController.js';
+import dbController from './controllers/dbController.js';
 
 
 // TODO: remove this once we confirm that dotenv is working properly.
@@ -28,7 +28,7 @@ server.post(
   // As soon as the body is validated, send a response back to minimize performance impact
   // TODO: should we send the status back before validateBody to improve speed?
   // Does the legacy app need to know that the input was invalid?
-  (req, res, next) => res.sendStatus(200),
+  (req, res) => res.sendStatus(200)
   /* pass request to API */
   /* perform comparison logic  */
   /* commit response to DB */
@@ -57,4 +57,4 @@ server.listen(PORT, () => {
 });
 
 // TODO: NK: I don't think exporting the server file does anything, but I could be wrong.
-// module.exports = server;
+// export default server;

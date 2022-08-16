@@ -4,4 +4,4 @@ const createErr = (file, method, err, status) => ({
   message: `${err}`,
 });
 
-export default createErr;
+module.exports = createErr;

@@ -15,4 +15,4 @@ const checkTypes = (body) => {
   if (typeof body.runtime !== 'number') return 'runtime should be a number representing function runtime in ms';
 };
 
-export { checkRequiredProps, checkTypes };
+module.exports = { checkRequiredProps, checkTypes };

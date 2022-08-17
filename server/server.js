@@ -1,5 +1,5 @@
 import path from 'path';
-import 'dotenv/config';
+
 import express from 'express';
 import apiController from './controllers/apiController.js';
 import dbController from './controllers/dbController.js';

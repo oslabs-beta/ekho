@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
+import "dotenv/config.js";
+
+
+//dotenv.config();
 //import { MONGO_URI } from '../secret';
 //import secret from '../secret'
-const MONGO_URI = 'mongodb+srv://ekho:MQmP3Zfzj5lT6Yd2@ekhoms.5w0kgxu.mongodb.net/?retryWrites=true&w=majority';
-mongoose.connect(MONGO_URI, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   dbName: 'EkhoMS'
@@ -21,21 +24,32 @@ const resultSchema = new mongoose.Schema({
     type:Object,
     required: true
   },
-    results: {
-    type:Object,
+    resultLegacy: {
+    type:String,
+    required: true
+  },
+  resultMS: {
+    type:String,
     required: true
   },
     legacyTime: {
-    type:String,
+    type:Number,
     required: true
   } ,
     msTime: {
-    type:String,
+    type:Number,
     required: true
   } ,
     mismatch: {
     type:Boolean,
     required: true
+  },
+  ignoredMismatch: {
+    type:Boolean,
+    required: true
+  },
+  mismatchName: {
+    type:String
   },
 
 })

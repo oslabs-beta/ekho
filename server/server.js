@@ -58,11 +58,7 @@ server.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-const listener = server.listen(PORT, () => {
+// NK: We need to export the listener so Jest can run it.
+module.exports = server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
-
-console.log(listener.close);
-
-// NK: We need to export the listener so Jest can run it.
-module.exports = listener;

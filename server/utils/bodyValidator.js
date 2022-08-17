@@ -11,7 +11,7 @@ const checkRequiredProps = (body) => {
 const checkTypes = (body) => {
   // TODO: Figure out whether args must be an array or if we can code such that we can accept any
   // if (!Array.isArray(body.input)) return 'a must be an array';
-  if (Object.hasOwn(body, 'context') && (typeof body.context !== 'object' || Array.isArray(body.context))) return 'If provided, context must be an object';
+  if (Object.hasOwn(body, 'context') && (typeof body.context !== 'object' || Array.isArray(body.context))) return 'if provided, context must be an object';
   if (typeof body.runtime !== 'number') return 'runtime should be a number representing function runtime in ms';
 };
 

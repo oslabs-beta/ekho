@@ -30,11 +30,8 @@ server.use(express.urlencoded({ extended: true }));
 
 server.post(
   '/',
+  (req, res, next) => res.sendStatus(200),
   apiController.validateBody,
-  // As soon as the body is validated, send a response back to minimize performance impact
-  // TODO: should we send the status back before validateBody to improve speed?
-  // Does the legacy app need to know that the input was invalid?
-  (req, res) => res.sendStatus(200)
   /* pass request to API */
   /* perform comparison logic  */
   /* commit response to DB */
@@ -46,16 +43,15 @@ server.use('*', (req, res) => res.status(404).send('This is not a valid route.')
 /**
  * express error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+ * Note: we aren't sending back error messages, so all we're doing is logging the error.
  */
 server.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
-    status: 500,
-    message: { err: 'An error occurred' },
   };
   const errorObj = Object.assign(defaultErr, err);
   console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
+  return;
 });
 
 // NK: We need to export the listener so Jest can run it.

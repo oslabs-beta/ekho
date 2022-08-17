@@ -14,7 +14,7 @@ apiController.validateBody = (req, res, next) => {
     return next();
   } catch (err) {
     console.log(err);
-    return next(createErr('apiController', 'validateBody', err, 400));
+    return next(createErr('apiController', 'validateBody', err));
   }
 };
 

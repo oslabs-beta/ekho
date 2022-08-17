@@ -1,5 +1,5 @@
-import db from '../models/dbModel.js';
+const db = require('../models/dbModel.js');
 
 const dbController = {};
 
-export default dbController;
+module.exports = dbController;

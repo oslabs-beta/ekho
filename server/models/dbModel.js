@@ -15,6 +15,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 const Schema = mongoose.Schema;
 
+
 const resultSchema = new mongoose.Schema({
     experimentName: {
     type:String,
@@ -55,3 +56,4 @@ const resultSchema = new mongoose.Schema({
 })
 const Results = mongoose.model('Results', resultSchema);
 export default { Results };
+

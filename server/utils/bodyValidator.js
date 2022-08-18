@@ -2,7 +2,8 @@ const checkRequiredProps = (body) => {
   if (!body) throw new Error('request missing body');
   const missingFields = [];
   if (!Object.hasOwn(body, 'name')) missingFields.push('name');
-  // it's possible to call a function with no args
+  // How should we allow people to call a function with no args? null? Empty array?
+  if (!Object.hasOwn(body, 'args')) missingFields.push('args');
   if (!Object.hasOwn(body, 'runtime')) missingFields.push('runtime');
   if (!Object.hasOwn(body, 'result')) missingFields.push('result');
   if (missingFields.length) return `missing required field(s): ${missingFields.join(', ')}`;

@@ -23,7 +23,7 @@ describe('Legacy module requests', () => {
         .expect(200)
     });
 
-    it('responds to a request with missing fields with the list of fields', () => {
+    it('responds to invalid requests with a 200', () => {
       return request(server)
       .post('/')
       .set('Content-Type', 'application/json')
@@ -32,28 +32,7 @@ describe('Legacy module requests', () => {
         args: 5,
         result: 42
       })
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(400)
-      .then(err =>  {
-        expect(err.body).toEqual('Error: missing required field(s): name, runtime')
-      })
-    }) 
-    it('responds to a request with bad inputs with an appropriate error', () => {
-      return request(server)
-      .post('/')
-      .set('Content-Type', 'application/json')
-      .send({
-        name: 'mytest',
-        context: 123,
-        runtime: 100,
-        args: 5,
-        result: 42
-      })
-      .expect('Content-Type', 'application/json; charset=utf-8')
-      .expect(400)
-      .then(err =>  {
-        expect(err.body).toEqual('Error: if provided, context must be an object')
-      })
+      .expect(200)
     });
   });
 });

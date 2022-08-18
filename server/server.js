@@ -10,10 +10,6 @@ const express = require('express');
 const apiController = require('./controllers/apiController');
 const dbController = require('./controllers/dbController');
 
-
-// TODO: remove this once we confirm that dotenv is working properly.
-console.log(process.env);
-
 const PORT = 3000;
 const server = express();
 
@@ -30,9 +26,12 @@ server.use(express.urlencoded({ extended: true }));
 
 server.post(
   '/',
-  (req, res, next) => res.sendStatus(200),
+  (req, res, next) => {
+    res.sendStatus(200)
+    return next()
+  },
   apiController.validateBody,
-  /* pass request to API */
+  apiController.callCandidateMicroservice
   /* perform comparison logic  */
   /* commit response to DB */
 );
@@ -46,11 +45,9 @@ server.use('*', (req, res) => res.status(404).send('This is not a valid route.')
  * Note: we aren't sending back error messages, so all we're doing is logging the error.
  */
 server.use((err, req, res, next) => {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-  };
-  const errorObj = Object.assign(defaultErr, err);
-  console.log(errorObj.log);
+  const defaultErr = 'Express error handler caught unknown middleware error';
+  const error = err || defaultErr;
+  console.log(error);
   return;
 });
 

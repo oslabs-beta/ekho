@@ -1,3 +1,4 @@
+
 // import path from 'path';
 // import 'dotenv/config';
 // import express from 'express';
@@ -10,6 +11,14 @@ const express = require('express');
 const apiController = require('./controllers/apiController');
 const dbController = require('./controllers/dbController');
 
+<<<<<<< HEAD
+=======
+
+
+// TODO: remove this once we confirm that dotenv is working properly.
+console.log(process.env);
+
+>>>>>>> dev
 const PORT = 3000;
 const server = express();
 

@@ -1,6 +1,8 @@
-import mongoose from 'mongoose';
-import "dotenv/config.js";
-
+const mongoose = require('mongoose');
+require('dotenv').config()
+// getting error "Cannot use import statement outside a module" with the following two lines - replaced with two lines above
+// import mongoose from 'mongoose';
+// import "dotenv/config.js";
 
 //dotenv.config();
 //import { MONGO_URI } from '../secret';
@@ -29,7 +31,7 @@ const resultSchema = new mongoose.Schema({
     type:String,
     required: true
   },
-  resultMS: {
+    resultMS: {
     type:String,
     required: true
   },
@@ -45,7 +47,7 @@ const resultSchema = new mongoose.Schema({
     type:Boolean,
     required: true
   },
-  ignoredMismatch: {
+    ignoredMismatch: {
     type:Boolean,
     required: true
   },
@@ -55,5 +57,7 @@ const resultSchema = new mongoose.Schema({
 
 })
 const Results = mongoose.model('Results', resultSchema);
-export default { Results };
+module.exports = { Results };
+// getting error "SyntaxError: Unexpected token 'export'" with the following two line - replaced with line above
+// export default { Results };
 

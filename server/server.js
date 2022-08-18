@@ -12,7 +12,6 @@ const apiController = require('./controllers/apiController');
 const dbController = require('./controllers/dbController');
 
 
-
 // TODO: remove this once we confirm that dotenv is working properly.
 console.log(process.env);
 
@@ -21,6 +20,10 @@ const server = express();
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+
+// temp static serving of frontend for testing - probably want to change
+server.use(express.static(path.resolve(__dirname, '../frontend')));
+
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial

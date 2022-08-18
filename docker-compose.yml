@@ -1,0 +1,18 @@
+version: '2.7.0'
+
+services:
+  ekho_microservice: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ekho_microservice
+    ports: 
+      - "8080:80"
+
+  dummy_microservice: 
+    build:
+      context: .
+      dockerfile: ./dummy-microservice/Dockerfile
+    container_name: dummy_microservice
+    ports: 
+      - "8080:80"

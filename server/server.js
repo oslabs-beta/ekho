@@ -1,24 +1,8 @@
-
-// import path from 'path';
-// import 'dotenv/config';
-// import express from 'express';
-// import apiController from './controllers/apiController.js';
-// import dbController from './controllers/dbController.js';
-
-const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const apiController = require('./controllers/apiController');
 const dbController = require('./controllers/dbController');
 
-<<<<<<< HEAD
-=======
-
-
-// TODO: remove this once we confirm that dotenv is working properly.
-console.log(process.env);
-
->>>>>>> dev
 const PORT = 3000;
 const server = express();
 
@@ -36,8 +20,8 @@ server.use(express.urlencoded({ extended: true }));
 server.post(
   '/',
   (req, res, next) => {
-    res.sendStatus(200)
-    return next()
+    res.sendStatus(200);
+    return next();
   },
   apiController.validateBody,
   apiController.callCandidateMicroservice
@@ -57,7 +41,6 @@ server.use((err, req, res, next) => {
   const defaultErr = 'Express error handler caught unknown middleware error';
   const error = err || defaultErr;
   console.log(error);
-  return;
 });
 
 // NK: We need to export the listener so Jest can run it.

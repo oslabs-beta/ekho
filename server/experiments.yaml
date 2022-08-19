@@ -1,6 +1,7 @@
 name: sample-test
 # Enabled-pct expects a number between 0 and 1
 enabledPct: 0.00
+method: POST
 apiEndpoint: https://candidate-microservice.example.com/endpoint
 flaggedMismatchRules:
   - name: legacy-bug-123
@@ -14,6 +15,7 @@ flaggedMismatchRules:
       - args[0] = 'foo'
 ---
 name: sample-test2
+method: GET
 enabledPct: 0.00
 # Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
 apiEndpoint: https://candidate-microservice.example.com/api/$1/images/$2

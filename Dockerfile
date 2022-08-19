@@ -3,7 +3,7 @@ FROM node:16.17.0
 # creates working directory and sets for subsequent commands
 WORKDIR /code
 # environment variable to allow for data transmission via HTTP (80); may want to switch to HTTPS (443)?
-ENV PORT 80
+# ENV PORT 80
 # copy package.json into code directory so image knows what application dependencies are
 # what if different images require different dependencies? do we need to install all dependencies on all images?
 COPY package.json /code/package.json

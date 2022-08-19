@@ -15,7 +15,7 @@ const dbController = require('./controllers/dbController');
 // TODO: remove this once we confirm that dotenv is working properly.
 console.log(process.env);
 
-const PORT = 3000;
+const PORT = 0;
 const server = express();
 
 server.use(express.json());

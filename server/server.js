@@ -1,20 +1,7 @@
-
-// import path from 'path';
-// import 'dotenv/config';
-// import express from 'express';
-// import apiController from './controllers/apiController.js';
-// import dbController from './controllers/dbController.js';
-
-const path = require('path');
 require('dotenv').config();
 const express = require('express');
 const apiController = require('./controllers/apiController');
 const dbController = require('./controllers/dbController');
-
-
-
-// TODO: remove this once we confirm that dotenv is working properly.
-console.log(process.env);
 
 const PORT = 3000;
 const server = express();
@@ -32,12 +19,12 @@ server.use(express.urlencoded({ extended: true }));
 
 server.post(
   '/',
+  (req, res, next) => {
+    res.sendStatus(200);
+    return next();
+  },
   apiController.validateBody,
-  // As soon as the body is validated, send a response back to minimize performance impact
-  // TODO: should we send the status back before validateBody to improve speed?
-  // Does the legacy app need to know that the input was invalid?
-  (req, res) => res.sendStatus(200)
-  /* pass request to API */
+  apiController.callCandidateMicroservice
   /* perform comparison logic  */
   /* commit response to DB */
 );
@@ -48,16 +35,12 @@ server.use('*', (req, res) => res.status(404).send('This is not a valid route.')
 /**
  * express error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
+ * Note: we aren't sending back error messages, so all we're doing is logging the error.
  */
 server.use((err, req, res, next) => {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 500,
-    message: { err: 'An error occurred' },
-  };
-  const errorObj = Object.assign(defaultErr, err);
-  console.log(errorObj.log);
-  return res.status(errorObj.status).json(errorObj.message);
+  const defaultErr = 'Express error handler caught unknown middleware error';
+  const error = err || defaultErr;
+  console.log(error);
 });
 
 // NK: We need to export the listener so Jest can run it.

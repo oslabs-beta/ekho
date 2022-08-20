@@ -6,17 +6,15 @@ const PORT = 4000;
 const server = express();
 
 server.use(express.json());
-server.use(urlencoded( { extended: true }));
+server.use(urlencoded( { extended: true } ));
 
 const useMicroService = true;
-
 
 if(useMicroService){
     server.use('/user', userRouter);
 }else{
     server.get('/user', (req,res) => res.status(200).send('microservice inactive'))
 }
-
 
 server.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '../index.html'))

@@ -1,8 +1,10 @@
 // For legacy function logic
+const ekhojs = require('../packages/js/ekkojs/module')
 
 const legacyFunctions = {};
 
-legacyFunctions.fizzBuzz = num => {
+legacyFunctions.fizzBuzz = (input) => {
+    return ekhojs.wrap((num) => {
     const arr = [];
     for(let i = 1; i <= num; i++){
         if(i % 5 === 0 && i % 3 === 0) arr.push('fizzbuzz');
@@ -10,8 +12,10 @@ legacyFunctions.fizzBuzz = num => {
         else if(i % 3 === 0) arr.push('fizz')
         else arr.push(i);
     }
-    console.log(arr)
+    console.log('fizzbuzzlegacy',arr)
     return arr;
+}, 'test', {type: 'test'}, 'http://localhost:3000', input, {body: input})
 }
 
+// ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)
 module.exports = legacyFunctions;

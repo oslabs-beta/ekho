@@ -1,5 +1,18 @@
 module.exports = {
-  extends: ['airbnb-base', 'airbnb-base/whitespace'],
+  plugins: [
+    "@typescript-eslint",
+    "jest",
+  ],
+  extends: [
+    'airbnb-base',
+    'airbnb-base/whitespace',
+    'airbnb-typescript/base',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
+  ],
+  parserOptions: {
+    project: './tsconfig.json'
+  },
   root: true,
   env: {
     browser: true,

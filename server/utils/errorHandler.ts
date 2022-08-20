@@ -1,3 +1,3 @@
-const createErr = (file, method, err) => (`Error in ${file}.${method}. ${err}`);
+const createErr = (file: string, method: string, err: string) => (`Error in ${file}.${method}. ${err}`);
 
-module.exports = createErr;
+export default createErr;

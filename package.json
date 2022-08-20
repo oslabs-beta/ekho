@@ -4,16 +4,21 @@
 	"description": "",
 	"main": "./client/index.js",
 	"scripts": {
-		"start": "nodemon server/server.js",
+		"start": "nodemon server/server.ts",
 		"build": "NODE_ENV=production webpack",
-		"dev": "concurrently \"NODE_ENV=development nodemon server/server.js\" \"NODE_ENV=development webpack serve --open --hot\"",
+		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\"",
 		"test": "jest --verbose"
 	},
 	"author": "ekho",
 	"jest": {
 		"globalSetup": "./jest-setup.js",
 		"globalTeardown": "./jest-teardown.js",
-		"testEnvironment": "jest-environment-jsdom",
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "transformIgnorePatterns": ["<rootDir>/node_modules/"],
 		"setupFilesAfterEnv": [
 			"@testing-library/jest-dom/extend-expect"
 		],
@@ -36,7 +41,8 @@
 		"react-dom": "^16.5.2",
 		"react-hot-loader": "^4.6.3",
 		"react-router": "^4.3.1",
-		"react-router-dom": "^6.3.0"
+		"react-router-dom": "^6.3.0",
+		"ts-node": "^10.9.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.2",
@@ -62,6 +68,9 @@
 		"nodemon": "^2.0.19",
 		"react-test-renderer": "^16.14.0",
 		"supertest": "^6.2.4",
+		"ts-jest": "^28.0.8",
+		"ts-loader": "^9.3.1",
+		"typescript": "^4.7.4",
 		"webpack": "^5.64.1",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-server": "^4.5.0",

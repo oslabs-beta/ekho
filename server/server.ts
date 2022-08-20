@@ -1,7 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const apiController = require('./controllers/apiController');
-const dbController = require('./controllers/dbController');
+// const apiController = require('./controllers/apiController');
+// const dbController = require('./controllers/dbController');
+import apiController from './controllers/apiController';
+import dbController from './controllers/dbController';
 
 const PORT = 3000;
 const server = express();

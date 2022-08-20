@@ -13,17 +13,18 @@ const dbController = require('./controllers/dbController');
 
 
 // TODO: remove this once we confirm that dotenv is working properly.
-console.log(process.env);
+// console.log(process.env);
 
-const PORT = 0;
+// changed from 3000 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
+// https://www.techopedia.com/definition/15709/port-80#:~:text=Port%2080%20is%20the%20port,and%20receive%20unencrypted%20web%20pages.
+const PORT = 443;
 const server = express();
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 // temp static serving of frontend for testing - probably want to change
-server.use(express.static(path.resolve(__dirname, '../frontend')));
-
+server.use(express.static(path.join(__dirname, '../client')));
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial

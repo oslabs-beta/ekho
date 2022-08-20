@@ -10,7 +10,7 @@ services:
     container_name: ekho_microservice
     # port format - host port : container port
     ports: 
-      - "8080:80"
+      - "3000:443"
     # mounting a volume makes development easier because it will see live code changes as they happen
     # volume format - host directory : container directory to mount to
     volumes: 

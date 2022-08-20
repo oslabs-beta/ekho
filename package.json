@@ -11,8 +11,8 @@
 	},
 	"author": "ekho",
 	"jest": {
-    "globalSetup": "./jest-setup.js",
-    "globalTeardown": "./jest-teardown.js",
+		"globalSetup": "./jest-setup.js",
+		"globalTeardown": "./jest-teardown.js",
 		"testEnvironment": "jest-environment-jsdom",
 		"setupFilesAfterEnv": [
 			"@testing-library/jest-dom/extend-expect"
@@ -52,8 +52,8 @@
 		"cross-env": "^6.0.3",
 		"css-loader": "^6.5.1",
 		"eslint": "^8.22.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-config-airbnb-base": "^15.0.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.26.0",
 		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
 		"jest": "^28.1.3",

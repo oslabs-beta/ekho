@@ -1,13 +1,15 @@
-// temp file to test docker
-console.log("Hello Docker!");
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.getElementById('root');
+  const newDiv = document.createElement('div');
+  const button = document.createElement('button');
+  let count = 0;
+  button.onclick = function() {update();};
+  button.innerText = `${count}`;
+  root.appendChild(newDiv);
+  newDiv.appendChild(button);
 
-/* 
-Dockerfiles needed in Docker compose
-- Ekho Microservice
-  - Ekho database
-- Dummy Microservice
-  - Dummy Microservice database
-
-  
-
-*/
+  function update() {
+    count++;
+    button.innerText = `${count}`;
+  }
+});

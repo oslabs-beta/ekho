@@ -10,16 +10,20 @@ services:
     container_name: ekho_microservice
     # port format - host port : container port
     ports: 
+      # not completely sure on best practices for port mapping yet
       - "3000:443"
     # mounting a volume makes development easier because it will see live code changes as they happen
     # volume format - host directory : container directory to mount to
     volumes: 
       - .:/code
-
-#  dummy_microservice: 
-#   build:
-#      context: ./dummy-microservice
-#      dockerfile: Dockerfile
-#    container_name: dummy_microservice
-#    ports: 
-#      - "8080:80"
+      - ./node_modules:/code/node_modules # the node_modeules volume prevents the (potentially) empty node_modules directory from overwriting the one created on the image from running npm install
+  dummy_microservice: 
+    build:
+      context: ./dummy-microservice
+      dockerfile: Dockerfile
+    container_name: dummy_microservice
+    ports: 
+      # not completely sure on best practices for port mapping yet
+      - "3001:444"
+    volumes: 
+      - .:/code

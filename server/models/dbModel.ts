@@ -9,8 +9,8 @@ process.env.MONGO_URI = 'mongodb+srv://acheung:tNtVo73f3WY80AZ9@testekho.1py9d96
 //import { MONGO_URI } from '../secret';
 //import secret from '../secret'
 mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  // useNewUrlParser: true,
+  // useUnifiedTopology: true,
   dbName: 'EkhoMS'
 })
   .then(() => console.log('Connected to Mongo DB.'))

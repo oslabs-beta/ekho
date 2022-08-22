@@ -1,6 +1,9 @@
-import mongoose from 'mongoose';
-import "dotenv/config.js";
+// import mongoose from 'mongoose';
+// import "dotenv/config.js";
+const mongoose = require('mongoose')
+const dotenv = require('dotenv/config.js')
 
+process.env.MONGO_URI = 'mongodb+srv://acheung:tNtVo73f3WY80AZ9@testekho.1py9d96.mongodb.net/?retryWrites=true&w=majority'
 
 //dotenv.config();
 //import { MONGO_URI } from '../secret';
@@ -55,5 +58,5 @@ const resultSchema = new mongoose.Schema({
 
 })
 const Results = mongoose.model('Results', resultSchema);
-export default { Results };
+module.exports = { Results };
 

@@ -1,12 +1,13 @@
 require('dotenv').config();
 const express = require('express');
+
 import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
 // const apiController = require('./controllers/apiController');
 // const dbController = require('./controllers/dbController');
 import apiController from './controllers/apiController';
 import dbController from './controllers/dbController';
 
-const PORT: number = 3000;
+const PORT = 3000;
 const server = express();
 
 server.use(express.json());
@@ -27,7 +28,8 @@ server.post(
     return next();
   },
   apiController.validateBody,
-  apiController.callCandidateMicroservice
+  apiController.structureURI,
+  apiController.callCandidateMicroservice,
   /* perform comparison logic  */
   /* commit response to DB */
 );

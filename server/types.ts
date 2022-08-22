@@ -1,5 +1,3 @@
-import { KeysOfAType } from "mongodb"
-
 export type ArgsBody = { [key: string]: unknown };
 
 export type ArgsQuery = { [key: string]: unknown };

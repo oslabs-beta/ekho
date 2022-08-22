@@ -22,7 +22,8 @@ const apiController: ApiControllerType = {
 
   validateBody: (req, res, next) => {
     try {
-      const { body }: { body: LegacyBody } = req.body;
+      const { body }: { body: LegacyBody } = req;
+      console.log(body);
       if (!body) throw new Error('request missing body');
       return next();
     } catch (err) {
@@ -65,7 +66,8 @@ const apiController: ApiControllerType = {
     // console.log(substituteParams('http://example.com/$1/$2/$3/test/$4/$5', ['foo', ';console.log(\'do bad things\')', 'baz'])); // expect http://example.com/foo/';console.log(\'do bad things\')'/test/baz
 
     try {
-      const doc: Experiment[] = yaml.loadAll(fs.readFileSync(path.join(__dirname, '../experiments.yaml'), 'utf-8'));
+      // TODO: figure out how to validate the YAML via TypeScript. There's a separate task for this.
+      const doc: any[] = yaml.loadAll(fs.readFileSync(path.join(__dirname, '../experiments.yaml'), 'utf-8'));
       console.log(doc);
       // find the right experiment by looking for one with a matching name
       let experiment: Experiment;
@@ -75,7 +77,7 @@ const apiController: ApiControllerType = {
           break;
         }
       }
-
+      console.log(experiment);
       if (!experiment) throw new Error(`No experiment found matching name ${req.body.name}`);
 
       let uri = experiment.apiEndpoint;
@@ -92,7 +94,7 @@ const apiController: ApiControllerType = {
   },
 
   callCandidateMicroservice: async (req, res, next) => {
-    const { experiment, uri } = res.locals.experiment;
+    const { experiment, uri } = res.locals;
     const { args } = req.body;
     // Figure out if this trial should run
     if (experiment.enabledPct < Math.random()) return;

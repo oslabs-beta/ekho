@@ -21,10 +21,34 @@ type ApiControllerType = {
 const apiController: ApiControllerType = {
 
   validateBody: (req, res, next) => {
+    const checkRequiredProps = (body: LegacyBody) => {
+      const missingFields = [];
+      if (!Object.hasOwn(body, 'name')) missingFields.push('name');
+      if (!Object.hasOwn(body, 'args')) missingFields.push('args');
+      if (!Object.hasOwn(body, 'runtime')) missingFields.push('runtime');
+      if (!Object.hasOwn(body, 'result')) missingFields.push('result');
+      if (missingFields.length) throw new Error(`missing required field(s): ${missingFields.join(', ')}`);
+    };
+
+    const checkTypes = (body: LegacyBody) => {
+      const { args } = body;
+      if (typeof args !== 'object' || Array.isArray(args)) return 'args must be an object containing at least 1 property: body, params, or query';
+      if (!Object.hasOwn(args, 'query')
+        && !Object.hasOwn(args, 'params')
+        && !Object.hasOwn(args, 'body')) return 'args must contain at least 1 property: body, params, or query';
+      if (Object.hasOwn(args, 'query') && (typeof args.query !== 'object' || Array.isArray(args.query))) return 'if provided, query must be an object representing keys/values to be passed as query parameters';
+      if (Object.hasOwn(args, 'params') && !Array.isArray(args.params)) return 'if provided, params must be an array';
+      if (Object.hasOwn(args, 'body') && (typeof args.body !== 'object' || Array.isArray(args.body))) return 'if provided, body must be an object that will be passed on as the request body';
+      if (Object.hasOwn(body, 'context') && (typeof body.context !== 'object' || Array.isArray(body.context))) return 'if provided, context must be an object';
+      if (typeof body.runtime !== 'number') return 'runtime should be a number representing function runtime in ms';
+    };
+
     try {
       const { body }: { body: LegacyBody } = req;
-      console.log(body);
       if (!body) throw new Error('request missing body');
+      checkRequiredProps(body);
+      const typeError = checkTypes(body);
+      if (typeError) throw new Error(typeError);
       return next();
     } catch (err) {
       return next(createErr('apiController', 'validateBody', err));

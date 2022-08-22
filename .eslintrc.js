@@ -31,5 +31,6 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': 'off',
     'react/prop-types': 'off',
+    'expect-expect': { "assertFunctionNames": ["expect", "request.**.expect"] }
   },
 };

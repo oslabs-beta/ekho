@@ -1,0 +1,13 @@
+{
+	"name": "dummy-microservice",
+	"version": "1.0.0",
+	"description": "",
+	"main": "./server/server.js",
+	"scripts": {
+		"start": "node server/server.js"
+	},
+	"author": "dummy-company",
+	"dependencies": {
+		"express": "^4.16.3"
+	}
+}

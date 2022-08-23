@@ -20,7 +20,8 @@ describe('Legacy module requests', () => {
           runtime: 100,
           result: 42
         })
-        .expect(200)
+        .expect('Content-Type', 'text/plain; charset=utf-8')
+        .expect(200);
     });
 
     it('responds to invalid requests with a 200', () => {
@@ -32,7 +33,8 @@ describe('Legacy module requests', () => {
         args: 5,
         result: 42
       })
-      .expect(200)
+      .expect('Content-Type', 'text/plain; charset=utf-8')
+      .expect(200);
     });
   });
 });

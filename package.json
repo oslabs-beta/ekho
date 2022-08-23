@@ -27,6 +27,7 @@
 		"@babel/runtime": "^7.18.9",
 		"assert": "^2.0.0",
 		"dotenv": "^16.0.1",
+		"ekho-js": "^1.0.1",
 		"express": "^4.16.3",
 		"js-yaml": "^4.1.0",
 		"mongodb": "^4.8.1",

@@ -1,7 +1,11 @@
 require('dotenv').config();
 const express = require('express');
-const apiController = require('./controllers/apiController');
-const dbController = require('./controllers/dbController');
+
+import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
+// const apiController = require('./controllers/apiController');
+// const dbController = require('./controllers/dbController');
+import apiController from './controllers/apiController';
+import dbController from './controllers/dbController';
 
 const PORT = 3000;
 const server = express();
@@ -19,29 +23,32 @@ server.use(express.urlencoded({ extended: true }));
 
 server.post(
   '/',
-  (req, res, next) => {
+  (req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(200);
     return next();
   },
   apiController.validateBody,
-  apiController.callCandidateMicroservice
+  apiController.structureURI,
+  apiController.callCandidateMicroservice,
   /* perform comparison logic  */
   /* commit response to DB */
 );
 
 // catch-all route handler for any requests to an unknown route
-server.use('*', (req, res) => res.status(404).send('This is not a valid route.'));
+server.use('*', (req: Request, res: Response) => res.status(404).send('Invalid route.'));
 
 /**
  * express error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
  * Note: we aren't sending back error messages, so all we're doing is logging the error.
  */
-server.use((err, req, res, next) => {
-  const defaultErr = 'Express error handler caught unknown middleware error';
+const globalErrorHandler: ErrorRequestHandler = (err: string, req, res, next) => {
+  const defaultErr: string = 'Express error handler caught unknown middleware error';
   const error = err || defaultErr;
   console.log(error);
-});
+};
+
+server.use(globalErrorHandler);
 
 // NK: We need to export the listener so Jest can run it.
 module.exports = server.listen(PORT, () => {

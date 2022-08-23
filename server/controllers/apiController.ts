@@ -1,10 +1,8 @@
 // NK: I still don't know when/why node-fetch is ever required. Let's try without.
 // import fetch from 'node-fetch';
-import yaml from 'js-yaml';
-import fs from 'fs';
-import path from 'path';
 import { RequestHandler } from 'express';
 import createErr from '../utils/errorHandler';
+import experiments from '../utils/yamlParser';
 import {
   Args,
   ArgsQuery,
@@ -68,14 +66,11 @@ const apiController: ApiControllerType = {
       return `${uri}?${queryStr}`;
     };
 
-    // sanitizing inputs doesn't seem necessary I think, based on testing.
-    // console.log(addQueryParams('http://example.com', { cat: 'foo', dog: '\; console.log(do bad things)' }));
-
     const substituteParams = function (uri: string, paramsArr: string[]) {
       let moddedUri = uri;
       paramsArr.forEach((el, idx) => {
         const moddedUriCopy = moddedUri;
-        moddedUri = moddedUri.replaceAll(`$${idx + 1}/`, `${el}/`);
+        moddedUri = moddedUri.replaceAll(`$${idx + 1}`, `${el}`);
         if (moddedUri === moddedUriCopy) throw new Error(`No placeholder $${idx + 1} found for param ${el}`);
       });
 
@@ -84,24 +79,17 @@ const apiController: ApiControllerType = {
       return moddedUri;
     };
 
-    // console.log(substituteParams('http://example.com', ['foo'])); // expect error - too many params
-    // console.log(substituteParams('http://example.com/$1/', ['foo'])); // expect http://example.com/foo/
-    // console.log(substituteParams('http://example.com/$1/$2/$3/test/$4/$5', ['foo', 'bar', 'baz'])); // expect http://example.com/foo/bar/test/baz
-    // console.log(substituteParams('http://example.com/$1/$2/$3/test/$4/$5', ['foo', ';console.log(\'do bad things\')', 'baz'])); // expect http://example.com/foo/';console.log(\'do bad things\')'/test/baz
-
     try {
       // TODO: figure out how to validate the YAML via TypeScript. There's a separate task for this.
-      const doc: any[] = yaml.loadAll(fs.readFileSync(path.join(__dirname, '../experiments.yaml'), 'utf-8'));
-      console.log(doc);
+      
       // find the right experiment by looking for one with a matching name
       let experiment: Experiment;
-      for (let i = 0; i < doc.length; i++) {
-        if (doc[i].name === req.body.name) {
-          experiment = doc[i];
+      for (let i = 0; i < experiments.length; i++) {
+        if (experiments[i].name === req.body.name) {
+          experiment = experiments[i];
           break;
         }
       }
-      console.log(experiment);
       if (!experiment) throw new Error(`No experiment found matching name ${req.body.name}`);
 
       let uri = experiment.apiEndpoint;
@@ -110,7 +98,7 @@ const apiController: ApiControllerType = {
       uri = (Object.hasOwn(args, 'query')) ? addQueryParams(uri, args.query) : uri;
 
       res.locals.experiment = experiment;
-      res.locals.uri = uri;
+      res.locals.uri = encodeURI(uri);
       return next();
     } catch (err) {
       return next(createErr('apiController', 'structureUri', err));
@@ -134,10 +122,7 @@ const apiController: ApiControllerType = {
         ...(Object.hasOwn(args, 'body') && { body: JSON.stringify(args.body) }),
       });
       const end = Date.now();
-
       const response = await candidateResponse.json();
-      console.log(candidateResponse);
-      console.log(res);
       res.locals.candidateRuntime = end - start;
       res.locals.candidateStatus = candidateResponse.status; // NK: don't know if this is right
       res.locals.candidateResult = response;

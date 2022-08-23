@@ -1,6 +1,6 @@
 # Mock data for jest
-name: sample-test
-enabledPct: 0.00
+name: test1
+enabledPct: 1.00
 method: POST
 apiEndpoint: https://candidate-microservice.example.com/endpoint
 flaggedMismatchRules:
@@ -13,7 +13,7 @@ flaggedMismatchRules:
       - context.usertype === 'admin' || context.usertype = 'test'
       - args[0] = 'foo'
 ---
-name: sample-test2
+name: test2
 method: GET
-enabledPct: 0.00
+enabledPct: 1.00
 apiEndpoint: https://candidate-microservice.example.com/api/$1/images/$2

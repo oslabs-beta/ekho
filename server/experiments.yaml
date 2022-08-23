@@ -1,6 +1,6 @@
 name: sample-test
 # Enabled-pct expects a number between 0 and 1
-enabledPct: 0.00
+enabledPct: 0.99999
 method: POST
 apiEndpoint: https://candidate-microservice.example.com/endpoint
 flaggedMismatchRules:

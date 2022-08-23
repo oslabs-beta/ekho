@@ -1,9 +1,10 @@
 // For legacy function logic
-const ekhojs = require('ekho-js')
+const ekhojs = require('ekho-js').default
 
 const legacyFunctions = {};
 
 legacyFunctions.fizzBuzz = (input) => {
+    console.log(ekhojs)
     return ekhojs.wrap((num) => {
     const arr = [];
     for(let i = 1; i <= num; i++){

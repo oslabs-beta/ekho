@@ -1,7 +1,8 @@
 # installs base image of node - Active LTS (long-term support) - see https://nodejs.org/en/about/releases/
 FROM node:16.17.0
 # establishes a working directory inside the image
-WORKDIR /code
+# this must be different than the working directory in other dockerfiles? why? since this is inside the image this dockerfile refers to, i don't understand
+WORKDIR /app
 # copy package.json AND package-lock.json into code directory so image knows what application dependencies are
 COPY package*.json .
 # installs all of the required dependencies based on the package*.json file

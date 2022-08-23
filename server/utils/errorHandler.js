@@ -1,7 +1,3 @@
-const createErr = (file, method, err, status) => ({
-  log: `Error in ${file}.${method}. Error: ${err}`,
-  status,
-  message: `${err}`,
-});
+const createErr = (file, method, err) => (`Error in ${file}.${method}. ${err}`);
 
 module.exports = createErr;

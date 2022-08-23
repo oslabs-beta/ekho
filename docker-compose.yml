@@ -20,7 +20,7 @@ services:
   dummy_microservice: 
     build:
       context: ./dummy-microservice
-      dockerfile: Dockerfile
+      dockerfile: microservice.Dockerfile
     container_name: dummy_microservice
     ports: 
       # not completely sure on best practices for port mapping yet

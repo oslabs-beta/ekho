@@ -20,7 +20,7 @@ server.post('/', controller.invokeFunction, (req, res) => {
 });
 
 server.use('*', (req, res) => {
-  res.status(400).send('The endpoint you are looking for does not exist')
+  res.status(404).send('The endpoint you are looking for does not exist')
 });
 
 server.use((err, req, res, next)=>{
@@ -34,4 +34,4 @@ server.use((err, req, res, next)=>{
   res.status(errObj.status).json(errObj.message);
 });
 
-server.listen(PORT, () => console.log(`Listening to PORT ${PORT}`));
+server.listen(PORT, () => console.log(`Server listening on port: ${PORT}...`));

@@ -3,7 +3,7 @@
 import yaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
-import { RequestHandler } from 'express';
+import { json, RequestHandler } from 'express';
 import createErr from '../utils/errorHandler';
 import {
   Args,
@@ -16,6 +16,7 @@ type ApiControllerType = {
   validateBody: RequestHandler,
   structureURI: RequestHandler,
   callCandidateMicroservice: RequestHandler,
+  compareResults: RequestHandler,
 };
 
 const apiController: ApiControllerType = {
@@ -122,6 +123,22 @@ const apiController: ApiControllerType = {
       return next(createErr('apiController', 'callCandidateMicroservice', err));
     }
   },
+
+  compareResults:(req,res,next) => {
+
+   
+   try{
+    //choose faster runtime
+    if(req.body.runtime < res.locals.candidateRuntime) res.locals.fasterRuntime = 'legacy';
+    else res.locals.fasterRuntime = 'microservice'
+    // validate comparison
+    res.locals.mismatch = JSON.stringify(req.body.result) === JSON.stringify(res.locals.candidateResult); 
+    return next();
+   } catch(err){
+    return next(createErr('apiController', 'compareResults', err));
+   }
+  },
+
 };
 
 export default apiController;

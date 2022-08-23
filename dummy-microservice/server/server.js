@@ -5,7 +5,7 @@ const path = require('path');
 const server = express();
 // changed from 3001 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
 // https://www.techopedia.com/definition/15709/port-80#:~:text=Port%2080%20is%20the%20port,and%20receive%20unencrypted%20web%20pages.
-const PORT = 444;
+const PORT = 443;
 
 const controller = require('./controller.js');
 

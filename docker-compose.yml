@@ -24,6 +24,6 @@ services:
     container_name: dummy_microservice
     ports: 
       # not completely sure on best practices for port mapping yet
-      - "3001:444"
+      - "3001:443"
     volumes: 
       - .:/code

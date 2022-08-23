@@ -9,4 +9,4 @@ RUN npm install
 # copies all files in the current directory into code directory (current WORKDIR)
 COPY . .
 # default command when the container spins up - similar to running “node server/server.js” in Node CLI 
-CMD ["node", "server/server.js"]
+CMD ["node", "server/server.ts"]

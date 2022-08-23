@@ -1,4 +1,4 @@
-const microserviceFunctionStore = require('./microservice.js');
+const microserviceFunctionStore = require('../microservice.js');
 
 const controller = {};
 

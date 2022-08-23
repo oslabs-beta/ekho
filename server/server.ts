@@ -1,17 +1,18 @@
 const path = require('path');
 require('dotenv').config();
 const express = require('express');
+const apiRouter = require('./routes/api');
 
-import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
+// JEC: At some point, can we please discuss when to use import vs. require? Still unsure of this, but don't want to waste time investigating when it works.
+// JEC: Getting "SyntaxError: Cannot use import statement outside of a module" for import...changed to require for now, but would like to understand
+const { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } = require('express');
+// import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
 // const apiController = require('./controllers/apiController');
 // const dbController = require('./controllers/dbController');
 import apiController from './controllers/apiController';
 import dbController from './controllers/dbController';
 
-// TODO: remove this once we confirm that dotenv is working properly.
-// console.log(process.env);
-
-// changed from 3000 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
+// JEC: changed from 3000 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
 // https://www.techopedia.com/definition/15709/port-80#:~:text=Port%2080%20is%20the%20port,and%20receive%20unencrypted%20web%20pages.
 const PORT = 443;
 const server = express();
@@ -19,8 +20,11 @@ const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-// temp static serving of frontend for testing - probably want to change
+// JEC: temp static serving of frontend for testing - probably want to change
 server.use(express.static(path.join(__dirname, '../client')));
+
+// define route handlers
+server.use('/api', apiRouter);
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial

@@ -1,0 +1,4 @@
+# this file excludes unnecessary files from the docker build
+/dummy-functions
+/dummy-microservice
+/samples

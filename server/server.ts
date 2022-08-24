@@ -1,14 +1,16 @@
-const path = require('path');
+// const path = require('path');
 require('dotenv').config();
-const express = require('express');
-const apiRouter = require('./routes/api');
+// const express = require('express');
+import path from 'path';
+import express from 'express';
+import apiRouter from './routes/api';
 
 // JEC: At some point, can we please discuss when to use import vs. require? Still unsure of this, but don't want to waste time investigating when it works.
 // JEC: Getting "SyntaxError: Cannot use import statement outside of a module" for import...changed to require for now, but would like to understand
-const { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } = require('express');
-// import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
+// const { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } = require('express');
 // const apiController = require('./controllers/apiController');
 // const dbController = require('./controllers/dbController');
+import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
 import apiController from './controllers/apiController';
 import dbController from './controllers/dbController';
 
@@ -64,6 +66,10 @@ const globalErrorHandler: ErrorRequestHandler = (err: string, req, res, next) =>
 server.use(globalErrorHandler);
 
 // NK: We need to export the listener so Jest can run it.
-module.exports = server.listen(PORT, () => {
+// module.exports = server.listen(PORT, () => {
+//   console.log(`Server listening on port: ${PORT}...`);
+// });
+
+export default server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });

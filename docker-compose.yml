@@ -14,9 +14,9 @@ services:
       - "3000:443"
     # mounting a volume makes development easier because it will see live code changes as they happen
     # volume format - host directory : container directory to mount to
-    volumes: 
-      - .:/code
-      - ./node_modules:/code/node_modules # the node_modeules volume prevents the (potentially) empty node_modules directory from overwriting the one created on the image from running npm install
+    # volumes: 
+    #   - .:/code
+    #   - ./node_modules:/code/node_modules # the node_modules volume prevents the (potentially) empty node_modules directory from overwriting the one created on the image and running npm install
   dummy_microservice: 
     build:
       context: ./dummy-microservice
@@ -25,5 +25,5 @@ services:
     ports: 
       # not completely sure on best practices for port mapping yet
       - "3001:443"
-    volumes: 
-      - .:/code
+    # volumes: 
+    #   - .:/code

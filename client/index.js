@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ul.innerHTML = null;
     experiments.forEach((experiment) => {
       const li = document.createElement('li');
-      li.appendChild(document.createTextNode(`${experiment}`));
+      li.appendChild(document.createTextNode(`${experiment.experimentName} time: ${experiment.legacyTime}`));
       ul.appendChild(li);
     });
   }
@@ -35,4 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(error);
       });
   }
+
+  getExperiments();
 });

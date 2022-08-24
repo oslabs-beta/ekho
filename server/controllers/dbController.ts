@@ -1,6 +1,7 @@
-// import models from '../models/dbModel';
-const models = require('../models/dbModels');
+import Results from '../models/dbModel';
+// const models = require('../models/dbModel');
 import { RequestHandler } from 'express';
+import { Error } from 'mongoose'
 import createErr from '../utils/errorHandler';
 
 type DbControllerType = {
@@ -10,14 +11,14 @@ type DbControllerType = {
 const dbController: DbControllerType = {
 
   getExperiments: (req, res, next) => {
-    models.Results.find({})
+    Results.find({})
       .then((queryRes: Response) => {
         console.log(queryRes);
         res.locals.experiments = queryRes;
         return next();
       })
-      .catch(err  => { // JEC: err as any type? 
-        return next(createErr('dbController', 'getExperiments', err));
+      .catch((err: Error) => { // JEC: err as any type? 
+        return next(createErr('dbController', 'getExperiments', JSON.stringify(err)));
       })
   }
 };

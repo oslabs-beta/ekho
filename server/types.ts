@@ -1,3 +1,5 @@
+import { RequestHandler } from "express";
+
 export type ArgsBody = { [key: string]: unknown };
 
 export type ArgsQuery = { [key: string]: unknown };

@@ -10,10 +10,10 @@ require('dotenv').config()
 mongoose.connect(process.env.MONGO_URI, {
   // useNewUrlParser: true,
   // useUnifiedTopology: true,
-  dbName: 'EkhoMS'
+  // dbName: 'EkhoMS'
 })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log('error connecting to the DB'));
+  .catch(<Input> (err: Input) => console.log(err));
 
 const Schema = mongoose.Schema;
 

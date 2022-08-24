@@ -42,6 +42,7 @@ server.post(
   /* perform comparison logic  */
   apiController.compareResults,
   /* commit response to DB */
+  dbController.publishResults,
 );
 
 // catch-all route handler for any requests to an unknown route

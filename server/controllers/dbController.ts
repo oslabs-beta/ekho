@@ -29,6 +29,7 @@ const dbController: DbControllerType = {
         }
         try{
             db.Results.insertOne(DBBody);
+            console.log('experiment added to DB')
         }
         catch(err){
             return next(createErr('dbController', 'publishResults', err));

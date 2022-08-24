@@ -137,11 +137,21 @@ const apiController: ApiControllerType = {
 
    
    try{
-    //choose faster runtime
-    if(req.body.runtime < res.locals.candidateRuntime) res.locals.fasterRuntime = 'legacy';
-    else res.locals.fasterRuntime = 'microservice'
     // validate comparison
     res.locals.mismatch = JSON.stringify(req.body.result) === JSON.stringify(res.locals.candidateResult); 
+    //test to see where the mismatch is if it exists
+    if(!res.locals.mismatch){
+      //
+      //find the mismatch and record it
+      const mismatches: any[] = [];
+      //must be same datatype
+      //differeniate by datatype
+      //if array or obj treat differently,
+      //if num,string,boolean
+    }
+
+
+    //
     return next();
    } catch(err){
     return next(createErr('apiController', 'compareResults', err));

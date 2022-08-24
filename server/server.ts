@@ -40,7 +40,9 @@ server.post(
   apiController.structureURI,
   apiController.callCandidateMicroservice,
   /* perform comparison logic  */
+  apiController.compareResults,
   /* commit response to DB */
+  dbController.publishResults,
 );
 
 // catch-all route handler for any requests to an unknown route
@@ -49,8 +51,8 @@ server.use('*', (req: Request, res: Response) => res.status(404).send('Invalid r
 /**
  * express error handler
  * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
- * Note: we aren't sending back error messages, so all we're doing is logging the error.
- */
+  * Note: we aren't sending back error messages, so all we're doing is logging the error.
+  */
 const globalErrorHandler: ErrorRequestHandler = (err: string, req, res, next) => {
   const defaultErr: string = 'Express error handler caught unknown middleware error';
   const error = err || defaultErr;

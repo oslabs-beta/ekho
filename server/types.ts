@@ -26,5 +26,18 @@ export type Experiment = {
   flaggedMismatchRules?: {
     name: string,
     criteria: string[],
-  }
+  } 
 };
+export type DBBody = {
+  experimentName: string,
+  context: object,
+  resultLegacy: string,
+  resultMS: string,
+  legacyTime: number,
+  msTime: number,
+  mismatch: boolean,
+  ignoredMismatch?: boolean,
+  mismatchName?: string
+}
+
+

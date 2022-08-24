@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGO_URI, {
   dbName: 'EkhoMS'
 })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log(err));
+  .catch(err => console.log('error connecting to the DB'));
 
 const Schema = mongoose.Schema;
 
@@ -23,7 +23,7 @@ const resultSchema = new mongoose.Schema({
     type:String,
     required: true
   } ,
-    Context: {
+    context: {
     type:Object,
     required: true
   },
@@ -49,7 +49,6 @@ const resultSchema = new mongoose.Schema({
   },
     ignoredMismatch: {
     type:Boolean,
-    required: true
   },
   mismatchName: {
     type:String

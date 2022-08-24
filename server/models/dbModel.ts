@@ -13,7 +13,7 @@ mongoose.connect(process.env.MONGO_URI, {
   dbName: 'EkhoMS'
 })
   .then(() => console.log('Connected to Mongo DB.'))
-  .catch(err => console.log(err));
+  .catch(<Input> (err: Input) => console.log(err));
 
 const Schema = mongoose.Schema;
 

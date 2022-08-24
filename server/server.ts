@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 
 import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
+import { ServerApiVersion } from 'mongodb';
 // const apiController = require('./controllers/apiController');
 // const dbController = require('./controllers/dbController');
 import apiController from './controllers/apiController';
@@ -41,7 +42,44 @@ server.post(
   apiController.callCandidateMicroservice,
   /* perform comparison logic  */
   /* commit response to DB */
-);
+  );
+
+/*------------------------------------FRONTEND HANDLERS----------------------------------------------------------*/
+//create a cache to store all documents from the experimentName query. Store the cache using closure to prevent global updates
+const closedCache: Function = () => {
+  let cache: object[] = [];
+  return function updateCache(query?: object[]) {
+    if (!query) return cache;
+    else {
+      cache = query;
+      return cache;
+    }
+  };
+};
+
+//handles requests for a list of experiments within a given date range. *Aggregate all the data for that experiment and provide to user???
+server.post('/list', )
+
+//handles requests for all data for a given experimentName
+server.post('/experiment', dbController.queryExperimentData, (req: Request, res: Response) => {
+  closedCache(res.locals.experimentData);
+  res.status(200).json(res.locals.experiment);
+});
+
+//handles requests to filter experimentData by Context
+server.post('/experiment/context', (req: Request, res: Response) => {
+  //create a temporary array in memory
+  const matchingContext: object[] = []
+  const currentCache = closedCache();
+  //iterate through the cache array
+  for (const obj of currentCache){
+    //if object has context matching the string passed in body, push the object into the temp array
+    if (obj.Context === req.body.Context) matchingContext.push(obj);
+  };
+  //send a response with the temp array stringified
+  res.status(200).json(matchingContext);
+})
+/*------------------------------------FRONTEND HANDLERS-----------------------------------------------------------*/
 
 // catch-all route handler for any requests to an unknown route
 server.use('*', (req: Request, res: Response) => res.status(404).send('Invalid route.'));

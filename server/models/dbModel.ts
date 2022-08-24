@@ -23,7 +23,7 @@ const resultSchema = new mongoose.Schema({
     type:String,
     required: true
   } ,
-    Context: {
+    context: {
     type:Object,
     required: true
   },
@@ -49,7 +49,6 @@ const resultSchema = new mongoose.Schema({
   },
     ignoredMismatch: {
     type:Boolean,
-    required: true
   },
   mismatchName: {
     type:String

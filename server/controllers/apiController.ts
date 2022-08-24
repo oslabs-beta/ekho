@@ -14,6 +14,7 @@ type ApiControllerType = {
   validateBody: RequestHandler,
   structureURI: RequestHandler,
   callCandidateMicroservice: RequestHandler,
+  compareResults: RequestHandler,
 };
 
 const apiController: ApiControllerType = {
@@ -131,6 +132,32 @@ const apiController: ApiControllerType = {
       return next(createErr('apiController', 'callCandidateMicroservice', err));
     }
   },
+
+  compareResults:(req,res,next) => {
+
+   
+   try{
+    // validate comparison
+    res.locals.mismatch = JSON.stringify(req.body.result) === JSON.stringify(res.locals.candidateResult); 
+    //test to see where the mismatch is if it exists
+    if(!res.locals.mismatch){
+      //
+      //find the mismatch and record it
+      const mismatches: any[] = [];
+      //must be same datatype
+      //differeniate by datatype
+      //if array or obj treat differently,
+      //if num,string,boolean
+    }
+
+
+    //
+    return next();
+   } catch(err){
+    return next(createErr('apiController', 'compareResults', err));
+   }
+  },
+
 };
 
 export default apiController;

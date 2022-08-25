@@ -19,6 +19,7 @@ const App = () => {
         console.log('got experiments');
         console.log(experiments);
         setExperiments(experiments);
+        setCurrExperiment(experiments[0])
       })
       .catch((err) => {
         console.log('error in fetching experiments');

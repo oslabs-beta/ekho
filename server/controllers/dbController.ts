@@ -24,8 +24,9 @@ const dbController: dbControllerType = {
 	//***expect input in req.query as an object
 	queryExperimentData: async (req, res, next) => {
 		try{
-			const { experimentName } = req.body;
+			const { experimentName } = req.query;
 			const queryResult: object[] = await db.Results.find({experimentName: experimentName});
+      console.log(queryResult);
 			res.locals.experimentData = queryResult;
 			return next();
 		}

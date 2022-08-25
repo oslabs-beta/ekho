@@ -66,9 +66,9 @@ server.get('/experiments', dbController.queryListOfExperiments, (req: Request, r
 })
 
 //handles requests for all data for a given experimentName
-server.post('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
+server.get('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
   closedCache(res.locals.experimentData);
-  res.status(200).json(res.locals.experiment);
+  res.status(200).json(res.locals.experimentData);
 });
 
 //handles requests to filter experimentData by Context

@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon server/server.ts",
 		"build": "NODE_ENV=production webpack",
-		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\"",
+		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\" \"NODE_ENV=development nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
 		"test": "jest --verbose"
 	},
 	"author": "ekho",
@@ -35,7 +35,7 @@
 		"assert": "^2.0.0",
 		"bootstrap": "^5.2.0",
 		"dotenv": "^16.0.1",
-		"ekho-js": "^1.0.5",
+		"ekho-js": "^1.0.7",
 		"express": "^4.16.3",
 		"js-yaml": "^4.1.0",
 		"mongodb": "^4.8.1",
@@ -57,8 +57,8 @@
 		"@testing-library/jest-dom": "^5.16.4",
 		"@testing-library/react": "^12.1.5",
 		"@testing-library/user-event": "^14.4.1",
-		"@types/node-fetch": "^2.6.2",
 		"@types/js-yaml": "^4.0.5",
+		"@types/node-fetch": "^2.6.2",
 		"@typescript-eslint/eslint-plugin": "^5.33.1",
 		"@typescript-eslint/parser": "^5.33.1",
 		"autoprefixer": "^10.4.8",

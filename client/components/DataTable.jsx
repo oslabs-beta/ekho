@@ -9,13 +9,13 @@ export default function DataTable(props) {
       rows.push(
         <Row 
           key={`row${idx}`}
-          experiment={el.experiment}
-          context={json.stringify(el.context)}
-          legacyResult={el.legacyResult}
-          microserviceResult={el.microserviceResult}
-          legacyRuntime={el.legacyRuntime}
-          microserviceRuntime={el.microserviceRuntime}
-          runtimeVariance={el.legacyRuntime - el.microserviceRuntime}
+          experiment={el.experimentName}
+          context={JSON.stringify(el.context)}
+          legacyResult={el.resultLegacy}
+          microserviceResult={el.resultMS}
+          legacyRuntime={el.legacyTime}
+          microserviceRuntime={el.msTime}
+          runtimeVariance={el.legacyTime - el.msTime}
           mismatch={el.mismatch}
         />
       )

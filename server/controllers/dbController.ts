@@ -22,6 +22,7 @@ type dbControllerType = {
 
 const dbController: dbControllerType = {
 	//query all documents with experimentName matching the experimentName in the request body
+	//***expect input in req.query as an object
 	queryExperimentData: async (req, res, next) => {
 		try{
 			const { experimentName } = req.body;
@@ -48,14 +49,15 @@ const dbController: dbControllerType = {
 		const DBBody: DBBody = {
 				experimentName: req.body.name,
 				context: req.body.context,
-				resultLegacy: req.body.result ,
-				resultMS: res.locals.candidateResult,
+				resultLegacy: JSON.stringify(req.body.result) ,
+				resultMS: JSON.stringify(res.locals.candidateResult),
 				legacyTime: req.body.runtime,
 				msTime: res.locals.candidateRuntime,
 				mismatch: res.locals.mismatch
 		}
 		try{
-				db.Results.insertOne(DBBody);
+				//console.log(DBBody);
+				await db.Results.create(DBBody);
 				console.log('experiment added to DB')
 		}
 		catch(err){

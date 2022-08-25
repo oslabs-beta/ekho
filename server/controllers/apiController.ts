@@ -3,6 +3,7 @@
 import { RequestHandler } from 'express';
 import createErr from '../utils/errorHandler';
 import experiments from '../utils/yamlParser';
+import fetch from 'node-fetch'
 import {
   Args,
   ArgsQuery,
@@ -61,9 +62,9 @@ const apiController: ApiControllerType = {
       const queryKeys = Object.keys(queryObj);
       const queryParams: string[] = [];
       queryKeys.forEach(el => {
-        queryParams.push(`${el}=${queryObj[el]}`);
+        queryParams.push(`${el}=${JSON.stringify(queryObj[el])}`);
       });
-      const queryStr = queryParams.join('&');
+      const queryStr = queryParams.join('&')
       return `${uri}?${queryStr}`;
     };
 
@@ -109,7 +110,7 @@ const apiController: ApiControllerType = {
   callCandidateMicroservice: async (req, res, next) => {
     const { experiment, uri } = res.locals;
     const { args } = req.body;
-    // Figure out if this trial should run
+    // Figure out if this trial should run  
     if (experiment.enabledPct < Math.random()) return;
 
     // TODO: implement flagged mismatch rules here, or maybe later when we're sending to the DB.
@@ -123,10 +124,11 @@ const apiController: ApiControllerType = {
         ...(Object.hasOwn(args, 'body') && { body: JSON.stringify(args.body) }),
       });
       const end = Date.now();
-      const response = await candidateResponse.json();
+      const response = await candidateResponse
+      const parsedResponse = await response.json();
       res.locals.candidateRuntime = end - start;
       res.locals.candidateStatus = candidateResponse.status; // NK: don't know if this is right
-      res.locals.candidateResult = response;
+      res.locals.candidateResult = parsedResponse;
       return next();
     } catch (err) {
       return next(createErr('apiController', 'callCandidateMicroservice', err));
@@ -138,20 +140,8 @@ const apiController: ApiControllerType = {
    
    try{
     // validate comparison
-    res.locals.mismatch = JSON.stringify(req.body.result) === JSON.stringify(res.locals.candidateResult); 
-    //test to see where the mismatch is if it exists
-    if(!res.locals.mismatch){
-      //
-      //find the mismatch and record it
-      const mismatches: any[] = [];
-      //must be same datatype
-      //differeniate by datatype
-      //if array or obj treat differently,
-      //if num,string,boolean
-    }
+    res.locals.mismatch = !(JSON.stringify(req.body.result) === JSON.stringify(res.locals.candidateResult)); 
 
-
-    //
     return next();
    } catch(err){
     return next(createErr('apiController', 'compareResults', err));

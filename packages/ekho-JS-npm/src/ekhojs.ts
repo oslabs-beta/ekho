@@ -6,8 +6,8 @@ const fetch = (url: RequestInfo, init?: RequestInit) =>
 
 
 type legacyMicroserviceInput = {
-body: object,
-params?: object,
+body?: object,
+params?: unknown[],
 query?: object
 };
 

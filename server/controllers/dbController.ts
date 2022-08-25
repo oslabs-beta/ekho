@@ -56,7 +56,7 @@ const dbController: dbControllerType = {
 				mismatch: res.locals.mismatch
 		}
 		try{
-				//console.log(DBBody);
+				console.log(DBBody);
 				await db.Results.create(DBBody);
 				console.log('experiment added to DB')
 		}
@@ -64,7 +64,7 @@ const dbController: dbControllerType = {
 				return next(createErr('dbController', 'publishResults', err));
 		}
 		return next();
-}
+    }  
 };
 
 export default dbController;

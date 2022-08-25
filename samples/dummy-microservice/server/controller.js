@@ -6,9 +6,8 @@ const controller = {};
 controller.invokeFunction = (req, res, next) => {
   try {
     const { body } = req.query
-    console.log(body)
-    res.locals.result = microserviceFunctionStore.wrongFizzBuzz(body)
-    console.log('inside invokeFunction',res.locals.result)
+    console.log('inputs for invokeFunction:', body)
+    res.locals.result = microserviceFunctionStore.wrongFizzBuzz(JSON.parse(body))
       return next();
   }
   catch(err){

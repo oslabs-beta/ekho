@@ -62,9 +62,9 @@ const apiController: ApiControllerType = {
       const queryKeys = Object.keys(queryObj);
       const queryParams: string[] = [];
       queryKeys.forEach(el => {
-        queryParams.push(`${el}=${queryObj[el]}`);
+        queryParams.push(`${el}=${JSON.stringify(queryObj[el])}`);
       });
-      const queryStr = queryParams.join('&');
+      const queryStr = queryParams.join('&')
       return `${uri}?${queryStr}`;
     };
 
@@ -126,7 +126,6 @@ const apiController: ApiControllerType = {
       const end = Date.now();
       const response = await candidateResponse
       const parsedResponse = await response.json();
-      console.log('currently inside callCandidateMicroService',parsedResponse);
       res.locals.candidateRuntime = end - start;
       res.locals.candidateStatus = candidateResponse.status; // NK: don't know if this is right
       res.locals.candidateResult = parsedResponse;

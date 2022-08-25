@@ -5,14 +5,25 @@ const functionStore = {};
 
 functionStore.addTwo = num => num + 2;
 
-functionStore.wrongFizzBuzz = num => {
-    const arr = [];
-    for(let i = 0; i < num; i++){
-        if(i & 5 === 0) arr.push('buzz')
-        else if(i % 3 === 0) arr.push('fizz')
-        else arr.push(i);
-    }
-    return arr;
+functionStore.wrongFizzBuzz = array => {
+    //Approach#1 TimeComplexity: O(n2) SpaceComplexity: O(n)
+  //declare an empty array as a return
+  const returnArr = [];
+  //iterate through the passed in array
+  for (let i = 0; i < array.length; i++){
+  //create a temp of passed in array
+  const tempArr = [...array];
+  //at each index splice the temp array at the current index 
+  tempArr.splice(i, 1);
+  //iterate through the temp array and multiply each element and push into the return array
+  let product = 1;
+  for (el of tempArr){
+    product *= el;
+  }
+  returnArr.push(product);
+  }
+  //return the return array
+  return returnArr;
 }
   
 module.exports = functionStore;

@@ -33,10 +33,6 @@ server.use(express.static(path.join(__dirname, '../client')));
 
 server.post(
   '/',
-  (req: Request, res: Response, next: NextFunction) => {
-    res.sendStatus(200);
-    return next();
-  },
   apiController.validateBody,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
@@ -44,7 +40,12 @@ server.post(
   apiController.compareResults,
   /* commit response to DB */
   dbController.publishResults,
+  (req: Request, res: Response) => {
+    res.sendStatus(200);
+  }
 );
+
+server.post('/', )
 
 /*------------------------------------FRONTEND HANDLERS----------------------------------------------------------*/
 //create a cache to store all documents from the experimentName query. Store the cache using closure to prevent global updates
@@ -65,7 +66,7 @@ server.get('/experiments', dbController.queryListOfExperiments, (req: Request, r
 })
 
 //handles requests for all data for a given experimentName
-server.post('/experiment', dbController.queryExperimentData, (req: Request, res: Response) => {
+server.post('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
   closedCache(res.locals.experimentData);
   res.status(200).json(res.locals.experiment);
 });
@@ -78,6 +79,7 @@ server.post('/experiment/context', (req: Request, res: Response) => {
   //iterate through the cache array
   for (const obj of currentCache){
     //if object has context matching the string passed in body, push the object into the temp array
+    //**	//expect input in req.query */
     if (obj.Context === req.body.Context) matchingContext.push(obj);
   };
   //send a response with the temp array stringified

@@ -19,3 +19,12 @@ method: GET
 enabledPct: 0.00
 # Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
 apiEndpoint: https://candidate-microservice.example.com/api/$1/images/$2
+
+---
+name: test
+method: POST
+enabledPct: 1.00
+# Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
+apiEndpoint: http://localhost:8000/
+
+

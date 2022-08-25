@@ -60,7 +60,9 @@ const closedCache: Function = () => {
 };
 
 //handles requests for a list of experiments within a given date range. *Aggregate all the data for that experiment and provide to user???
-server.post('/list', )
+server.get('/experiments', dbController.queryListOfExperiments, (req: Request, res: Response) => {
+  res.status(200).set('Access-Control-Allow-Origin', '*').json(res.locals.experiments);
+})
 
 //handles requests for all data for a given experimentName
 server.post('/experiment', dbController.queryExperimentData, (req: Request, res: Response) => {

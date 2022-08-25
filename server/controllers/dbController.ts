@@ -13,10 +13,9 @@ import {
   DBBody,
 } from '../types';
 
-
 type dbControllerType = {
   queryExperimentData: RequestHandler
-  queryListofExperiments: RequestHandler
+  queryListOfExperiments: RequestHandler
 	publishResults:  RequestHandler
 }
 
@@ -34,10 +33,11 @@ const dbController: dbControllerType = {
 			return next(err);
 		}
 	},
-	queryListofExperiments: async (req, res, next) => {
+	queryListOfExperiments: async (req, res, next) => {
 		try{
-			const { experimentName, dateStart, dateEnd } = req.body;
-			const queryResult: object[] = await db.Results.find()
+			const queryResult: string[] = await db.Results.distinct('experimentName')
+      res.locals.experiments = queryResult;
+      return next();
 		}
 		catch(err){
 			console.log('queryListofExperiments failed');

@@ -33,6 +33,10 @@ server.use(express.static(path.join(__dirname, '../client')));
 
 server.post(
   '/',
+  (req: Request, res: Response) => {
+    res.sendStatus(200);
+  }
+);
   apiController.validateBody,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
@@ -40,10 +44,6 @@ server.post(
   apiController.compareResults,
   /* commit response to DB */
   dbController.publishResults,
-  (req: Request, res: Response) => {
-    res.sendStatus(200);
-  }
-);
 
 server.post('/', )
 

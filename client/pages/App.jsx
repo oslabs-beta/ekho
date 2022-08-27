@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../components/DataTable';
+import '../stylesheets/style.scss';
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
 
@@ -64,7 +65,7 @@ const App = () => {
       <h1>Ekho Comparison Data</h1>
       <div className='body'>
         <div className='dropdown-body'>
-          <h3>Experiments</h3>
+          <h4>Experiment</h4>
           <select id= "selectExperiment" onChange = {(e) => {setCurrExperiment(e.target.value);}}>
             {experimentsDropdown}
           </select>

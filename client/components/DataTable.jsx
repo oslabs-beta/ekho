@@ -29,9 +29,9 @@ export default function DataTable(props) {
         <th>Context</th>
         <th>Legacy Result</th>
         <th>Microservice Result</th>
-        <th>Legacy Runtime</th>
-        <th>Microservice Runtime</th>
-        <th>Runtime Variance</th>
+        <th>Legacy Runtime (ms)</th>
+        <th>Microservice Runtime (ms)</th>
+        <th>Runtime Variance (ms)</th>
         <th>Mismatch</th>
       </tr>
     </thead>

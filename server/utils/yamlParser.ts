@@ -12,6 +12,6 @@ if (process.env.NODE_ENV === 'test') {
 
 const experiments: any[] = yaml.loadAll(fs.readFileSync(readLocation, 'utf-8'));
 // console.log('loaded real experiments');
-// console.log(experiments);
+console.log(experiments);
 
 export default experiments;

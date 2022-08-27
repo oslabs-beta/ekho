@@ -33,6 +33,10 @@ server.use(express.static(path.join(__dirname, '../client')));
 
 server.post(
   '/',
+  (req: Request, res: Response) => {
+    res.sendStatus(200);
+  }
+);
   apiController.validateBody,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
@@ -40,10 +44,6 @@ server.post(
   apiController.compareResults,
   /* commit response to DB */
   dbController.publishResults,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.sendStatus(200);
-  }
-);
 
 server.post('/', )
 
@@ -61,13 +61,14 @@ const closedCache: Function = () => {
 };
 
 //handles requests for a list of experiments within a given date range. *Aggregate all the data for that experiment and provide to user???
-//***expect input in req.query
-// server.post('/experiment', )
+server.get('/experiments', dbController.queryListOfExperiments, (req: Request, res: Response) => {
+  res.status(200).set('Access-Control-Allow-Origin', '*').json(res.locals.experiments);
+})
 
 //handles requests for all data for a given experimentName
-server.post('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
+server.get('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
   closedCache(res.locals.experimentData);
-  res.status(200).json(res.locals.experiment);
+  res.status(200).json(res.locals.experimentData);
 });
 
 //handles requests to filter experimentData by Context

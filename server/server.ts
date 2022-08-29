@@ -34,8 +34,8 @@ server.use(express.static(path.join(__dirname, '../client')));
 server.post(
   '/',
   (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json('hello');
-    return next();
+    res.sendStatus(200);
+    next();
   },
   apiController.validateBody,
   apiController.structureURI,
@@ -44,10 +44,12 @@ server.post(
   apiController.compareResults,
   /* commit response to DB */
   dbController.publishResults,
+  (req: Request, res: Response) => console.log('trial complete'),
 );
 
-/*------------------------------------FRONTEND HANDLERS----------------------------------------------------------*/
-//create a cache to store all documents from the experimentName query. Store the cache using closure to prevent global updates
+/* -----------FRONTEND HANDLERS----------- */
+//create a cache to store all documents from the experimentName query. 
+// Store the cache using closure to prevent global updates
 const closedCache: Function = () => {
   let cache: object[] = [];
   return function updateCache(query?: object[]) {
@@ -59,31 +61,33 @@ const closedCache: Function = () => {
   };
 };
 
-//handles requests for a list of experiments within a given date range. *Aggregate all the data for that experiment and provide to user???
-//***expect input in req.query
-// server.post('/experiment', )
-
-//handles requests for all data for a given experimentName
-server.post('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
-  closedCache(res.locals.experimentData);
-  res.status(200).json(res.locals.experiment);
+// handles requests for a list of experiments within a given date range. 
+// *Aggregate all the data for that experiment and provide to user???
+server.get('/experiments', dbController.queryListOfExperiments, (req: Request, res: Response) => {
+  res.status(200).set('Access-Control-Allow-Origin', '*').json(res.locals.experiments);
 });
 
-//handles requests to filter experimentData by Context
+// handles requests for all data for a given experimentName
+server.get('/experiment/data', dbController.queryExperimentData, (req: Request, res: Response) => {
+  closedCache(res.locals.experimentData);
+  res.status(200).json(res.locals.experimentData);
+});
+
+// handles requests to filter experimentData by Context
 server.post('/experiment/context', (req: Request, res: Response) => {
-  //create a temporary array in memory
-  const matchingContext: object[] = []
+  // create a temporary array in memory
+  const matchingContext: object[] = [];
   const currentCache = closedCache();
-  //iterate through the cache array
+  // iterate through the cache array
   for (const obj of currentCache){
-    //if object has context matching the string passed in body, push the object into the temp array
-    //**	//expect input in req.query */
+    // if object has context matching the string passed in body, push the object into the temp array
+    // expect input in req.query
     if (obj.Context === req.body.Context) matchingContext.push(obj);
   };
-  //send a response with the temp array stringified
+  // send a response with the temp array stringified
   res.status(200).json(matchingContext);
-})
-/*------------------------------------FRONTEND HANDLERS-----------------------------------------------------------*/
+});
+/* ------------FRONTEND HANDLERS---------------------- */
 
 // catch-all route handler for any requests to an unknown route
 server.use('*', (req: Request, res: Response) => res.status(404).send('Invalid route.'));
@@ -94,7 +98,7 @@ server.use('*', (req: Request, res: Response) => res.status(404).send('Invalid r
   * Note: we aren't sending back error messages, so all we're doing is logging the error.
   */
 const globalErrorHandler: ErrorRequestHandler = (err: string, req, res, next) => {
-  const defaultErr: string = 'Express error handler caught unknown middleware error';
+  const defaultErr = 'Express error handler caught unknown middleware error';
   const error = err || defaultErr;
   console.log(error);
 };

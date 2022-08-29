@@ -1,0 +1,17 @@
+@import "~bootstrap/scss/bootstrap";
+
+.body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
+  display: grid;
+  grid: 1fr 1fr / 1fr 0.75fr;
+  height: 98vh;
+  width: 98vw;
+  background-color: #eeeeee;
+  color: rgb(0, 0, 0);
+  margin: 5px;
+}
+
+td {
+  word-wrap: break-word;
+  max-width: 200px;
+}

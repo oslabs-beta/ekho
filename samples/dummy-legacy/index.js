@@ -22,19 +22,28 @@ document.querySelector('body').appendChild(submitArgument);
 const answerDisplay = document.createElement('h1');
 answerDisplay.innerText = 'no response'
 document.querySelector('body').appendChild(answerDisplay)
+
+const sortRandArrayNTimes = (iterations, arrayLength) => {
+  for (let i = 0; i < iterations; i++) {
+    const arr = [];
+    for (let j = 0; j < arrLength; j++) {
+      arr.push(Math.floor(Math.random() * arrLength));
+    }
+    const post = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(arr)
+    };
+      fetch('/user', post)
+      .then(resp => resp.json())
+      .then(resp => resp.toString())
+      .then(resp => answerDisplay.innerText = `Our response:${resp}`)
+      trials.value -= 1;
+  }
+}
+
 submitArgument.addEventListener('click', () => {
-  const post = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        iterations: trials.value,
-        arrayLength: arrayLength.value
-    })
-  };
-  fetch('/user', post)
-  .then(resp => resp.json())
-  .then(resp => resp.toString())
-  .then(resp => answerDisplay.innerText = `Our response:${resp}`)
+  callNTimes(trials.value, arrayLength.value)
   })
 
 });

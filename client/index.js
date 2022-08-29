@@ -1,15 +1,24 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const root = document.getElementById('root');
-  const newDiv = document.createElement('div');
-  const button = document.createElement('button');
-  let count = 0;
-  button.onclick = function() {update();};
-  button.innerText = `${count}`;
-  root.appendChild(newDiv);
-  newDiv.appendChild(button);
+// document.addEventListener('DOMContentLoaded', () => {
+//   const root = document.getElementById('root');
+//   const newDiv = document.createElement('div');
+//   const button = document.createElement('button');
+//   let count = 0;
+//   button.onclick = function() {update();};
+//   button.innerText = `${count}`;
+//   root.appendChild(newDiv);
+//   newDiv.appendChild(button);
 
-  function update() {
-    count++;
-    button.innerText = `${count}`;
-  }
-});
+//   function update() {
+//     count++;
+//     button.innerText = `${count}`;
+//   }
+// });
+
+import React from 'react';
+import reactDom from 'react-dom';
+
+import App from './pages/App.jsx';
+
+// mount our React app to the index.html at root element. 
+// The || is because React Testing Library doesn't load index.html and therefore can't find #root
+reactDom.render(<App/>, document.querySelector('#root') || document.createElement('div'));

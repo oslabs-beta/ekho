@@ -1,5 +1,5 @@
 // For legacy function logic
-import ekhojs from 'ekho-js';
+const { ekhojs } = require('ekho-js');
 
 const legacySort = (array) => {
   let sortedIndex = 1;
@@ -28,19 +28,11 @@ const legacySort = (array) => {
 const facadeSort = (args) => ekhojs.wrap(
   legacySort,
   'sample-test',
-  { route: 'test' },
-  'https://localhost:3001',
+  { route: 'user' },
+  'http://localhost:443',
   args,
-  { args: { body: args } }
+  { body: args }
 )
 
-const sortNLengthArray = (arrLength) => {
-    const arr = [];
-    for (let j = 0; j < arrLength; j++) {
-      arr.push(Math.floor(Math.random() * arrLength));
-    }
-    facadeSort(arr);
-  }
-
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)
-export default sortNLengthArray;
+module.exports = facadeSort;

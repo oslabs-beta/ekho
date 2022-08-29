@@ -16,18 +16,18 @@ type Callback = (...args: unknown[]) => unknown;
 
 type LegacyFacade = <Input>(
   callback: Callback,
-  experimentName: string,
-  context: object,
-  ekhoUri: string,
-  legacyInput: Input,
-  microserviceInput: MicroserviceInput) => unknown;
-
-type FacadeInner = <Input>(
-  experimentName: string,
-  context: object,
-  ekhoUri: string,
   legacyInput: Input,
   microserviceInput: MicroserviceInput,
+  experimentName: string,
+  context: object,
+  ekhoUri: string) => unknown;
+
+type FacadeInner = <Input>(
+  legacyInput: Input,
+  microserviceInput: MicroserviceInput,
+  experimentName: string,
+  context: object,
+  ekhoUri: string,
   runtime: number,
   result: unknown) => void;
 
@@ -37,7 +37,7 @@ type EkhoModule = {
 };
 
 const ekhojs: EkhoModule = {
-  callEkho: (experimentName, context, ekhoUri, legacyInput, microserviceInput, runtime, result) => {
+  callEkho: (legacyInput, microserviceInput, experimentName, context, ekhoUri, runtime, result) => {
     const post = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,11 +45,6 @@ const ekhojs: EkhoModule = {
         name: experimentName,
         context,
         legacyInput,
-        // microserviceInput: {
-        //   body: microserviceInput.body,
-        //   params: microserviceInput.params,
-        //   query: microserviceInput.query
-        // },
         microserviceInput,
         runtime,
         result,
@@ -61,13 +56,13 @@ const ekhojs: EkhoModule = {
       });
   },
 
-  wrap: (callback, experimentName, context, ekhoUri, legacyInput, msInput) => {
+  wrap: (callback, legacyInput, msInput, experimentName, context, ekhoUri) => {
     const start = Date.now();
     const result = callback(legacyInput);
     const end = Date.now();
     const runtime = end - start;
 
-    ekhojs.callEkho(experimentName, context, ekhoUri, legacyInput, msInput, runtime, result);
+    ekhojs.callEkho(legacyInput, msInput, experimentName, context, ekhoUri, runtime, result);
     return result;
   },
 };

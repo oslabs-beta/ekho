@@ -97,6 +97,10 @@ module.exports = {
         target: 'http://localhost:443',
         secure: false,
       },
+      'https://candidate-microservice.example.com/endpoint': {
+        target: 'http://localhost:8000',
+        secure: false,
+      }
     },
   },
 };

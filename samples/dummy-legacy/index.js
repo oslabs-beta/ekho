@@ -1,33 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
 //set up a bare bones input/button interface to test inputs to the monolith and microservice
-const arrayLength = document.createElement('input');
-arrayLength.setAttribute('id', 'arrayLength');
-arrayLength.value = 100;
-const arrayLengthLabel = document.createElement('label');
-arrayLength.setAttribute('for', 'arrayLength');
-document.querySelector('body').appendChild(arrayLengthLabel);
-document.querySelector('body').appendChild(arrayLength);
-
-const trials = document.createElement('input');
-arrayLength.setAttribute('id', 'trials');
-trials.value = 100;
-const trialsLabel = document.createElement('label');
-arrayLength.setAttribute('for', 'trials');
-document.querySelector('body').appendChild(trialsLabel);
-document.querySelector('body').appendChild(trials);
+const arrayLength = document.querySelector('#arraylength');
+arrayLength.value = 1;
+const trials = document.querySelector('#trials');
+trials.value = 1;
 
 const submitArgument = document.createElement('button');
 submitArgument.innerText = 'Submit';
 document.querySelector('body').appendChild(submitArgument);
-const answerDisplay = document.createElement('h1');
+const answerDisplay = document.createElement('p');
 answerDisplay.innerText = 'no response'
 document.querySelector('body').appendChild(answerDisplay)
 
 const sortRandArrayNTimes = (iterations, arrayLength) => {
   for (let i = 0; i < iterations; i++) {
     const arr = [];
-    for (let j = 0; j < arrLength; j++) {
-      arr.push(Math.floor(Math.random() * arrLength));
+    for (let j = 0; j < arrayLength; j++) {
+      arr.push(Math.floor(Math.random() * arrayLength));
     }
     const post = {
       method: 'POST',
@@ -43,7 +32,7 @@ const sortRandArrayNTimes = (iterations, arrayLength) => {
 }
 
 submitArgument.addEventListener('click', () => {
-  callNTimes(trials.value, arrayLength.value)
+  sortRandArrayNTimes(trials.value, arrayLength.value)
   })
 
 });

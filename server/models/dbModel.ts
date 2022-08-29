@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-require('dotenv').config()
+import mongoose from 'mongoose';
+import 'dotenv/config';
 // getting error "Cannot use import statement outside a module" with the following two lines - replaced with two lines above
 // import mongoose from 'mongoose';
 // import "dotenv/config.js";
@@ -54,9 +54,9 @@ const resultSchema = new mongoose.Schema({
     type:String
   },
 
-})
+});
 const Results = mongoose.model('Results', resultSchema);
-module.exports = { Results };
+export default Results;
 // getting error "SyntaxError: Unexpected token 'export'" with the following two line - replaced with line above
 // export default { Results };
 

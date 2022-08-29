@@ -1,7 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
 //set up a bare bones input/button interface to test inputs to the monolith and microservice
-const argumentInput = document.createElement('input');
-document.querySelector('body').appendChild(argumentInput)
+const arrayLength = document.createElement('input');
+arrayLength.setAttribute('id', 'arrayLength');
+arrayLength.value = 100;
+const arrayLengthLabel = document.createElement('label');
+arrayLength.setAttribute('for', 'arrayLength');
+document.querySelector('body').appendChild(arrayLengthLabel);
+document.querySelector('body').appendChild(arrayLength);
+
+const trials = document.createElement('input');
+arrayLength.setAttribute('id', 'trials');
+trials.value = 100;
+const trialsLabel = document.createElement('label');
+arrayLength.setAttribute('for', 'trials');
+document.querySelector('body').appendChild(trialsLabel);
+document.querySelector('body').appendChild(trials);
+
 const submitArgument = document.createElement('button');
 submitArgument.innerText = 'Submit';
 document.querySelector('body').appendChild(submitArgument);
@@ -13,7 +27,8 @@ submitArgument.addEventListener('click', () => {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-        value: argumentInput.value
+        iterations: trials.value,
+        arrayLength: arrayLength.value
     })
   };
   fetch('/user', post)
@@ -21,5 +36,6 @@ submitArgument.addEventListener('click', () => {
   .then(resp => resp.toString())
   .then(resp => answerDisplay.innerText = `Our response:${resp}`)
   })
+
 });
 

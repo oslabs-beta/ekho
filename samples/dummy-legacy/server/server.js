@@ -11,18 +11,29 @@ server.use(urlencoded( { extended: true } ));
 const useMicroService = true;
 
 if(useMicroService){
-    server.use('/user', userRouter);
+    server.use('/user', (req,res) => {
+      try {
+        const { iterations, arrayLength } = req.body;
+        console.log('Inputs for legacy', iterations, arrayLength)
+        const answer = legacyFunctions.sortNArrays(iterations, arrayLength)
+        res.status(200).json(answer)
+      }
+      catch (err) {
+        console.log('userRouter Err', err)
+      }
+    })
+      
 }else{
     server.get('/user', (req,res) => res.status(200).send('microservice inactive'))
 }
 
-server.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '../index.html'))
-})
+// server.get('/', (req, res) => {
+//     res.status(200).sendFile(path.join(__dirname, '../index.html'))
+// })
 
-server.get("/index.js", (req, res) => {
-  res.status(200).sendFile(path.join(__dirname, "../index.js"));
-});
+// server.get("/index.js", (req, res) => {
+//   res.status(200).sendFile(path.join(__dirname, "../index.js"));
+// });
 
 // server.use(express.static(path.join(__dirname, '.../dummy-functions/')))
 

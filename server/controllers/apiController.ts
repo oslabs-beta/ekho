@@ -1,9 +1,9 @@
 // NK: I still don't know when/why node-fetch is ever required. Let's try without.
 // import fetch from 'node-fetch';
 import { RequestHandler } from 'express';
+import fetch from 'node-fetch';
 import createErr from '../utils/errorHandler';
 import experiments from '../utils/yamlParser';
-import fetch from 'node-fetch'
 import {
   Args,
   ArgsQuery,

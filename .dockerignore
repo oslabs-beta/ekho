@@ -1,5 +1,6 @@
 # this file excludes unnecessary files from the docker build
-# /node_modules
+# node_modules should be excluded so that the container builds it's own node_modules with npm install in the dockerfile
+/node_modules
 /dummy-functions
 /dummy-microservice
 /samples

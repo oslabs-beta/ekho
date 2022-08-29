@@ -7,13 +7,13 @@ services:
       # directory relative to the directory this file lives in
       context: .
       dockerfile: Dockerfile
-      target: base
+      target: production
     container_name: ekho_microservice
     # port format - host port : container port
     ports: 
       # JEC: not completely sure on best practices for port mapping yet
       - "3000:443"
-    command: npm run dev
+    command: node build/server.js
   dummy_microservice: 
     build:
       context: ./dummy-microservice

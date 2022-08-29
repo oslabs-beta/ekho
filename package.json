@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "./client/index.js",
 	"scripts": {
-		"start": "nodemon server/server.ts",
-		"build": "NODE_ENV=production webpack",
-		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\"",
+		"start": "NODE_PATH=./build node build/server.js", 
+    "build": "tsc -p .",
+    "dev": "nodemon server/server.ts",
 		"test": "jest --verbose"
 	},
 	"author": "ekho",

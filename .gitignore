@@ -10,3 +10,7 @@ public/bundle.js
 client/.DS_Store
 server/.DS_Store
 server/secret.js
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

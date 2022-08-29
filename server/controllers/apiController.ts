@@ -1,9 +1,9 @@
 // NK: I still don't know when/why node-fetch is ever required. Let's try without.
 // import fetch from 'node-fetch';
 import { RequestHandler } from 'express';
+import fetch from 'node-fetch';
 import createErr from '../utils/errorHandler';
 import experiments from '../utils/yamlParser';
-import fetch from 'node-fetch'
 import {
   Args,
   ArgsQuery,
@@ -32,13 +32,13 @@ const apiController: ApiControllerType = {
 
     const checkTypes = (body: LegacyBody) => {
       const { args } = body;
+      console.log(args);
       if (typeof args !== 'object' || Array.isArray(args)) return 'args must be an object containing at least 1 property: body, params, or query';
       if (!Object.hasOwn(args, 'query')
         && !Object.hasOwn(args, 'params')
         && !Object.hasOwn(args, 'body')) return 'args must contain at least 1 property: body, params, or query';
       if (Object.hasOwn(args, 'query') && (typeof args.query !== 'object' || Array.isArray(args.query))) return 'if provided, query must be an object representing keys/values to be passed as query parameters';
       if (Object.hasOwn(args, 'params') && !Array.isArray(args.params)) return 'if provided, params must be an array';
-      if (Object.hasOwn(args, 'body') && (typeof args.body !== 'object' || Array.isArray(args.body))) return 'if provided, body must be an object that will be passed on as the request body';
       if (Object.hasOwn(body, 'context') && (typeof body.context !== 'object' || Array.isArray(body.context))) return 'if provided, context must be an object';
       if (typeof body.runtime !== 'number') return 'runtime should be a number representing function runtime in ms';
     };
@@ -83,7 +83,6 @@ const apiController: ApiControllerType = {
 
     try {
       // TODO: figure out how to validate the YAML via TypeScript. There's a separate task for this.
-      
       // find the right experiment by looking for one with a matching name
       let experiment: Experiment;
       for (let i = 0; i < experiments.length; i++) {

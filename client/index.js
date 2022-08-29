@@ -1,40 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const root = document.getElementById('root');
-  const newDiv = document.createElement('div');
-  const button = document.createElement('button');
-  const ul = document.createElement('ul');
-  let count = 0;
-  button.onclick = function() {update();};
-  button.innerText = `${count}`;
-  root.appendChild(newDiv);
-  newDiv.appendChild(button);
-  newDiv.appendChild(ul);
+import React from 'react';
+import reactDom from 'react-dom';
 
-  function update() {
-    count++;
-    button.innerText = `${count}`;
-  }
+import App from './pages/App.jsx';
 
-  function displayExperiments(experiments) {
-    ul.innerHTML = null;
-    experiments.forEach((experiment) => {
-      const li = document.createElement('li');
-      li.appendChild(document.createTextNode(`${experiment.experimentName} legacyTime: ${experiment.legacyTime}`));
-      ul.appendChild(li);
-    });
-  }
-
-  // get the current experiments from the database
-  function getExperiments() {
-    fetch('/api/')
-      .then(res => res.json())
-      .then((data) => {
-        displayExperiments(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  getExperiments();
-});
+// mount our React app to the index.html at root element. 
+// The || is because React Testing Library doesn't load index.html and therefore can't find #root
+reactDom.render(<App/>, document.querySelector('#root') || document.createElement('div'));

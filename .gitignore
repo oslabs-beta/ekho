@@ -1,7 +1,6 @@
 node_modules
 .env
 package-lock.json
-webpack.config.js
 
 server/secrets.js
 public/bundle.js

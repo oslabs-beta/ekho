@@ -8,6 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
       target: production
+    image: ekho_microservice_image
     container_name: ekho_microservice
     # port format - host port : container port
     ports: 
@@ -18,6 +19,7 @@ services:
     build:
       context: ./dummy-microservice
       dockerfile: Dockerfile.microservice
+    image: dummy_microservice_image
     container_name: dummy_microservice
     ports: 
       - "3001:443"

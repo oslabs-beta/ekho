@@ -11,7 +11,7 @@ services:
     # port format - host port : container port
     ports: 
       # not completely sure on best practices for port mapping yet
-      - "3000:443"
+      - "443:443"
     # mounting a volume makes development easier because it will see live code changes as they happen
     # volume format - host directory : container directory to mount to
     volumes: 
@@ -24,6 +24,6 @@ services:
     container_name: dummy_microservice
     ports: 
       # not completely sure on best practices for port mapping yet
-      - "3001:443"
+      - "8000:443"
     volumes: 
       - .:/code

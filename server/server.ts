@@ -33,6 +33,10 @@ server.use(express.static(path.join(__dirname, '../client')));
 
 server.post(
   '/',
+  (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json('hello');
+    return next();
+  },
   apiController.validateBody,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
@@ -40,12 +44,7 @@ server.post(
   apiController.compareResults,
   /* commit response to DB */
   dbController.publishResults,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.sendStatus(200);
-  }
 );
-
-server.post('/', )
 
 /*------------------------------------FRONTEND HANDLERS----------------------------------------------------------*/
 //create a cache to store all documents from the experimentName query. Store the cache using closure to prevent global updates

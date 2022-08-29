@@ -23,7 +23,7 @@ legacyFunctions.fizzBuzz = (input) => {
   }
   //return the return array
   return returnArr;
-}, 'test', {type: 'test'}, 'http://localhost:443', input, {query: {'body': input}})
+}, 'test', {type: 'test'}, 'http://localhost:443', input, {query: {body: input}})
 }
 
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)

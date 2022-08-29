@@ -10,3 +10,7 @@ RUN npm install
 COPY . .
 # default command when the container spins up - similar to running “node server/server.js” in Node CLI 
 CMD ["node", "server/server.ts"]
+
+#create docker env variable
+
+#$ docker run --name mongodb MONG_URI=‘some URI’ bitnami/mongodb:latest

@@ -1,3 +1,3 @@
 [submodule "ekho-JS-npm"]
-	path = ekho-JS-npm
+	path = /ekho-JS-npm
 	url = https://github.com/oslabs-beta/ekho-JS-npm

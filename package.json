@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon server/server.ts",
 		"build": "NODE_ENV=production webpack",
-		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\"",
+		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
 		"test": "jest --verbose"
 	},
 	"author": "ekho",

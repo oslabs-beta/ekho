@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 //set up a bare bones input/button interface to test inputs to the monolith and microservice
 const arrayLength = document.querySelector('#arraylength');
-arrayLength.value = 1;
+arrayLength.value = 10;
 const trials = document.querySelector('#trials');
 trials.value = 1;
 

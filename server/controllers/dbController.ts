@@ -1,32 +1,21 @@
-// const db = require('../models/dbModel');
-import Results from '../models/dbModel';
-const mongoose = require('mongoose')
-import yaml from 'js-yaml';
-import fs from 'fs';
-import path from 'path';
-import { json, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
+import db from '../models/dbModel';
 import createErr from '../utils/errorHandler';
-import {
-  Args,
-  ArgsQuery,
-  LegacyBody,
-  Experiment,
-  DBBody,
-} from '../types';
+import { DBBody } from '../types';
 
-type dbControllerType = {
+type DbControllerType = {
   queryExperimentData: RequestHandler
   queryListOfExperiments: RequestHandler
-	publishResults:  RequestHandler
-}
+  publishResults: RequestHandler
+};
 
-const dbController: dbControllerType = {
+const dbController: DbControllerType = {
   // query all documents with experimentName matching the experimentName in the request body
   // ***expect input in req.query as an object
   queryExperimentData: async (req, res, next) => {
     try {
       const { experimentName } = req.query;
-      const queryResult: object[] = await Results.find({experimentName: experimentName});
+      const queryResult: object[] = await db.find({ experimentName });
       res.locals.experimentData = queryResult;
       return next();
     } catch (err) {
@@ -36,7 +25,7 @@ const dbController: dbControllerType = {
   },
   queryListOfExperiments: async (req, res, next) => {
     try {
-      const queryResult: string[] = await Results.distinct('experimentName')
+      const queryResult: string[] = await db.distinct('experimentName');
       res.locals.experiments = queryResult;
       return next();
     } catch (err) {
@@ -45,18 +34,17 @@ const dbController: dbControllerType = {
     }
   },
   publishResults: async (req, res, next) => {
-    const DBBody: DBBody = {
+    const dbBody: DBBody = {
       experimentName: req.body.name,
       context: req.body.context,
-      resultLegacy: JSON.stringify(req.body.result) ,
+      resultLegacy: JSON.stringify(req.body.result),
       resultMS: JSON.stringify(res.locals.candidateResult),
       legacyTime: req.body.runtime,
       msTime: res.locals.candidateRuntime,
       mismatch: res.locals.mismatch,
     };
     try {
-      console.log(DBBody);
-      await Results.create(DBBody);
+      await db.create(dbBody);
       console.log('experiment added to DB');
       return next();
     } catch (err) {

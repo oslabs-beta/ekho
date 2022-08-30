@@ -4,15 +4,9 @@
 	"description": "",
 	"main": "./client/index.js",
 	"scripts": {
-<<<<<<< HEAD
-		"start": "NODE_PATH=./build node build/server.js", 
-    "build": "tsc -p .",
-    "dev": "nodemon server/server.ts",
-=======
 		"start": "nodemon server/server.ts",
 		"build": "NODE_ENV=production webpack",
 		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\" \"NODE_ENV=development nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
->>>>>>> dev
 		"test": "jest --verbose"
 	},
 	"author": "ekho",
@@ -51,7 +45,8 @@
 		"react-dom": "^16.5.2",
 		"react-hot-loader": "^4.6.3",
 		"react-router": "^4.3.1",
-		"react-router-dom": "^6.3.0"
+		"react-router-dom": "^6.3.0",
+		"sass": "^1.54.5"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.2",

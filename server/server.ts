@@ -3,7 +3,6 @@ require('dotenv').config();
 // const express = require('express');
 import path from 'path';
 import express from 'express';
-import apiRouter from './routes/api';
 
 import { ServerApiVersion } from 'mongodb';
 import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
@@ -20,9 +19,6 @@ server.use(express.urlencoded({ extended: true }));
 
 // JEC: temp static serving of frontend for testing - probably want to change
 server.use(express.static(path.join(__dirname, '../client')));
-
-// define route handlers
-server.use('/api', apiRouter);
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial

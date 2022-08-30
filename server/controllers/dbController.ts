@@ -1,4 +1,5 @@
-const db = require('../models/dbModel');
+// const db = require('../models/dbModel');
+import Results from '../models/dbModel';
 const mongoose = require('mongoose')
 import yaml from 'js-yaml';
 import fs from 'fs';
@@ -25,7 +26,7 @@ const dbController: dbControllerType = {
   queryExperimentData: async (req, res, next) => {
     try {
       const { experimentName } = req.query;
-      const queryResult: object[] = await db.Results.find({experimentName: experimentName});
+      const queryResult: object[] = await Results.find({experimentName: experimentName});
       res.locals.experimentData = queryResult;
       return next();
     } catch (err) {
@@ -35,7 +36,7 @@ const dbController: dbControllerType = {
   },
   queryListOfExperiments: async (req, res, next) => {
     try {
-      const queryResult: string[] = await db.Results.distinct('experimentName')
+      const queryResult: string[] = await Results.distinct('experimentName')
       res.locals.experiments = queryResult;
       return next();
     } catch (err) {
@@ -55,7 +56,7 @@ const dbController: dbControllerType = {
     };
     try {
       console.log(DBBody);
-      await db.Results.create(DBBody);
+      await Results.create(DBBody);
       console.log('experiment added to DB');
       return next();
     } catch (err) {

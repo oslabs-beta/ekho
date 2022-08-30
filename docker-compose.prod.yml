@@ -17,7 +17,7 @@ services:
     command: node build/server.js
   dummy_microservice: 
     build:
-      context: ./dummy-microservice
+      context: ./samples/dummy-microservice
       dockerfile: Microservice.dockerfile
     image: dummy_microservice_image
     container_name: dummy_microservice

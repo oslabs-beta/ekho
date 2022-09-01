@@ -14,7 +14,7 @@ services:
     ports: 
       # JEC: not completely sure on best practices for port mapping yet
       - "3000:443"
-    command: node build/server.js
+    command: node ./build/server/server.js
   dummy_microservice: 
     build:
       context: ./samples/dummy-microservice

@@ -16,8 +16,8 @@ services:
     command: npm run dev
   dummy_microservice: 
     build:
-      context: ./dummy-microservice
-      dockerfile: Dockerfile.microservice
+      context: ./samples/dummy-microservice
+      dockerfile: Microservice.dockerfile
     container_name: dummy_microservice
     ports: 
       - "3001:443"

@@ -2,6 +2,18 @@
 const { ekhojs } = require('ekho-js');
 
 const legacySort = (array) => {
+  var start = Date.now()
+  const arr = [];
+  let i = 100;
+  while (i > 0) {
+    arr.push(i);
+    console.log(Date.now())
+    console.log("yo mama!")
+    console.log(arr)
+    i--;
+  }
+  var end = Date.now();
+
   let sortedIndex = 1;
   while (sortedIndex < array.length) {
     const curr = array[sortedIndex];

@@ -40,6 +40,7 @@ export type DBBody = {
   mismatch: boolean,
   ignoredMismatch?: boolean,
   mismatchName?: string
+  createdAt: Date
 }
 
 

@@ -2,8 +2,9 @@
 
 .body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
-  display: grid;
-  grid: 1fr 1fr / 1fr 0.75fr;
+  display: flex;
+  flex-direction: row;
+  // grid: 1fr 1fr / 1fr 0.75fr;
   height: 98vh;
   width: 98vw;
   background-color: #eeeeee;
@@ -11,7 +12,20 @@
   margin: 5px;
 }
 
-td {
+#tabledata {
+  width: 500px;
+  height: 500px;
+  overflow-y: auto;
   word-wrap: break-word;
-  max-width: 200px;
+}
+
+.dataVis {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+#pieChart{
+  max-width: 500px;
+  max-height: 500px;
 }

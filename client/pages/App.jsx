@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
+
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
 

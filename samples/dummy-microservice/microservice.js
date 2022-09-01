@@ -28,25 +28,32 @@ functionStore.wrongFizzBuzz = array => {
 }
 
 functionStore.mergeSort = function(array) {
-  if (array.length <= 1) return array;
-  const mid = Math.floor(array.length / 2);
-  const leftArray = this.mergeSort(array.slice(0, mid));
-  const rightArray = this.mergeSort(array.slice(mid, array.length));
-  let sortedArray = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-  while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
-    if (leftArray[leftIndex] < rightArray[rightIndex]) {
-      sortedArray.push(leftArray[leftIndex]);
-      leftIndex++;
-    } else {
-      sortedArray.push(rightArray[rightIndex]);
-      rightIndex++;
-    }
+  var start = Date.now()
+  const arr = [];
+  let i = 100;
+  while (i > 0) {
+    arr.push(i);
+    console.log(Date.now())
+    console.log("yo mama!")
+    console.log(arr)
+    i--;
   }
-  if (leftArray.length !== leftIndex) sortedArray = sortedArray.concat(leftArray.slice(leftIndex));
-  else sortedArray = sortedArray.concat(rightArray.slice(rightIndex));
-  return sortedArray;
+  var end = Date.now();
+
+  let sortedIndex = 1;
+  while (sortedIndex < array.length) {
+    const curr = array[sortedIndex];
+    let i = 0;
+    while (curr > array[i] && i < sortedIndex) {
+      i++;
+    }
+    for (let j = sortedIndex; j > i; j--) {
+      array[j] = array[j - 1];
+    }
+    array[i] = curr;
+    sortedIndex++;
+  }
+  return array;
 }
   
 module.exports = functionStore;

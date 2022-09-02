@@ -1,7 +1,6 @@
-const path = require('path');
-require('dotenv').config();
-const express = require('express');
-
+import path from 'path';
+import 'dotenv/config';
+import express from 'express';
 import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
 import { ServerApiVersion } from 'mongodb';
 // const apiController = require('./controllers/apiController');

@@ -10,5 +10,5 @@
     "moduleResolution": "node",
     "noImplicitAny": true
   },
-  "include": ["__tests__/**/*", "server/**/*", "dummy-functions", "dummy-microservice", "packages/**/*"],
+  "include": ["__tests__/**/*", "server/**/*", "dummy-functions", "dummy-microservice", "packages/**/*", "client/**/*"],
 }

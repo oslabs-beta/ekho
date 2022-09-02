@@ -17,27 +17,38 @@ export default function DataTable(props) {
           microserviceRuntime={el.msTime}
           runtimeVariance={el.legacyTime - el.msTime}
           mismatch={el.mismatch}
+          date={el.createdAt}
         />
       )
     })
   }
+  const style = {
+    wordWrap: 'break-word',
+    maxWidth: '500px',
+    maxHeight:'500px',
+    overflow: 'scroll'
+  }
+  
   return (
-  <table className="table table-bordered table-dark">
-    <thead>
-      <tr align-middle="true" >
-        <th>Experiment</th>
-        <th>Context</th>
-        <th>Legacy Result</th>
-        <th>Microservice Result</th>
-        <th>Legacy Runtime (ms)</th>
-        <th>Microservice Runtime (ms)</th>
-        <th>Runtime Variance (ms)</th>
-        <th>Mismatch</th>
-      </tr>
-    </thead>
-    <tbody>
-      {rows}
-    </tbody>
-  </table>
+  <div id="tabledata">
+    <table className="table table-bordered table-dark">
+      <thead>
+        <tr align-middle="true" >
+          <th>Experiment</th>
+          <th>Context</th>
+          <th>Legacy Result</th>
+          <th>Microservice Result</th>  
+          <th>Legacy Runtime (ms)</th>
+          <th>Microservice Runtime (ms)</th>
+          <th>Runtime Variance (ms)</th>
+          <th>Mismatch</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows}
+      </tbody>
+    </table>
+  </div>
   )
 }

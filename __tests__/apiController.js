@@ -116,21 +116,6 @@ describe('API middleware unit tests', () => {
       expect(next).toHaveBeenCalled();
       expect(next.mock.calls[0][0]).toEqual('Error in apiController.validateBody. Error: if provided, params must be an array');
     });
-
-    it('responds to a request with an invalid args.body with an error', () => {
-      req.body = {
-        name: 'mytest',
-        context: 123,
-        runtime: 100,
-        args: {
-          body: [42],
-        },
-        result: 42,
-      };
-      apiController.validateBody(req, res, next);
-      expect(next).toHaveBeenCalled();
-      expect(next.mock.calls[0][0]).toEqual('Error in apiController.validateBody. Error: if provided, body must be an object that will be passed on as the request body');
-    });
   });
 
   describe('structureURI', () => {

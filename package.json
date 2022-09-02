@@ -43,6 +43,7 @@
 		"mongoose": "^6.5.2",
 		"node-fetch": "^2.3.0",
 		"react": "^16.5.2",
+		"react-bootstrap": "^2.5.0",
 		"react-chartjs-2": "^4.3.1",
 		"react-dom": "^16.5.2",
 		"react-hot-loader": "^4.6.3",

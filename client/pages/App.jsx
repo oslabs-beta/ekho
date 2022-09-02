@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
 import PieChart from '../components/PieChart.jsx'
+import LineChart from '../components/Linechart.jsx'
+import { Dropdown, ToggleButton } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
@@ -14,6 +16,9 @@ const App = () => {
   const [context, setContext] = useState('');
   const [rawMismatchData, setRawMismatchData] = useState('');
   const [pieChartData, setPieChartData] = useState([1,0]);
+  const [lineChartData, setLineChartData] = useState([[],[]])
+  const [onlyMismatch, setOnlyMismatch] = useState(false);
+
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
     fetch('http://localhost:443/experiments')
@@ -68,11 +73,12 @@ const App = () => {
     }
   }, [currExperiment]);
 
+  //data to pass to the PieChart component as props. 'pieChartData' is managed in State
   const pieChartDataSet = {
     labels: ['# of Mismatches', '# of Matches'],
   datasets: [
     {
-      label: '# of Votes',
+      label: 'Matches vs. Mismatches',
       data: pieChartData,
       backgroundColor: [
         'rgba(54, 162, 235, 0.2)',
@@ -87,33 +93,86 @@ const App = () => {
   ],
   }
 
-  const experimentsDropdown = [];
+  //data to pass to the LineChart component as props. 'lineChartData' is managed in State
+  const lineChartDataSet = {
+    labels: ['Control Data', 'Candidate Data'],
+    datasets: [{
+      borderColor: 'rgba(54, 162, 235, 1)',
+      borderWidth: 1,
+      radius: 0,
+      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+    }, 
+    {
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+      radius: 0,
+      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+    }],
+  };
+  //options to pass to the LineChart component. Refactor and move into LineChart component ASAP
+  const lineChartOptions = {
+    // animation,
+    interaction: {
+      intersect: false
+    },
+    plugins: {
+      legend: false 
+    },
+    scales: {
+      x: {
+        type: 'linear'
+      }
+    },
+    maintainAspectRatio: false
+  };
 
+  const experimentsDropdown = [];
+  const contextDropdown = [];
   for (let i = 0; i < experiments.length; i++) {
-    experimentsDropdown.push(<option key={`experiment${i}`} value={experiments[i]}>{experiments[i]}</option>);
+    experimentsDropdown.push(<Dropdown.Item key={`experiment${i}`} value={experiments[i]} onClick = {(e) => {setCurrExperiment(experiments[i]);}}>{experiments[i]}</Dropdown.Item>);
   }
 
+  const onlyMismatchOutline = !onlyMismatch ? "outline-primary" : "primary"
   return (
     <>
-      <h1>Ekho Comparison Data</h1>
-      <div className='body'>
-        <div className='dropdown-body'>
+      <h1>Welcome to Ekho</h1>
+      <div className="body">
+        <div id="dropdown-body">
           <h4>Experiment</h4>
-          <select id= "selectExperiment" onChange = {(e) => {setCurrExperiment(e.target.value);}}>
-            {experimentsDropdown}
-          </select>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              {currExperiment}
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>{experimentsDropdown}</Dropdown.Menu>
+          </Dropdown>
+          <ToggleButton
+            className="mb-2"
+            id="toggle-check"
+            type="checkbox"
+            variant={`${onlyMismatchOutline}`}
+            checked={onlyMismatch}
+            value="1"
+            onClick={(e) => {setOnlyMismatch(!onlyMismatch)}}
+          >
+            {`Only Display Mismatches`}
+          </ToggleButton>
         </div>
 
-
-      <div className='dataVis'>
-        <DataTable data={rawMismatchData}/>
-        <PieChart id="pieChart" data={pieChartDataSet} width={100} height={100} options={{maintainAspectRatio: false}}/>
-      </div>
-
-
+        <div className="dataVis">
+          <DataTable data={rawMismatchData} />
+          <PieChart
+            id="pieChart"
+            data={pieChartDataSet}
+            width={100}
+            height={100}
+            options={{ maintainAspectRatio: false }}
+          />
+          <LineChart options={{ lineChartOptions }} data={lineChartDataSet} />
+        </div>
       </div>
     </>
-  )
+  );
 }
 
 export default App

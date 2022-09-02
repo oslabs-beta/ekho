@@ -5,6 +5,8 @@
     "baseUrl": "./server",
     "target": "es2022",
     // "strict": true,
+    "jsx": "react",
+    "allowJs": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -12,5 +14,6 @@
     "noImplicitAny": true,
     "outDir": "./build",
   },
-  "include": ["__tests__/**/*", "server/**/*", "dummy-functions", "dummy-microservice", "packages/**/*", "client/**/*"],
+  // "include": ["__tests__/**/*", "server/**/*", "dummy-functions", "dummy-microservice", "packages/**/*", "client/**/*"],
+  "include": ["__tests__/**/*", "server/**/*"],
 }

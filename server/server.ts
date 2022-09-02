@@ -15,7 +15,7 @@ server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
 // JEC: temp static serving of frontend for testing - probably want to change
-server.use(express.static(path.join(__dirname, '../client')));
+server.use(express.static(path.join(__dirname, '../../public')));
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial

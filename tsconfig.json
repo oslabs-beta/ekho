@@ -16,4 +16,5 @@
   },
   // "include": ["__tests__/**/*", "server/**/*", "dummy-functions", "dummy-microservice", "packages/**/*", "client/**/*"],
   "include": ["__tests__/**/*", "server/**/*"],
+  "exclude": ["node_modules"],
 }

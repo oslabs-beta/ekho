@@ -7,14 +7,14 @@ services:
       # directory relative to the directory this file lives in
       context: .
       dockerfile: Dockerfile
-      target: production
+      # target: production
     image: ekho_microservice_image
     container_name: ekho_microservice
     # port format - host port : container port
     ports: 
       # JEC: not completely sure on best practices for port mapping yet
-      - "3000:443"
-    command: node ./build/server/server.js
+      - "443:443"
+    command: node /build/server/server.js
   dummy_microservice: 
     build:
       context: ./samples/dummy-microservice
@@ -22,8 +22,17 @@ services:
     image: dummy_microservice_image
     container_name: dummy_microservice
     ports: 
-      - "3001:443"
+      - "8000:443"
     command: node server/server.js
+  dummy_legacy: 
+    build:
+      context: ./samples/dummy-legacy
+      dockerfile: Legacy.dockerfile
+    image: dummy_legacy_image
+    container_name: dummy_legacy
+    ports: 
+      - "4000:443"
+    command: node server/server.js    
 
 # # docker compose file format 
 # version: '3' 

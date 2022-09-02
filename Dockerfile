@@ -12,8 +12,10 @@ RUN npm install
 RUN npm run build
 # expose server port
 EXPOSE 443
+# set to production mode
+ENV NODE_ENV = production
 # create an entry point to run the application
-ENTRYPOINT ["node", "./server/server.js"]
+ENTRYPOINT ["node", "./build/server/server.js"]
 
 
 # # DEVELOPMENT 

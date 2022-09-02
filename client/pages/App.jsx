@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
 import PieChart from '../components/PieChart.jsx'
-import LineChart from '../components/Linechart.jsx'
+import LineChart from '../components/LineChart.jsx'
 import { Dropdown, ToggleButton } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
@@ -44,7 +44,7 @@ const App = () => {
     if (currExperiment !== '-- Loading Experiments --') {
       console.log('experiment has changed, fetching data');
       // TODO: finalize the roue
-      fetch(`http://localhost:8080/experiment/data/?experimentName=${currExperiment}`)
+      fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiment/data/?experimentName=${currExperiment}`)
         .then(res => res.json())
         .then(data => {
           console.log('data from experiment');

@@ -2,7 +2,7 @@
 version: '3' 
 
 services:
-  ekho_microservice: 
+  ekho_microservice-dev: 
     build:
       # directory relative to the directory this file lives in
       context: .

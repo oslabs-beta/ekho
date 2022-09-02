@@ -3,8 +3,8 @@ node_modules
 package-lock.json
 
 server/secrets.js
-public
-build
+# public
+# build
 
 .DS_Store
 client/.DS_Store

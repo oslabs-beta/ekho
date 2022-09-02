@@ -42,6 +42,7 @@ const dbController: DbControllerType = {
       legacyTime: req.body.runtime,
       msTime: res.locals.candidateRuntime,
       mismatch: res.locals.mismatch,
+      createdAt: new Date(Date.now())
     };
     try {
       await db.create(dbBody);

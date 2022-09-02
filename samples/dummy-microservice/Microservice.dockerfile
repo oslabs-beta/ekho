@@ -1,7 +1,7 @@
 # installs base image of node - Active LTS (long-term support) - see https://nodejs.org/en/about/releases/
 FROM --platform=linux/amd64 node:16.17.0
 # establishes a working directory inside the image
-WORKDIR /code
+WORKDIR /usr/src/app
 # copy package.json AND package-lock.json into code directory so image knows what application dependencies are
 COPY package*.json .
 # installs all of the required dependencies based on the package*.json file

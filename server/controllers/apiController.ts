@@ -92,9 +92,11 @@ const apiController: ApiControllerType = {
         }
       }
       if (!experiment) throw new Error(`No experiment found matching name ${req.body.name}`);
-
+      
+      //default uri to Ekho microservice endpoint 
       let uri = experiment.apiEndpoint;
       const { args }: { args: Args } = req.body;
+      //re-assign Ekho microservice endpoint if args contains property 'params' OR 'query' ELSE remain at default
       uri = (Object.hasOwn(args, 'params')) ? substituteParams(uri, args.params) : uri;
       uri = (Object.hasOwn(args, 'query')) ? addQueryParams(uri, args.query) : uri;
 

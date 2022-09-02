@@ -28,7 +28,7 @@ const legacySort = (array) => {
 const facadeSort = (args) => ekhojs.wrap(
   legacySort,
   'sample-test',
-  { route: 'user' },
+  { route: 'createdAt' },
   'http://localhost:443',
   args,
   { body: [...args] }

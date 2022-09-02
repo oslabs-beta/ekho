@@ -5,6 +5,7 @@ FROM --platform=linux/amd64 node:16.17.0
 WORKDIR /usr/src/app
 # copies all files in the current directory into code directory (current WORKDIR)
 COPY . .
+# <<<<<<< HEAD
 # installs all of the required dependencies based on the package*.json file
 RUN npm install
 # build the application in the container
@@ -41,3 +42,11 @@ ENTRYPOINT ["node", "./server/server.js"]
 # build compiles typescript into javascript
 # JEC: temporarily replacing dev to handle hot swapping with nodemon
 # "dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\"",
+# =======
+# # default command when the container spins up - similar to running “node server/server.js” in Node CLI 
+# CMD ["node", "server/server.ts"]
+
+# #create docker env variable
+
+# #$ docker run --name mongodb MONG_URI=‘some URI’ bitnami/mongodb:latest
+# >>>>>>> dev

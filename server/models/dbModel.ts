@@ -40,7 +40,11 @@ const resultSchema = new mongoose.Schema({
   mismatchName: {
     type: String,
   },
+ createdAt: {
+  type: String,
+  required: true
+ }
+})
 
-});
 const Results = mongoose.model('Results', resultSchema);
 export default Results;

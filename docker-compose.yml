@@ -14,11 +14,18 @@ services:
       # JEC: not completely sure on best practices for port mapping yet
       - "3000:443"
     command: npm run dev
+    # mounting a volume makes development easier because it will see live code changes as they happen
+    # volume format - host directory : container directory to mount to
+    volumes: 
+      - .:/usr/src/app
+      - ./node_modules:/usr/src/app/node_modules # the node_modeules volume prevents the (potentially) empty node_modules directory from overwriting the one created on the image from running npm install
   dummy_microservice: 
     build:
       context: ./samples/dummy-microservice
       dockerfile: Microservice.dockerfile
     container_name: dummy_microservice
     ports: 
-      - "3001:443"
+      - "8000:443"
     command: node server/server.js
+    volumes: 
+      - .:/usr/src/app

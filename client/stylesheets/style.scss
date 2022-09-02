@@ -7,32 +7,40 @@
   // grid: 1fr 1fr / 1fr 0.75fr;
   height: 98vh;
   width: 98vw;
-  background-color: #eeeeee;
+  background-color: darkgray;
   color: rgb(0, 0, 0);
   margin: 5px;
 }
 
 #tabledata {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 50%;
   overflow-y: auto;
   word-wrap: break-word;
 }
 
 .dataVis {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    display: flex;
+    flex-direction: column;
     padding: 10px;
+    max-width: 85%;
+    max-height: 100%;
 }
 
 #pieChart{
-  max-width: 500px;
-  max-height: 500px;
+  max-width: 50%;
+  max-height: 100%;
+}
+#lineChart{
+  max-width: 50%;
+  max-height: 100%;
 }
 
-#lineChart{
-      max-height: 500px;
-      max-width: 500px;
+
+.graphs {
+  display: flex;
+  width: 100%;
+  height: 50%;
 }
 
 #dropdown-body{
@@ -43,4 +51,11 @@
   background-color: gray;
   padding: 10px;
   margin: 10px;
+  max-width: 15%;
+  max-height: 100%;
+}
+#dropdown-basic{
+  width: 100%;
+  font-size: 1vw;
+  background-color: rgba(45, 112, 70, 0.664);
 }

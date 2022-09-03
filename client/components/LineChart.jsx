@@ -60,8 +60,6 @@ export default function LineChart (props) {
   const {options, data} = props;
   return(
   <>
-    <div>
-      <Line id="lineChart"options={options} data={data} width={500} height={500}/>
-    </div>
+      <Line id="lineChart" options={options} data={data} width={100} height={100}/>
   </>
 )}

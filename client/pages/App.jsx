@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
 import PieChart from '../components/PieChart.jsx'
+
 import LineChart from '../components/LineChart.jsx'
+import DownloadCSV from '../components/downloadCSVbutton'
+
 import { Dropdown, ToggleButton } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
@@ -129,16 +132,16 @@ const App = () => {
   const experimentsDropdown = [];
   const contextDropdown = [];
   for (let i = 0; i < experiments.length; i++) {
-    experimentsDropdown.push(<Dropdown.Item key={`experiment${i}`} value={experiments[i]} onClick = {(e) => {setCurrExperiment(experiments[i]);}}>{experiments[i]}</Dropdown.Item>);
+    experimentsDropdown.push(<Dropdown.Item  style ={{width:'100%'}}key={`experiment${i}`} value={experiments[i]} onClick = {(e) => {setCurrExperiment(experiments[i]);}}>{experiments[i]}</Dropdown.Item>);
   }
-
   const onlyMismatchOutline = !onlyMismatch ? "outline-primary" : "primary"
+
   return (
     <>
       <h1>Welcome to Ekho</h1>
       <div className="body">
         <div id="dropdown-body">
-          <h4>Experiment</h4>
+          <h4 style ={{fontSize:'2.4vw' }}>Experiment</h4>
           <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
               {currExperiment}
@@ -147,6 +150,7 @@ const App = () => {
             <Dropdown.Menu>{experimentsDropdown}</Dropdown.Menu>
           </Dropdown>
           <ToggleButton
+            style ={{width:'100%', fontSize:'1vw', backgroundColor:'rgba(45, 112, 70, 0.664)'}}
             className="mb-2"
             id="toggle-check"
             type="checkbox"
@@ -157,10 +161,12 @@ const App = () => {
           >
             {`Only Display Mismatches`}
           </ToggleButton>
+          <DownloadCSV data={rawMismatchData} onlyMismatch={onlyMismatch}/>
         </div>
 
         <div className="dataVis">
-          <DataTable data={rawMismatchData} />
+          <DataTable onlyMismatch={onlyMismatch} data={rawMismatchData} />
+          <div className='graphs'> 
           <PieChart
             id="pieChart"
             data={pieChartDataSet}
@@ -169,6 +175,7 @@ const App = () => {
             options={{ maintainAspectRatio: false }}
           />
           <LineChart options={{ lineChartOptions }} data={lineChartDataSet} />
+          </div>
         </div>
       </div>
     </>

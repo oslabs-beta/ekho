@@ -24,7 +24,7 @@ const App = () => {
 
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
-    fetch('http://localhost:443/experiments')
+    fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiments`)
       .then(res => res.json())
       .then(experiments => {
         console.log('got experiments');

@@ -4,8 +4,9 @@
 	"description": "",
 	"main": "./client/index.js",
 	"scripts": {
-		"start": "nodemon server/server.ts",
-		"build": "NODE_ENV=production webpack",
+		"start": "concurrently \"NODE_ENV=production node build/server/server.js\" \"NODE_ENV=production node samples/dummy-legacy/server/server.js\" \"NODE_ENV=production node samples/dummy-microservice/server/server.js\"",
+		"build": "NODE_ENV=production tsc -p ./tsconfig.json & NODE_ENV=production npm run copy-files & NODE_ENV=production webpack --config ./webpack.config.js",
+    "copy-files": "copyfiles -u 1 server/**/*.yaml build/server/",
 		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\" \"NODE_ENV=development nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
 		"test": "jest --verbose"
 	},
@@ -35,6 +36,7 @@
 		"assert": "^2.0.0",
 		"bootstrap": "^5.2.0",
 		"chart.js": "^3.9.1",
+		"copyfiles": "^2.4.1",
 		"dotenv": "^16.0.1",
 		"ekho-js": "^1.0.7",
 		"express": "^4.16.3",
@@ -49,7 +51,7 @@
 		"react-hot-loader": "^4.6.3",
 		"react-router": "^4.3.1",
 		"react-router-dom": "^6.3.0",
-		"ts-node": "^10.9.1"
+		"sass": "^1.54.5"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.2",
@@ -88,6 +90,7 @@
 		"supertest": "^6.2.4",
 		"ts-jest": "^28.0.8",
 		"ts-loader": "^9.3.1",
+		"ts-node": "^10.9.1",
 		"typescript": "^4.7.4",
 		"webpack": "^5.64.1",
 		"webpack-cli": "^4.10.0",

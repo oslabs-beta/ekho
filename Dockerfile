@@ -15,8 +15,8 @@ EXPOSE 443
 # set to production mode
 ENV NODE_ENV = production
 # create an entry point to run the application
-ENTRYPOINT ["npm", "start"]
-
+# ENTRYPOINT ["npm", "start"]
+RUN npm start
 
 # # DEVELOPMENT 
 # # installs base image of node - Active LTS (long-term support) - see https://nodejs.org/en/about/releases/

@@ -24,7 +24,8 @@ const App = () => {
 
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
-    fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiments`)
+    // fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiments`)
+    fetch('/experiments')
       .then(res => res.json())
       .then(experiments => {
         console.log('got experiments');
@@ -47,7 +48,8 @@ const App = () => {
     if (currExperiment !== '-- Loading Experiments --') {
       console.log('experiment has changed, fetching data');
       // TODO: finalize the roue
-      fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiment/data/?experimentName=${currExperiment}`)
+      // fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiment/data/?experimentName=${currExperiment}`)
+      fetch(`/experiment/data/?experimentName=${currExperiment}`)
         .then(res => res.json())
         .then(data => {
           console.log('data from experiment');

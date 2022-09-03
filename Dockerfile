@@ -15,7 +15,7 @@ EXPOSE 443
 # set to production mode
 ENV NODE_ENV = production
 # create an entry point to run the application
-ENTRYPOINT ["node", "./build/server/server.js"]
+ENTRYPOINT ["npm", "start"]
 
 
 # # DEVELOPMENT 

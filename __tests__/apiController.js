@@ -165,11 +165,11 @@ describe('API middleware unit tests', () => {
         apiController.structureURI(req, res, next);
         expect(res.locals.uri).toEqual('https://candidate-microservice.example.com/endpoint?foot=ball&hand=egg');
       });
-    })
+    });
 
     describe('substituteParams', () => {
       beforeEach(() => {
-        req.body.name = 'test2'
+        req.body.name = 'test2';
       })
       it('should not change the URI if req.body.args has no params argument', () => {
         apiController.structureURI(req, res, next);
@@ -194,9 +194,9 @@ describe('API middleware unit tests', () => {
         expect(next).toHaveBeenCalled();
         expect(next.mock.calls[0][0]).toEqual('Error in apiController.structureUri. Error: No placeholder $3 found for param test3');
       });
-    })
-  })
-  
+    });
+  });
+
   describe('callCandidateMicroservice', () => {
     beforeEach(() => {
       req.body = {
@@ -226,7 +226,7 @@ describe('API middleware unit tests', () => {
       expect(fetch.mock.calls[0][1].body).toEqual('{"killer":"queen"}');
     })
 
-    // the below 2 tests aren't working, even though console logs indicate they should. 
+    // the below 2 tests aren't working, even though console logs indicate they should.
     // Got to literally the line before the return next(). skipping for now.
     xit('should store the candidate microservice results, runtime, and status', () => {
       apiController.callCandidateMicroservice(req, res, next);

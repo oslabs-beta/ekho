@@ -37,14 +37,14 @@ const resultSchema = new mongoose.Schema({
   ignoredMismatch: {
     type: Boolean,
   },
-  mismatchName: {
+  ignoredMismatchRuleName: {
     type: String,
   },
- createdAt: {
-  type: String,
-  required: true
- }
-})
+  createdAt: {
+    type: Date,
+    required: true,
+  },
+});
 
 const Results = mongoose.model('Results', resultSchema);
 export default Results;

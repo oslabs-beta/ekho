@@ -4,18 +4,21 @@ import { RequestHandler } from 'express';
 import fetch from 'node-fetch';
 import createErr from '../utils/errorHandler';
 import experiments from '../utils/yamlParser';
+import criteriaDict from '../utils/criteria';
 import {
   Args,
   ArgsQuery,
   LegacyBody,
   Experiment,
-} from '../types';
+} from '../utils/types';
 
 type ApiControllerType = {
   validateBody: RequestHandler,
+  findExperiment: RequestHandler,
   structureURI: RequestHandler,
   callCandidateMicroservice: RequestHandler,
   compareResults: RequestHandler,
+  checkIgnoreMismatchRules: RequestHandler,
 };
 
 const apiController: ApiControllerType = {
@@ -55,6 +58,23 @@ const apiController: ApiControllerType = {
     }
   },
 
+  findExperiment: (req, res, next) => {
+    try {
+      let experiment: Experiment;
+      for (let i = 0; i < experiments.length; i++) {
+        if (experiments[i].name === req.body.name) {
+          experiment = experiments[i];
+          break;
+        }
+      }
+      if (!experiment) throw new Error(`No experiment found matching name ${req.body.name}`);
+      res.locals.experiment = experiment;
+      return next();
+    } catch (err) {
+      return next(createErr('apiController', 'findExperiment', err));
+    }
+  },
+
   structureURI: (req, res, next) => {
     const addQueryParams = (uri: string, queryObj: ArgsQuery) => {
       // takes in an object and a URI
@@ -82,25 +102,12 @@ const apiController: ApiControllerType = {
     };
 
     try {
-      // TODO: figure out how to validate the YAML via TypeScript. There's a separate task for this.
-      // find the right experiment by looking for one with a matching name
-      let experiment: Experiment;
-      for (let i = 0; i < experiments.length; i++) {
-        if (experiments[i].name === req.body.name) {
-          experiment = experiments[i];
-          break;
-        }
-      }
-      if (!experiment) throw new Error(`No experiment found matching name ${req.body.name}`);
-      
-      //default uri to Ekho microservice endpoint 
-      let uri = experiment.apiEndpoint;
+      let uri: string = res.locals.experiment.apiEndpoint;
       const { args }: { args: Args } = req.body;
-      //re-assign Ekho microservice endpoint if args contains property 'params' OR 'query' ELSE remain at default
+      // Substitute params and add query parameters to the URI as needed
       uri = (Object.hasOwn(args, 'params')) ? substituteParams(uri, args.params) : uri;
       uri = (Object.hasOwn(args, 'query')) ? addQueryParams(uri, args.query) : uri;
 
-      res.locals.experiment = experiment;
       res.locals.uri = encodeURI(uri);
       return next();
     } catch (err) {
@@ -115,7 +122,6 @@ const apiController: ApiControllerType = {
     // Figure out if this trial should run
     if (experiment.enabledPct < Math.random()) return;
 
-    // TODO: implement flagged mismatch rules here, or maybe later when we're sending to the DB.
     try {
       const start = Date.now();
       const candidateResponse = await fetch(uri, {
@@ -144,6 +150,38 @@ const apiController: ApiControllerType = {
       return next();
     } catch (err) {
       return next(createErr('apiController', 'compareResults', err));
+    }
+  },
+
+  checkIgnoreMismatchRules: (req, res, next) => {
+    if (!res.locals.mismatch) return next();
+    try {
+      const { ignoreMismatchRules } = res.locals.experiment;
+      const { context, args } = req.body;
+      // iterate through the entire list of named rules
+      for (let i = 0; i < ignoreMismatchRules.length; i++) {
+        const currentRule = ignoreMismatchRules[i];
+        const { criteria } = currentRule;
+        let matched = true;
+        // match each rule criterion by name to its definition
+        for (let j = 0; j < criteria.length; j++) {
+          const criterion = criteria[j];
+          if (!Object.hasOwn(criteriaDict, criterion)) {
+            throw new Error(`No criterion found matching name ${criterion}`);
+          }
+          if (!criteriaDict[criterion](context, args)) {
+            matched = false;
+            break;
+          }
+        }
+        if (matched) {
+          res.locals.ignoredMismatchRuleName = currentRule.name;
+          break;
+        }
+      }
+      return next();
+    } catch (err) {
+      return next(createErr('apiController', 'checkIgnoreMismatchRules', err));
     }
   },
 };

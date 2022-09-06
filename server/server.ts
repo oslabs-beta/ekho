@@ -39,9 +39,7 @@ server.post(
   apiController.validateBody,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
-  /* perform comparison logic  */
   apiController.compareResults,
-  /* commit response to DB */
   dbController.publishResults,
   (req: Request, res: Response) => console.log('trial complete'),
 );

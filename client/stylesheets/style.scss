@@ -1,5 +1,16 @@
 @import "~bootstrap/scss/bootstrap";
 
+.navbar{
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.autocomplete{
+  position: relative;
+  display: inline-block;
+}
+
 .body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
   display: flex;
@@ -48,7 +59,7 @@
   border-radius: 10px;
   border: 10px;
   border-color: red solid ;
-  background-color: gray;
+  background-color: rgb(211, 28, 28);
   padding: 10px;
   margin: 10px;
   max-width: 15%;

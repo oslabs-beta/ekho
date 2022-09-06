@@ -29,9 +29,9 @@ const facadeSort = (args) => ekhojs.wrap(
   legacySort,
   'sample-test',
   { route: 'createdAt' },
-  'http://localhost:443',
+  'http://52.53.250.111:443',
   args,
-  { body: [...args] }
+  { body: [...args.num] }
 )
 
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)

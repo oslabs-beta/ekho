@@ -12,7 +12,7 @@ RUN npm install
 RUN npm run build
 # expose server port
 EXPOSE 443
-# set to production mode
+# set to production mode / set monogodb username and password
 ENV NODE_ENV = production
 # create an entry point to run the application
 ENTRYPOINT ["node", "build/server/server.js"]

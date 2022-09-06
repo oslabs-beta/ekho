@@ -6,7 +6,7 @@ import PieChart from '../components/PieChart.jsx'
 import LineChart from '../components/LineChart.jsx'
 import DownloadCSV from '../components/downloadCSVbutton'
 
-import { Dropdown, ToggleButton } from 'react-bootstrap'
+import { Dropdown, ToggleButton, Nav } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
@@ -21,6 +21,10 @@ const App = () => {
   const [pieChartData, setPieChartData] = useState([1,0]);
   const [lineChartData, setLineChartData] = useState([[],[]])
   const [onlyMismatch, setOnlyMismatch] = useState(false);
+
+  const [suggestionList, setSuggestionList] = useState([]);
+  const [suggestionRenderList, setsuggestionRenderList] = useState("")
+  const [searchBarStatus, setSearchBarStatus] = useState("")
 
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
@@ -37,6 +41,53 @@ const App = () => {
         console.log('error in fetching experiments');
         console.log(err);
       })
+  }
+  
+  //autocomplete functionality for navbar experiment search
+  const autocomplete = async (value, array) => {
+    console.log(value)
+    let currentFocus
+    let suggestions = [];
+    //reset the list of suggestions on every update
+    closeAllLists();
+    //only iterate through experiment state for matches if experiment input is not null
+    if (document.querySelector(".experiment-input").value !== ""){
+      currentFocus = -1;
+      for (let i = 0; i < array.length; i++){
+        if (array[i].slice(0, value.length).toUpperCase() === value.toUpperCase()){
+          suggestions.push(<option key={i} onClick={(e) => {selectSuggestion(this.value)}}>{array[i]}</option>)
+        }
+      }
+      //if there are no matches suggestion array will be empty. Push a "No Results" into the array
+      if (suggestions.length === 0) suggestions.push(<option key={0}>--No Results--</option>)
+      console.log("suggestions",JSON.stringify(suggestions))
+      //update the suggestion list in state
+      await setSuggestionList(suggestions);
+      //update the suggestion list rendering variable 
+      updateRenderList(value, suggestions);
+    }
+  }
+  
+  const selectSuggestion = (value) => {
+    setCurrExperiment(value);
+    closeAllLists();
+  }
+  //closes the list of suggestions appended to the nav searchbar
+  const closeAllLists = () => {
+    if (document.querySelector(".autocomplete").querySelector(".suggestion-container")){
+      setsuggestionRenderList("");
+    }
+  }
+
+  const updateRenderList = (value, suggestions) => {
+    //update the suggestion list rendering variable to render our list of suggestions
+      setsuggestionRenderList(
+        (<div className="form-group suggestion-container">
+          <select className="form-control">
+            {suggestions}
+          </select>
+        </div>)
+      )
   }
 
   /* Uncomment when middleware is working 
@@ -114,6 +165,7 @@ const App = () => {
       data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
     }],
   };
+
   //options to pass to the LineChart component. Refactor and move into LineChart component ASAP
   const lineChartOptions = {
     // animation,
@@ -140,7 +192,15 @@ const App = () => {
 
   return (
     <>
-      <h1>Welcome to Ekho</h1>
+      <Nav className="navbar navbar-dark stick-top bg-dark flex-md-nowrap">
+        <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Ekho</a>
+        <div className="autocomplete w-100">
+          <input className="form-control form-control-dark w-100 experiment-input" type="text" placeholder="Search Experiments" aria-label="Search Experiments" onChange={(e)=>autocomplete(document.querySelector(".experiment-input").value, experiments)}/>
+            {suggestionRenderList}
+        </div>
+      </Nav>
+      
+      {/*div that envelops the entire webpage except for navbar*/}
       <div className="body">
         <div id="dropdown-body">
           <h4 style ={{fontSize:'2.4vw' }}>Experiment</h4>

@@ -121,16 +121,18 @@ const App = () => {
             const dataSet2 = [];
             for (const el of data){
               let legacy = {
-                x: el.createdAt,
+                x: el._id,
                 y: el.legacyTime
               };
               let candidate = {
-                x: el.createdAt,
+                x: el._id,
                 y: el.msTime
               };
               dataSet1.push(legacy);
               dataSet2.push(candidate);
             }
+            console.log("dataset1:", dataSet1)
+            console.log("dataset2:", dataSet2)
             setLineChartData({"legacy": dataSet1, "candidate": dataSet2})
           }
           getLineChartData(data);
@@ -191,12 +193,14 @@ const App = () => {
   const lineChartDataSet = {
     labels: ['Control Data', 'Candidate Data'],
     datasets: [{
-      borderColor: 'rgba(54, 162, 235, 1)',
+      label: 'Control Data',
+      borderColor: 'rgba(999, 162, 235, 1)',
       borderWidth: 1,
       radius: 0,
       data: lineChartData["legacy"],
     }, 
     {
+      label: 'Candidate Data',
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1,
       radius: 0,
@@ -207,15 +211,23 @@ const App = () => {
   //options to pass to the LineChart component. Refactor and move into LineChart component ASAP
   const lineChartOptions = {
     // animation,
+    responsive: true,
     interaction: {
       intersect: false
     },
     plugins: {
-      legend: false 
+      legend: false,
+      title: {
+        display: true,
+        text: 'Runtimes'
+      }
     },
     scales: {
       x: {
         type: 'linear'
+      },
+      y: {
+        
       }
     },
     maintainAspectRatio: false

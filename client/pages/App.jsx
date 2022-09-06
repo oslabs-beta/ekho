@@ -6,7 +6,7 @@ import PieChart from '../components/PieChart.jsx'
 import LineChart from '../components/LineChart.jsx'
 import DownloadCSV from '../components/downloadCSVbutton'
 
-import { Dropdown, ToggleButton } from 'react-bootstrap'
+import { Dropdown, ToggleButton, Nav } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
@@ -19,12 +19,15 @@ const App = () => {
   const [context, setContext] = useState('');
   const [rawMismatchData, setRawMismatchData] = useState('');
   const [pieChartData, setPieChartData] = useState([1,0]);
-  const [lineChartData, setLineChartData] = useState([[],[]])
+  const [lineChartData, setLineChartData] = useState({"legacy": [], "candidate": []})
   const [onlyMismatch, setOnlyMismatch] = useState(false);
+  const [suggestionRenderList, setsuggestionRenderList] = useState("")
+
 
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
-    fetch('http://localhost:443/experiments')
+    // fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiments`)
+    fetch('/experiments')
       .then(res => res.json())
       .then(experiments => {
         console.log('got experiments');
@@ -37,17 +40,60 @@ const App = () => {
         console.log(err);
       })
   }
+  
+  //autocomplete functionality for navbar experiment search
+  const autocomplete = async (value, array) => {
+    let currentFocus
+    let suggestions = [];
+    //reset the list of suggestions on every update
+    closeAllLists();
+    //only iterate through experiment state for matches if experiment input is not null
+    if (document.querySelector(".experiment-input").value !== ""){
+      currentFocus = -1;
+      for (let i = 0; i < array.length; i++){
+        if (array[i].slice(0, value.length).toUpperCase() === value.toUpperCase()){
+          suggestions.push(<div className="autocomplete-items" key={i} name={array[i]} onClick={(e) => {selectSuggestion(array[i])}}>{array[i]}</div>)
+        }
+      }
+      //if there are no matches suggestion array will be empty. Push a "No Results" into the array
+      if (suggestions.length === 0) suggestions.push(<div className="autocomplete-items" key={0}>--No Results--</div>)
+      console.log("suggestions",JSON.stringify(suggestions))
+      //update the suggestion list in state
+      //update the suggestion list rendering variable 
+      updateRenderList(value, suggestions);
+    }
+  }
+  
+  //invokes when user clicks on a autofill suggestion
+  const selectSuggestion = (value) => {
+    setCurrExperiment(value);
+    closeAllLists();
+    console.log(value)
+    document.querySelector(".experiment-input").value = value;
+    updateChartsToExperiment();
+  }
+  
+  const closeAllLists = () => {
+    if (document.querySelector(".autocomplete").querySelector(".suggestion-container")){
+      setsuggestionRenderList("");
+    }
+  }
 
-  /* Uncomment when middleware is working 
-  */
-  useEffect(() => {getExperiments()}, []);
+  const updateRenderList = (value, suggestions) => {
+    //update the suggestion list rendering variable to render our list of suggestions
+      setsuggestionRenderList(
+        (<div className="form-group suggestion-container">
+            {suggestions}
+        </div>)
+      )
+  }
 
-  // When the user selects an experiment, we want to go grab the data
-  useEffect(() => {
+  const updateChartsToExperiment = () => {
     if (currExperiment !== '-- Loading Experiments --') {
       console.log('experiment has changed, fetching data');
       // TODO: finalize the roue
-      fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiment/data/?experimentName=${currExperiment}`)
+      // fetch(`http://localhost:${process.env.NODE_ENV === 'production' ? '443': '8080'}/experiment/data/?experimentName=${currExperiment}`)
+      fetch(`/experiment/data/?experimentName=${currExperiment}`)
         .then(res => res.json())
         .then(data => {
           console.log('data from experiment');
@@ -68,13 +114,60 @@ const App = () => {
             setPieChartData(newPieChartData);
           }
           getPieChartData(data);
+
+          const getLineChartData = (data) => {
+            //dataset1 and dataset 2 iterate through the array of docs and set x: date and y: runtime
+            const dataSet1 = [];
+            const dataSet2 = [];
+            for (const el of data){
+              let legacy = {
+                x: el._id,
+                y: el.legacyTime
+              };
+              let candidate = {
+                x: el._id,
+                y: el.msTime
+              };
+              dataSet1.push(legacy);
+              dataSet2.push(candidate);
+            }
+            console.log("dataset1:", dataSet1)
+            console.log("dataset2:", dataSet2)
+            setLineChartData({"legacy": dataSet1, "candidate": dataSet2})
+          }
+          getLineChartData(data);
         })
         .catch(err => {
           console.log(`error in fetching experiment data for ${currExperiment}`);
           console.log(err);
         });
     }
-  }, [currExperiment]);
+  }
+
+  // const lineChartDataSet = {
+  //   labels: ['Control Data', 'Candidate Data'],
+  //   datasets: [{
+  //     borderColor: 'rgba(54, 162, 235, 1)',
+  //     borderWidth: 1,
+  //     radius: 0,
+  //     data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+  //   }, 
+  //   {
+  //     borderColor: 'rgba(75, 192, 192, 1)',
+  //     borderWidth: 1,
+  //     radius: 0,
+  //     data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+  //   }],
+  // };
+
+  //closes the list of suggestions appended to the nav searchbar
+
+  /* Uncomment when middleware is working 
+  */
+  useEffect(() => {getExperiments()}, []);
+
+  // When the user selects an experiment, we want to go grab the data
+  useEffect(() => {updateChartsToExperiment()}, [currExperiment]);
 
   //data to pass to the PieChart component as props. 'pieChartData' is managed in State
   const pieChartDataSet = {
@@ -100,30 +193,41 @@ const App = () => {
   const lineChartDataSet = {
     labels: ['Control Data', 'Candidate Data'],
     datasets: [{
-      borderColor: 'rgba(54, 162, 235, 1)',
+      label: 'Control Data',
+      borderColor: 'rgba(999, 162, 235, 1)',
       borderWidth: 1,
       radius: 0,
-      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+      data: lineChartData["legacy"],
     }, 
     {
+      label: 'Candidate Data',
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1,
       radius: 0,
-      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+      data: lineChartData["candidate"],
     }],
   };
+
   //options to pass to the LineChart component. Refactor and move into LineChart component ASAP
   const lineChartOptions = {
     // animation,
+    responsive: true,
     interaction: {
       intersect: false
     },
     plugins: {
-      legend: false 
+      legend: false,
+      title: {
+        display: true,
+        text: 'Runtimes'
+      }
     },
     scales: {
       x: {
         type: 'linear'
+      },
+      y: {
+        
       }
     },
     maintainAspectRatio: false
@@ -138,7 +242,15 @@ const App = () => {
 
   return (
     <>
-      <h1>Welcome to Ekho</h1>
+      <Nav className="navbar navbar-dark stick-top bg-dark flex-md-nowrap">
+        <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Ekho</a>
+        <div className="autocomplete w-100">
+          <input className="form-control form-control-dark w-100 experiment-input" type="text" placeholder="Search Experiments" aria-label="Search Experiments" onChange={(e)=>autocomplete(document.querySelector(".experiment-input").value, experiments)}/>
+            {suggestionRenderList}
+        </div>
+      </Nav>
+      
+      {/*div that envelops the entire webpage except for navbar*/}
       <div className="body">
         <div id="dropdown-body">
           <h4 style ={{fontSize:'2.4vw' }}>Experiment</h4>

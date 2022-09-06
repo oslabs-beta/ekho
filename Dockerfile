@@ -1,10 +1,10 @@
 # DEVELOPMENT 
 # installs base image of node - Active LTS (long-term support) - see https://nodejs.org/en/about/releases/
-FROM --platform=linux/amd64 node:16.17.0
+FROM node:16.17.0
 # establishes a working directory inside the image
 WORKDIR /usr/src/app
 # copies all files in the current directory into code directory (current WORKDIR)
-COPY . .
+COPY . /usr/src/app
 # <<<<<<< HEAD
 # installs all of the required dependencies based on the package*.json file
 RUN npm install
@@ -12,10 +12,10 @@ RUN npm install
 RUN npm run build
 # expose server port
 EXPOSE 443
-# set to production mode
+# set to production mode / set monogodb username and password
 ENV NODE_ENV = production
 # create an entry point to run the application
-ENTRYPOINT ["node", "./build/server/server.js"]
+ENTRYPOINT ["node", "build/server/server.js"]
 
 
 # # DEVELOPMENT 

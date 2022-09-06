@@ -11,6 +11,24 @@
   display: inline-block;
 }
 
+.autocomplete-items{
+  position: absolute;
+  border: 1px solid white;
+  border-bottom: 1px solid white;
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left:0;
+  right:0;
+  padding: 10px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.autocomplete-items div:hover {
+  background-color: rgb(162, 156, 234);
+}
+
 .body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', Verdana, sans-serif;
   display: flex;
@@ -18,7 +36,7 @@
   // grid: 1fr 1fr / 1fr 0.75fr;
   height: 98vh;
   width: 98vw;
-  background-color: darkgray;
+  background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   margin: 5px;
 }
@@ -58,13 +76,15 @@
   border-style: dotted;
   border-radius: 10px;
   border: 10px;
-  border-color: red solid ;
-  background-color: rgb(211, 28, 28);
+  border-color: #212529;
+  background-color: #212529;
   padding: 10px;
   margin: 10px;
   max-width: 15%;
   max-height: 100%;
+  color: white;
 }
+
 #dropdown-basic{
   width: 100%;
   font-size: 1vw;

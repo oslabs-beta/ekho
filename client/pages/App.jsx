@@ -19,12 +19,10 @@ const App = () => {
   const [context, setContext] = useState('');
   const [rawMismatchData, setRawMismatchData] = useState('');
   const [pieChartData, setPieChartData] = useState([1,0]);
-  const [lineChartData, setLineChartData] = useState([[],[]])
+  const [lineChartData, setLineChartData] = useState({"legacy": [], "candidate": []})
   const [onlyMismatch, setOnlyMismatch] = useState(false);
-
-  const [suggestionList, setSuggestionList] = useState([]);
   const [suggestionRenderList, setsuggestionRenderList] = useState("")
-  const [searchBarStatus, setSearchBarStatus] = useState("")
+
 
   // On document load, we want to go grab unique experiments
   const getExperiments = () => {
@@ -45,7 +43,6 @@ const App = () => {
   
   //autocomplete functionality for navbar experiment search
   const autocomplete = async (value, array) => {
-    console.log(value)
     let currentFocus
     let suggestions = [];
     //reset the list of suggestions on every update
@@ -55,24 +52,27 @@ const App = () => {
       currentFocus = -1;
       for (let i = 0; i < array.length; i++){
         if (array[i].slice(0, value.length).toUpperCase() === value.toUpperCase()){
-          suggestions.push(<option key={i} onClick={(e) => {selectSuggestion(this.value)}}>{array[i]}</option>)
+          suggestions.push(<div className="autocomplete-items" key={i} name={array[i]} onClick={(e) => {selectSuggestion(array[i])}}>{array[i]}</div>)
         }
       }
       //if there are no matches suggestion array will be empty. Push a "No Results" into the array
-      if (suggestions.length === 0) suggestions.push(<option key={0}>--No Results--</option>)
+      if (suggestions.length === 0) suggestions.push(<div className="autocomplete-items" key={0}>--No Results--</div>)
       console.log("suggestions",JSON.stringify(suggestions))
       //update the suggestion list in state
-      await setSuggestionList(suggestions);
       //update the suggestion list rendering variable 
       updateRenderList(value, suggestions);
     }
   }
   
+  //invokes when user clicks on a autofill suggestion
   const selectSuggestion = (value) => {
     setCurrExperiment(value);
     closeAllLists();
+    console.log(value)
+    document.querySelector(".experiment-input").value = value;
+    updateChartsToExperiment();
   }
-  //closes the list of suggestions appended to the nav searchbar
+  
   const closeAllLists = () => {
     if (document.querySelector(".autocomplete").querySelector(".suggestion-container")){
       setsuggestionRenderList("");
@@ -83,19 +83,12 @@ const App = () => {
     //update the suggestion list rendering variable to render our list of suggestions
       setsuggestionRenderList(
         (<div className="form-group suggestion-container">
-          <select className="form-control">
             {suggestions}
-          </select>
         </div>)
       )
   }
 
-  /* Uncomment when middleware is working 
-  */
-  useEffect(() => {getExperiments()}, []);
-
-  // When the user selects an experiment, we want to go grab the data
-  useEffect(() => {
+  const updateChartsToExperiment = () => {
     if (currExperiment !== '-- Loading Experiments --') {
       console.log('experiment has changed, fetching data');
       // TODO: finalize the roue
@@ -121,13 +114,58 @@ const App = () => {
             setPieChartData(newPieChartData);
           }
           getPieChartData(data);
+
+          const getLineChartData = (data) => {
+            //dataset1 and dataset 2 iterate through the array of docs and set x: date and y: runtime
+            const dataSet1 = [];
+            const dataSet2 = [];
+            for (const el of data){
+              let legacy = {
+                x: el.createdAt,
+                y: el.legacyTime
+              };
+              let candidate = {
+                x: el.createdAt,
+                y: el.msTime
+              };
+              dataSet1.push(legacy);
+              dataSet2.push(candidate);
+            }
+            setLineChartData({"legacy": dataSet1, "candidate": dataSet2})
+          }
+          getLineChartData(data);
         })
         .catch(err => {
           console.log(`error in fetching experiment data for ${currExperiment}`);
           console.log(err);
         });
     }
-  }, [currExperiment]);
+  }
+
+  // const lineChartDataSet = {
+  //   labels: ['Control Data', 'Candidate Data'],
+  //   datasets: [{
+  //     borderColor: 'rgba(54, 162, 235, 1)',
+  //     borderWidth: 1,
+  //     radius: 0,
+  //     data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+  //   }, 
+  //   {
+  //     borderColor: 'rgba(75, 192, 192, 1)',
+  //     borderWidth: 1,
+  //     radius: 0,
+  //     data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+  //   }],
+  // };
+
+  //closes the list of suggestions appended to the nav searchbar
+
+  /* Uncomment when middleware is working 
+  */
+  useEffect(() => {getExperiments()}, []);
+
+  // When the user selects an experiment, we want to go grab the data
+  useEffect(() => {updateChartsToExperiment()}, [currExperiment]);
 
   //data to pass to the PieChart component as props. 'pieChartData' is managed in State
   const pieChartDataSet = {
@@ -156,13 +194,13 @@ const App = () => {
       borderColor: 'rgba(54, 162, 235, 1)',
       borderWidth: 1,
       radius: 0,
-      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+      data: lineChartData["legacy"],
     }, 
     {
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1,
       radius: 0,
-      data: [{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10},{x:Math.random() * 10, y: Math.random() * 10}],
+      data: lineChartData["candidate"],
     }],
   };
 

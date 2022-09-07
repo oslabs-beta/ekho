@@ -37,6 +37,7 @@ server.post(
     next();
   },
   apiController.validateBody,
+  apiController.findExperiment,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
   apiController.compareResults,

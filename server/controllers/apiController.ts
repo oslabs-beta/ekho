@@ -35,7 +35,6 @@ const apiController: ApiControllerType = {
 
     const checkTypes = (body: LegacyBody) => {
       const { args } = body;
-      console.log(args);
       if (typeof args !== 'object' || Array.isArray(args)) return 'args must be an object containing at least 1 property: body, params, or query';
       if (!Object.hasOwn(args, 'query')
         && !Object.hasOwn(args, 'params')
@@ -82,7 +81,7 @@ const apiController: ApiControllerType = {
       const queryKeys = Object.keys(queryObj);
       const queryParams: string[] = [];
       queryKeys.forEach(el => {
-        queryParams.push(`${el}=${JSON.stringify(queryObj[el])}`);
+        queryParams.push(`${el}=${JSON.stringify(queryObj[el]).replace(/"/g, '')}`);
       });
       const queryStr = queryParams.join('&');
       return `${uri}?${queryStr}`;
@@ -118,7 +117,6 @@ const apiController: ApiControllerType = {
   callCandidateMicroservice: async (req, res, next) => {
     const { experiment, uri } = res.locals;
     const { args } = req.body;
-
     // Figure out if this trial should run
     if (experiment.enabledPct < Math.random()) return;
 
@@ -132,8 +130,8 @@ const apiController: ApiControllerType = {
         ...(Object.hasOwn(args, 'body') && { body: JSON.stringify(args.body) }),
       });
       const end = Date.now();
-      const response = await candidateResponse;
-      const parsedResponse = await response.json();
+      const parsedResponse = await candidateResponse.json();
+      console.log(parsedResponse);
       res.locals.candidateRuntime = end - start;
       res.locals.candidateStatus = candidateResponse.status; // NK: don't know if this is right
       res.locals.candidateResult = parsedResponse;
@@ -154,10 +152,12 @@ const apiController: ApiControllerType = {
   },
 
   checkIgnoreMismatchRules: (req, res, next) => {
+    console.log('started the checkIgnore call');
     if (!res.locals.mismatch) return next();
     try {
       const { ignoreMismatchRules } = res.locals.experiment;
-      const { context, args } = req.body;
+      const { args } = req.body;
+      const context = (Object.hasOwn(req.body, 'context')) ? req.body.context : {};
       // iterate through the entire list of named rules
       for (let i = 0; i < ignoreMismatchRules.length; i++) {
         const currentRule = ignoreMismatchRules[i];
@@ -166,18 +166,23 @@ const apiController: ApiControllerType = {
         // match each rule criterion by name to its definition
         for (let j = 0; j < criteria.length; j++) {
           const criterion = criteria[j];
+          console.log(criterion);
           if (!Object.hasOwn(criteriaDict, criterion)) {
             throw new Error(`No criterion found matching name ${criterion}`);
           }
           if (!criteriaDict[criterion](context, args)) {
+            console.log('no match');
+            console.log(criterion, context, args);
             matched = false;
             break;
           }
         }
         if (matched) {
+          console.log('got a match!');
           res.locals.ignoredMismatchRuleName = currentRule.name;
           break;
         }
+        console.log('we got to the end somehow');
       }
       return next();
     } catch (err) {

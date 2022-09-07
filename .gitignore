@@ -3,9 +3,13 @@ node_modules
 package-lock.json
 
 server/secrets.js
-public/bundle.js
+public
+build
 
 .DS_Store
 client/.DS_Store
 server/.DS_Store
-server/secret.js
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

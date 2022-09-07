@@ -3,15 +3,10 @@ import 'dotenv/config';
 import express from 'express';
 import { Request, Response, NextFunction, RequestHandler, ErrorRequestHandler, application } from 'express';
 import { ServerApiVersion } from 'mongodb';
-// const apiController = require('./controllers/apiController');
-// const dbController = require('./controllers/dbController');
 import apiController from './controllers/apiController';
 import dbController from './controllers/dbController';
 
-// TODO: remove this once we confirm that dotenv is working properly.
-// console.log(process.env);
-
-// changed from 3000 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
+// JEC: changed from 3000 to 443 - port 443 is standard for HTTPS (secure); port 80 is standard for HTTP (plain text)
 // https://www.techopedia.com/definition/15709/port-80#:~:text=Port%2080%20is%20the%20port,and%20receive%20unencrypted%20web%20pages.
 const PORT = 443;
 const server = express();
@@ -19,8 +14,8 @@ const server = express();
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-// temp static serving of frontend for testing - probably want to change
-server.use(express.static(path.join(__dirname, '../client')));
+// JEC: temp static serving of frontend for testing - probably want to change
+server.use(express.static(path.join(__dirname, '../../public')));
 
 /* what are the routes we need? shouldn't be a ton:
 * - We accept POST requests from the legacy stack for each trial
@@ -104,6 +99,10 @@ const globalErrorHandler: ErrorRequestHandler = (err: string, req, res, next) =>
 server.use(globalErrorHandler);
 
 // NK: We need to export the listener so Jest can run it.
-module.exports = server.listen(PORT, () => {
+// module.exports = server.listen(PORT, () => {
+//   console.log(`Server listening on port: ${PORT}...`);
+// });
+
+export default server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });

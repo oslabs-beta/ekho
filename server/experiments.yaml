@@ -3,16 +3,16 @@ name: sample-test
 enabledPct: 0.99999
 method: POST
 apiEndpoint: http://localhost:8000/
-flaggedMismatchRules:
+ignoreMismatchRules:
   - name: legacy-bug-123
-  # Criteria lines will be evaluated as a unit and combined with the && operator.
+  # All rule criteria must all be met for the rule to apply. 
+  # Define new conditions in criteria.ts
     criteria:
-      - (!context.email)
-      - context.created < new Date("2022-01-01")
+      - missingEmail
+      - badUserData
   - name: known-issue-456
     criteria:
-      - context.usertype === 'admin' || context.usertype = 'test'
-      - args[0] = 'foo'
+      - unsupportedUserTypes
 ---
 name: sample-test2
 method: GET

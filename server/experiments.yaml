@@ -2,6 +2,7 @@ name: sample-test
 # Enabled-pct expects a number between 0 and 1
 enabledPct: 0.99999
 method: POST
+# Endpoint syntax: http://<container-public-IP>:<PORT>/
 apiEndpoint: http://localhost:8000/
 ignoreMismatchRules:
   - name: legacy-bug-123
@@ -14,9 +15,9 @@ ignoreMismatchRules:
     criteria:
       - unsupportedUserTypes
 ---
-name: sample-test2
-method: GET
-enabledPct: 0.00
+name: AWS-microservice-test
+method: POST
+enabledPct: 1.00
 # Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
-apiEndpoint: https://candidate-microservice.example.com/api/$1/images/$2
+apiEndpoint: http://50.18.228.157:8000
 

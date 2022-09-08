@@ -20,6 +20,6 @@ export default function DownloadCSV(props) {
 
     }
     return (
-        <CSVLink data={csvData} separator={";"} >Download me</CSVLink>
+        <CSVLink data={csvData} separator={";"} >Download CSV</CSVLink>
     )
 }

@@ -19,5 +19,5 @@ name: AWS-microservice-test
 method: POST
 enabledPct: 1.00
 # Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
-apiEndpoint: http://50.18.228.157:8000
+apiEndpoint: http://13.52.99.164:8000
 

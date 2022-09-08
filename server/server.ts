@@ -103,6 +103,6 @@ server.use(globalErrorHandler);
 //   console.log(`Server listening on port: ${PORT}...`);
 // });
 
-export default server.listen(PORT, () => {
+module.exports = server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });

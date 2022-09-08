@@ -29,7 +29,7 @@ const facadeSort = (args) => ekhojs.wrap(
   legacySort,
   'sample-test',
   { route: 'createdAt' },
-  'http://52.53.250.111:443',
+  'http://54.215.93.32:443',
   args,
   { body: [...args.num] }
 )

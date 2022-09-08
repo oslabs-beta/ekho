@@ -33,9 +33,6 @@ functionStore.mergeSort = function(array) {
   let i = 100;
   while (i > 0) {
     arr.push(i);
-    console.log(Date.now())
-    console.log("yo mama!")
-    console.log(arr)
     i--;
   }
   var end = Date.now();

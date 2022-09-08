@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import db from '../models/dbModel';
 import createErr from '../utils/errorHandler';
-import { DBBody } from '../types';
+import { DBBody } from '../utils/types';
 
 type DbControllerType = {
   queryExperimentData: RequestHandler
@@ -42,7 +42,12 @@ const dbController: DbControllerType = {
       legacyTime: req.body.runtime,
       msTime: res.locals.candidateRuntime,
       mismatch: res.locals.mismatch,
-      createdAt: new Date(Date.now())
+      ...(Object.hasOwn(res.locals, 'ignoredMismatchRuleName')
+        && {
+          ignoredMismatch: true,
+          ignoredMismatchRuleName: res.locals.ignoredMismatchRuleName,
+        }),
+      createdAt: new Date(Date.now()),
     };
     try {
       await db.create(dbBody);

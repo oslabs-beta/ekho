@@ -10,11 +10,17 @@ export type Args = {
   query?: ArgsQuery,
 };
 
+export type Context = {
+  [key: string]: unknown
+};
+
+export type Criteria = {
+  [key: string]: (context: Context, args: Args) => boolean
+};
+
 export type LegacyBody = {
   name: string,
-  context?: {
-    [key: string]: unknown
-  }
+  context?: Context,
   args: Args
   runtime: number,
   result: unknown

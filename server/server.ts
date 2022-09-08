@@ -32,11 +32,10 @@ server.post(
     next();
   },
   apiController.validateBody,
+  apiController.findExperiment,
   apiController.structureURI,
   apiController.callCandidateMicroservice,
-  /* perform comparison logic  */
   apiController.compareResults,
-  /* commit response to DB */
   dbController.publishResults,
   (req: Request, res: Response) => console.log('trial complete'),
 );
@@ -104,6 +103,6 @@ server.use(globalErrorHandler);
 //   console.log(`Server listening on port: ${PORT}...`);
 // });
 
-export default server.listen(PORT, () => {
+module.exports = server.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });

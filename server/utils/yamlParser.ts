@@ -7,7 +7,7 @@ let readLocation;
 if (process.env.NODE_ENV === 'test') {
   readLocation = path.join(__dirname, './__mocks__/experiments.yaml');
 } else {
-  readLocation = path.join(__dirname, '../experiments.yaml');
+  readLocation = path.join(__dirname, '../../experiments.yaml');
 }
 
 const experiments: any[] = yaml.loadAll(fs.readFileSync(readLocation, 'utf-8'));

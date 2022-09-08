@@ -16,7 +16,7 @@ describe('Legacy module requests', () => {
         .send({
           name: 'mytest',
           context: {userid: 123},
-          args: 5,
+          args: {body: 5},
           runtime: 100,
           result: 42
         })

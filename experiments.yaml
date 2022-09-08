@@ -1,0 +1,23 @@
+name: sample-test
+# Enabled-pct expects a number between 0 and 1
+enabledPct: 0.99999
+method: POST
+# Endpoint syntax: http://<container-public-IP>:<PORT>/
+apiEndpoint: http://localhost:8000/
+ignoreMismatchRules:
+  - name: legacy-bug-123
+  # All rule criteria must all be met for the rule to apply. 
+  # Define new conditions in criteria.ts
+    criteria:
+      - missingEmail
+      - badUserData
+  - name: known-issue-456
+    criteria:
+      - unsupportedUserTypes
+---
+name: AWS-microservice-test
+method: POST
+enabledPct: 1.00
+# Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
+apiEndpoint: http://13.52.99.164:8000
+

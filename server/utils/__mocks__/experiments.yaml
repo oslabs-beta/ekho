@@ -1,0 +1,18 @@
+# Mock data for jest
+name: test1
+enabledPct: 1.00
+method: POST
+apiEndpoint: https://candidate-microservice.example.com/endpoint
+flaggedMismatchRules:
+  - name: testRule1
+    criteria:
+      - missingEmail
+      - badUserData
+  - name: testRule2
+    criteria:
+      - unsupportedUserTypes
+---
+name: test2
+method: GET
+enabledPct: 1.00
+apiEndpoint: https://candidate-microservice.example.com/api/$1/images/$2

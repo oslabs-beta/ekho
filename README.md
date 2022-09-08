@@ -199,7 +199,7 @@ Built With
 * [React](https://reactjs.org/docs/getting-started.html)
 * [Chart.js](https://www.chartjs.org/)
 * [Node.js](https://nodejs.org/en/docs/)/[Express](https://expressjs.com/)
-* [MongoDB](https://www.mongodb.com/)
+* [NoSQL](https://www.mongodb.com/nosql-explained)
 * [Docker](https://docs.docker.com/)
 * [AWS](https://aws.amazon.com/)
 * [Jest](https://jestjs.io/) / [Supertest](https://www.testim.io/blog/supertest-how-to-test-apis-like-a-pro/)

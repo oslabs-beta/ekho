@@ -50,7 +50,8 @@
 		"react-csv": "^2.2.2",
 		"react-dom": "^16.5.2",
 		"react-hot-loader": "^4.6.3",
-		"sass": "^1.54.5"
+		"sass": "^1.54.5",
+		"url-loader": "^4.1.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.1.2",

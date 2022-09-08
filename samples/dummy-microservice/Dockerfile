@@ -9,3 +9,4 @@ RUN npm install
 # copies all files in the current directory into code directory (current WORKDIR)
 COPY . /usr/src/app
 EXPOSE 8000
+ENTRYPOINT ["node", "server/server.js"]

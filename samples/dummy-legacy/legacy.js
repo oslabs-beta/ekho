@@ -27,9 +27,9 @@ const legacySort = (array) => {
 // the same args as they need to be passed to the candidate microservice
 const facadeSort = (args) => ekhojs.wrap(
   legacySort,
-  'sample-test',
+  'AWS-microservice-test',
   { route: 'createdAt' },
-  'http://54.215.93.32:443',
+  'http://184.169.198.41:443/',
   args,
   { body: [...args.num] }
 )

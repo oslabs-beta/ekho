@@ -7,7 +7,7 @@
 		"start": "concurrently \"NODE_ENV=production node build/server/server.js\" \"open http://localhost:443/\" \"NODE_ENV=production node samples/dummy-legacy/server/server.js\" \"NODE_ENV=production node samples/dummy-microservice/server/server.js\"",
 		"build": "NODE_ENV=production tsc -p ./tsconfig.json & NODE_ENV=production npm run copy-files & NODE_ENV=production webpack --config ./webpack.config.js",
 		"copy-files": "copyfiles -u 1 server/**/*.yaml build/server/",
-		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\" \"NODE_ENV=development nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
+		"dev": "concurrently \"NODE_ENV=development nodemon server/server.ts\" \"NODE_ENV=development webpack serve --open --hot\" \"NODE_ENV=development HOST=local nodemon samples/dummy-legacy/server/server.js\" \"NODE_ENV=development nodemon samples/dummy-microservice/server/server.js\"",
 		"test": "jest --verbose"
 	},
 	"author": "ekho",

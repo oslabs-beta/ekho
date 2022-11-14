@@ -21,13 +21,13 @@ const sortRandArrayNTimes = (iterations, arrayLength) => {
     const post = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(arr)
+      body: JSON.stringify(arr),
     };
-      fetch('/user', post)
-      .then(resp => resp.json())
-      .then(resp => resp.toString())
-      .then(resp => answerDisplay.innerText = `Our response:${resp}`)
-      trials.value -= 1;
+    fetch('/user', post)
+    .then(resp => resp.json())
+    .then(resp => resp.toString())
+    .then(resp => answerDisplay.innerText = `Our response:${resp}`)
+    trials.value -= 1;
   }
 }
 

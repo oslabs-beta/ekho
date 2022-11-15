@@ -21,7 +21,7 @@ server.post('/perf',
 });
 
 server.post('/', controller.invokeMergeSort, (req, res) => {
-  res.status(200).json(res.locals.result)
+  res.status(200).json(res.locals.result);
 });
 
 

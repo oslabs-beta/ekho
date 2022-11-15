@@ -55,13 +55,13 @@ if (process.env.HOST = 'local') {
 
 const doNothing = () => true;
 
-const facadeDoNothing = () => ekhojs.wrap(
+const facadeDoNothing = (body) => ekhojs.wrap(
   doNothing,
   'perf-test',
   {},
   ekhoUri,
   null,
-  {body: null},
+  { body },
 )
 
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)

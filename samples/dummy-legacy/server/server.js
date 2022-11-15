@@ -21,7 +21,7 @@ if (USEMICROSERVICE) {
       }
     })
     server.use('/perf', (req, res) => {
-      legacyFunctions.facadeDoNothing();
+      legacyFunctions.facadeDoNothing(req.body);
       res.status(200).send();
     })
       

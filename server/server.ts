@@ -38,7 +38,7 @@ server.post(
   apiController.compareResults,
   dbController.publishResults,
   (req: Request, res: Response) => {
-    console.log('trial complete');
+    // console.log('trial complete');
   },
 );
 

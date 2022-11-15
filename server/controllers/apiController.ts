@@ -122,9 +122,6 @@ const apiController: ApiControllerType = {
 
     try {
       const start = Date.now();
-      console.log(uri, experiment.method);
-      console.log(args.body);
-
       const candidateResponse = await fetch(uri, {
         method: experiment.method,
         headers: {

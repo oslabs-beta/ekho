@@ -40,11 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const perfSubmitButton = document.querySelector('#perf-test-button');
   
   const counter = document.querySelector('#perf-test-counter');
-  
+  const results = document.querySelector('#results');
 
   const sendTrials = (num) => {
-    for (let i = 0; i < num; i++) {
-      fetch('/perf', { method: 'POST' })
+    const start = Date.now();
+    console.log(start);
+    const post = { 
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ done: false }),
+    }
+    for (let i = 0; i < num - 1; i++) {
+      fetch('/perf', post)
       .then(resp => {
         if (resp.status === 200) counter.innerText++;
         else {
@@ -58,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       if (document.querySelector('#perf-error')) break;
     }
+    fetch('perf', Object.assign({ ...post }, { body: JSON.stringify({ done: true }) }));
+    counter.innerText++;
   }
 
   perfSubmitButton.addEventListener('click', () => {

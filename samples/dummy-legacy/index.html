@@ -10,12 +10,31 @@
 
 <body>
   <h1>Send sample functions to Ekho from a "monolith"</h1>
-  <div>
-    <label for="arraylength">Length of arrays to sort</label>
-    <input id="arraylength"/>
+  <div id="sort-test">
+    <div>
+      <label for="array-length">Length of arrays to sort</label>
+      <input id="array-length" type="number"/>
+    </div>
+    <div>
+      <label for="trials">Number of arrays to sort</label>
+      <input id="trials" type="number"/>
+    </div>
   </div>
-  <div>
-    <label for="trials">Number of arrays to sort</label>
-    <input id="trials"/>
+  <h1>
+    Performance testing
+  </h1>
+  <p>
+    Send high volume to Ekho with ultra-lightweight "functions"
+  </p>
+  <div id = 'perf-test'>
+    <div>
+      <label for="perf-test-trials">Trials to send</label>
+      <input id="perf-test-trials" type="number"/>
+    </div>
+    <button id="perf-test-button">Submit</button>
+    <div id="results">
+      <span>Trials completed: </span>
+      <span id="perf-test-counter">0</span>
+    </div>
   </div>
 </body>

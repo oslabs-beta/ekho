@@ -127,7 +127,7 @@ const apiController: ApiControllerType = {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
-        ...(Object.hasOwn(args, 'body') && { body: JSON.stringify(args.body) }),
+        ...(Object.hasOwn(args, 'body') && (args.body) && { body: JSON.stringify(args.body) }),
       });
       const end = Date.now();
       const parsedResponse = await candidateResponse.json();

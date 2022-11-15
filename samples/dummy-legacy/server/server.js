@@ -2,7 +2,7 @@ const { urlencoded } = require('express');
 const express = require('express');
 const path = require('path');
 const server = express();
-const facadeSort = require('../legacy')
+const legacyFunctions = require('../legacy')
 
 server.use(express.json());
 server.use(urlencoded( { extended: true } ));
@@ -13,13 +13,16 @@ const USEMICROSERVICE = true;
 if (USEMICROSERVICE) {
     server.use('/user', (req,res) => {
       try {
-        const answer = facadeSort(req.body);
-        console.log(answer);
+        const answer = legacyFunctions.facadeSort(req.body);
         res.status(200).json(answer)
       }
       catch (err) {
         console.log('userRouter Err', err)
       }
+    })
+    server.use('/perf', (req, res) => {
+      legacyFunctions.facadeDoNothing(req.body);
+      res.status(200).send();
     })
       
 } else {

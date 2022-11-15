@@ -37,7 +37,9 @@ server.post(
   apiController.callCandidateMicroservice,
   apiController.compareResults,
   dbController.publishResults,
-  (req: Request, res: Response) => console.log('trial complete'),
+  (req: Request, res: Response) => {
+    // console.log('trial complete');
+  },
 );
 
 /* -----------FRONTEND HANDLERS----------- */

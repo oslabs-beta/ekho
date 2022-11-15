@@ -20,4 +20,8 @@ method: POST
 enabledPct: 1.00
 # Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
 apiEndpoint: http://13.52.99.164:8000
-
+---
+name: perf-test
+method: POST
+enabledPct: 1.00
+apiEndpoint: http://localhost:8000/perf

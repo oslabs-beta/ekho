@@ -28,15 +28,7 @@ functionStore.wrongFizzBuzz = array => {
 }
 
 functionStore.mergeSort = function(array) {
-  var start = Date.now()
-  const arr = [];
-  let i = 100;
-  while (i > 0) {
-    arr.push(i);
-    i--;
-  }
-  var end = Date.now();
-
+  // TODO: this isn't mergesort? what? 
   let sortedIndex = 1;
   while (sortedIndex < array.length) {
     const curr = array[sortedIndex];

@@ -28,16 +28,18 @@ const legacySort = (array) => {
 // args for the callback function
 // the same args as they need to be passed to the candidate microservice
 
+const ekhoUri = (process.env.HOST = 'local') ? 'http://localhost:443/' : 'http://184.169.198.41:443/';
+
 let facadeSort;
 
 if (process.env.HOST = 'local') {
-  console.log('hitting local environment')
   facadeSort = (args) => ekhojs.wrap(
       legacySort,
       'sample-test',
       { type: 'test', answer: 42 },
-      'http://localhost:443/',
+      ekhoUri,
       args,
+      // pass a copy of args because otherwise we'll pass the sorted array to the microservice
       { body: [...args] },
     )
 } else {
@@ -45,11 +47,22 @@ if (process.env.HOST = 'local') {
     legacySort,
     'AWS-microservice-test',
     { route: 'createdAt' },
-    'http://184.169.198.41:443/',
+    ekhoUri,
     args,
     { body: [...args.num] },
   )
 }
 
+const doNothing = () => true;
+
+const facadeDoNothing = (body) => ekhojs.wrap(
+  doNothing,
+  'perf-test',
+  {},
+  ekhoUri,
+  null,
+  { body },
+)
+
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)
-module.exports = facadeSort;
+module.exports = { facadeSort, facadeDoNothing };

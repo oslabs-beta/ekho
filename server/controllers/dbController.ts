@@ -51,7 +51,7 @@ const dbController: DbControllerType = {
     };
     try {
       await db.create(dbBody);
-      console.log('experiment added to DB');
+      // console.log('experiment added to DB');
       return next();
     } catch (err) {
       return next(createErr('dbController', 'publishResults', err));

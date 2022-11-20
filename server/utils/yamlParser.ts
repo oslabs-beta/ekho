@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 let refreshTime: number = Date.now() - REFRESH_INTERVAL - 1;
-let experiments: any[];
+let experiments: unknown[];
 
 const getExperiments = () => {
   if (Date.now() - refreshTime > REFRESH_INTERVAL) {

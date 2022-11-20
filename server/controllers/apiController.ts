@@ -142,7 +142,6 @@ const apiController: ApiControllerType = {
 
   compareResults: (req, res, next) => {
     try {
-    // validate comparison
       res.locals.mismatch = JSON.stringify(req.body.result) !== JSON.stringify(res.locals.candidateResult);
       return next();
     } catch (err) {

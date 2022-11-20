@@ -25,3 +25,9 @@ name: perf-test
 method: POST
 enabledPct: 1.00
 apiEndpoint: http://localhost:8000/perf
+---
+name: nick-demo
+method: POST
+enabledPct: 0.10
+apiEndpoint: http://localhost:8000/perf
+

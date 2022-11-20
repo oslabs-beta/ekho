@@ -38,39 +38,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const perfTestTrials = document.querySelector('#perf-test-trials');
   const perfSubmitButton = document.querySelector('#perf-test-button');
-  
-  const counter = document.querySelector('#perf-test-counter');
-  const results = document.querySelector('#results');
+  const trialCounter = document.querySelector('#perf-test-counter');
+  const perfTestInterval = document.querySelector('#perf-test-interval');
+  const perfTestName = document.querySelector('#perf-test-name');
 
-  const sendTrials = (num) => {
+  const sendTrials = (interval, num, experimentName) => {
     const start = Date.now();
+    console.log(Date.now() % (1000 * 60 * 60));
     console.log(start);
     const post = { 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ done: false }),
+      body: JSON.stringify({ name: experimentName, done: false }),
     }
-    for (let i = 0; i < num - 1; i++) {
-      fetch('/perf', post)
-      .then(resp => {
-        if (resp.status === 200) counter.innerText++;
-        else {
-          counter.innerText = 0;
-          const perfTestingDiv = document.querySelector('#perf-test');
-          const error = document.createElement('p');
-          error.innerText = resp.status + resp.json().toString();
-          perfTestingDiv.appendChild(error);
-          error.setAttribute('id', 'perf-error')
+    // Set a counter that counts down from num to 0
+    // Have a function that uses setTimeout to make the fetch request,
+    // decrement counter, check counter value, and call itself recursively if counter > 0
+    const sendTrial = (delay, trialsLeft) => {
+      setTimeout(() => {
+        fetch('/perf', post)
+          .then(resp => {
+            if (resp.status === 200) trialCounter.innerText++;
+            else {
+              trialCounter.innerText = 0;
+              const perfTestingDiv = document.querySelector('#perf-test');
+              const error = document.createElement('p');
+              error.innerText = resp.status + resp.json().toString();
+              perfTestingDiv.appendChild(error);
+              error.setAttribute('id', 'perf-error');
+            }
+          })
+        if (trialsLeft > 1) {
+          sendTrial(delay, trialsLeft - 1);
+        } else {
+          fetch('/perf', Object.assign(
+            { ...post }, 
+            { body: JSON.stringify({  name: experimentName, done: true }) }
+            ));
         }
-      })
-      if (document.querySelector('#perf-error')) break;
-    }
-    fetch('perf', Object.assign({ ...post }, { body: JSON.stringify({ done: true }) }));
-    counter.innerText++;
+      }, delay);
+    };
+    sendTrial(interval, num);
   }
 
   perfSubmitButton.addEventListener('click', () => {
-    sendTrials(perfTestTrials.value);
+    sendTrials(perfTestInterval.value, perfTestTrials.value, perfTestName.value);
   });
 });
 

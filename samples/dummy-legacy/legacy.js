@@ -57,7 +57,7 @@ const doNothing = () => true;
 
 const facadeDoNothing = (body) => ekhojs.wrap(
   doNothing,
-  'perf-test',
+  body.name,
   {},
   ekhoUri,
   null,

@@ -28,8 +28,16 @@
   </p>
   <div id = 'perf-test'>
     <div>
+      <label for="perf-test-name">Experiment name</label>
+      <input id="perf-test-name" type="text"/>
+    </div>
+    <div>
       <label for="perf-test-trials">Trials to send</label>
-      <input id="perf-test-trials" type="number"/>
+      <input id="perf-test-trials" type="number" value="1000"/>
+    </div>
+    <div>
+      <label for="perf-test-interval">Interval between trials (ms)</label>
+      <input id="perf-test-interval" type="number" value="6"/>
     </div>
     <button id="perf-test-button">Submit</button>
     <div id="results">

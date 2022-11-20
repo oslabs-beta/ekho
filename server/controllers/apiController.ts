@@ -3,7 +3,7 @@
 import { RequestHandler } from 'express';
 import fetch from 'node-fetch';
 import createErr from '../utils/errorHandler';
-import experiments from '../utils/yamlParser';
+import getExperiments from '../utils/yamlParser';
 import criteriaDict from '../utils/criteria';
 import {
   Args,
@@ -58,6 +58,7 @@ const apiController: ApiControllerType = {
   },
 
   findExperiment: (req, res, next) => {
+    const experiments = getExperiments();
     try {
       let experiment: Experiment;
       for (let i = 0; i < experiments.length; i++) {

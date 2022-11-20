@@ -7,7 +7,7 @@ apiEndpoint: http://localhost:8000/
 ignoreMismatchRules:
   - name: legacy-bug-123
   # All rule criteria must all be met for the rule to apply. 
-  # Define new conditions in criteria.ts
+  # Define new criteria in ./server/utils/criteria.ts
     criteria:
       - missingEmail
       - badUserData
@@ -15,19 +15,18 @@ ignoreMismatchRules:
     criteria:
       - unsupportedUserTypes
 ---
+name: sample-test-2
+enabledPct: 0.00
+method: POST
+# Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
+apiEndpoint: http://dog.ceo/api/breed/$1/images/$2
+---
 name: AWS-microservice-test
 method: POST
 enabledPct: 1.00
-# Params will be swapped in for placeholders. Missing params will cause placeholders to be removed.
 apiEndpoint: http://13.52.99.164:8000
 ---
 name: perf-test
 method: POST
 enabledPct: 1.00
 apiEndpoint: http://localhost:8000/perf
----
-name: nick-demo
-method: POST
-enabledPct: 0.10
-apiEndpoint: http://localhost:8000/perf
-

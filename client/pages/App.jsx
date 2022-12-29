@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from '../layouts/Navbar';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
 import PieChart from '../components/PieChart.jsx'
@@ -242,13 +243,7 @@ const App = () => {
 
   return (
     <>
-      <Nav className="navbar navbar-dark stick-top bg-dark flex-md-nowrap">
-        <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Ekho</a>
-        <div className="autocomplete w-100">
-          <input className="form-control form-control-dark w-100 experiment-input" type="text" placeholder="Search Experiments" aria-label="Search Experiments" onChange={(e)=>autocomplete(document.querySelector(".experiment-input").value, experiments)}/>
-            {suggestionRenderList}
-        </div>
-      </Nav>
+      <Navbar suggestionList={suggestionRenderList} autocompleteFunc={autocomplete} experiments={experiments}/>
       
       {/*div that envelops the entire webpage except for navbar*/}
       <div className="body">

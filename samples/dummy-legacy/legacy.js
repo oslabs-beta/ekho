@@ -1,7 +1,9 @@
 // For legacy function logic
 const { ekhojs } = require('ekho-js');
+require('dotenv').config();
 
 const legacySort = (array) => {
+  // Bubble sort because it's O(n^2) so there will be meaningful differences in speed
   let sortedIndex = 1;
   while (sortedIndex < array.length) {
     const curr = array[sortedIndex];
@@ -25,14 +27,42 @@ const legacySort = (array) => {
 // ekho URI
 // args for the callback function
 // the same args as they need to be passed to the candidate microservice
-const facadeSort = (args) => ekhojs.wrap(
-  legacySort,
-  'AWS-microservice-test',
-  { route: 'createdAt' },
-  'http://184.169.198.41:443/',
-  args,
-  { body: [...args.num] }
+
+const ekhoUri = (process.env.HOST = 'local') ? 'http://localhost:443/' : 'http://184.169.198.41:443/';
+
+let facadeSort;
+
+if (process.env.HOST = 'local') {
+  facadeSort = (args) => ekhojs.wrap(
+      legacySort,
+      'sample-test',
+      { type: 'test', answer: 42 },
+      ekhoUri,
+      args,
+      // pass a copy of args because otherwise we'll pass the sorted array to the microservice
+      { body: [...args] },
+    )
+} else {
+  facadeSort = (args) => ekhojs.wrap(
+    legacySort,
+    'AWS-microservice-test',
+    { route: 'createdAt' },
+    ekhoUri,
+    args,
+    { body: [...args.num] },
+  )
+}
+
+const doNothing = () => true;
+
+const facadeDoNothing = (body) => ekhojs.wrap(
+  doNothing,
+  body.name,
+  {},
+  ekhoUri,
+  null,
+  { body },
 )
 
 // ekhojs.wrap(legacyFunctions.fizzBuzz, 'test', {type: 'test'}, 'https://localhost:3001', 'https://localhost:3000', input)
-module.exports = facadeSort;
+module.exports = { facadeSort, facadeDoNothing };

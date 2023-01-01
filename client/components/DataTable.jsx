@@ -45,7 +45,7 @@ export default function DataTable(props) {
 
   return (
   <div id="tabledata">
-    <table className="table table-bordered table-dark">
+    <table className="table table-bordered">
       <thead>
         <tr align-middle="true" >
           <th>Experiment</th>

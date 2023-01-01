@@ -51,7 +51,8 @@ const dbController: DbControllerType = {
     };
     try {
       await db.create(dbBody);
-      console.log('experiment added to DB');
+      // TODO: below line is for performance testing. Find a better way to handle this
+      if (req.body.args.body.done) console.log(Date.now() % (1000 * 60 * 60));
       return next();
     } catch (err) {
       return next(createErr('dbController', 'publishResults', err));

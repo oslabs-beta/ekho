@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../layouts/Navbar';
+import Sidebar from '../layouts/Sidebar';
 import DataTable from '../components/DataTable';
 import '../stylesheets/style.scss';
-import PieChart from '../components/PieChart.jsx'
-
-import LineChart from '../components/LineChart.jsx'
-import DownloadCSV from '../components/downloadCSVbutton'
-
-import { Dropdown, ToggleButton, Nav } from 'react-bootstrap'
+import PieChart from '../components/PieChart'
+import LineChart from '../components/LineChart'
+import { Dropdown } from 'react-bootstrap'
 
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
 
-
-
 const App = () => {
   const [experiments, setExperiments] = useState(['-- Loading Experiments --']);
   const [currExperiment, setCurrExperiment] = useState('-- Loading Experiments --');
-  const [context, setContext] = useState('');
+  // const [context, setContext] = useState('');
   const [rawMismatchData, setRawMismatchData] = useState('');
   const [pieChartData, setPieChartData] = useState([1,0]);
   const [lineChartData, setLineChartData] = useState({"legacy": [], "candidate": []})
@@ -235,7 +231,7 @@ const App = () => {
   };
 
   const experimentsDropdown = [];
-  const contextDropdown = [];
+  // const contextDropdown = [];
   for (let i = 0; i < experiments.length; i++) {
     experimentsDropdown.push(<Dropdown.Item  style ={{width:'100%'}}key={`experiment${i}`} value={experiments[i]} onClick = {(e) => {setCurrExperiment(experiments[i]);}}>{experiments[i]}</Dropdown.Item>);
   }
@@ -247,41 +243,30 @@ const App = () => {
       
       {/*div that envelops the entire webpage except for navbar*/}
       <div className="body">
-        <div id="dropdown-body">
-          <h4 style ={{fontSize:'2.4vw' }}>Experiment</h4>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {currExperiment}
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>{experimentsDropdown}</Dropdown.Menu>
-          </Dropdown>
-          <ToggleButton
-            style ={{width:'100%', fontSize:'1vw', backgroundColor:'rgba(45, 112, 70, 0.664)'}}
-            className="mb-2"
-            id="toggle-check"
-            type="checkbox"
-            variant={`${onlyMismatchOutline}`}
-            checked={onlyMismatch}
-            value="1"
-            onClick={(e) => {setOnlyMismatch(!onlyMismatch)}}
-          >
-            {`Only Display Mismatches`}
-          </ToggleButton>
-          <DownloadCSV data={rawMismatchData} onlyMismatch={onlyMismatch}/>
-        </div>
-
+        <Sidebar 
+        currExperiment={currExperiment} 
+        experimentsDropdown={experimentsDropdown} 
+        mismatch={onlyMismatch} 
+        setMismatch={setOnlyMismatch} 
+        rawMismatchData={rawMismatchData}
+        />
         <div className="dataVis">
-          <DataTable onlyMismatch={onlyMismatch} data={rawMismatchData} />
-          <div className='graphs'> 
-          <PieChart
-            id="pieChart"
-            data={pieChartDataSet}
-            width={100}
-            height={100}
-            options={{ maintainAspectRatio: false }}
+          <DataTable 
+          onlyMismatch={onlyMismatch} 
+          data={rawMismatchData} 
           />
-          <LineChart options={{ lineChartOptions }} data={lineChartDataSet} />
+          <div className='graphs'> 
+            <PieChart
+              id="pieChart"
+              data={pieChartDataSet}
+              width={100}
+              height={100}
+              options={{ maintainAspectRatio: false }}
+            />
+            <LineChart 
+            options={{ lineChartOptions }} 
+            data={lineChartDataSet} 
+            />
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ export type Experiment = {
     criteria: string[],
   } 
 };
-export type DBBody = {
+export interface DBBody {
   experimentName: string,
   context: object,
   resultLegacy: string,
@@ -48,5 +48,4 @@ export type DBBody = {
   mismatchName?: string
   createdAt: Date
 }
-
 

@@ -13,6 +13,7 @@ import {
   Legend,
 } from 'chart.js';
 
+import type { ChartData, ChartOptions} from 'chart.js'
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -56,10 +57,17 @@ Chart.register(
 //   }
 // };
 
-export default function LineChart (props) {
-  const {options, data} = props;
+interface LineChartProps{
+  options: ChartOptions<'line'>
+  data: ChartData<'line'>
+}
+
+const LineChart = ({ options, data }: LineChartProps) => {
+  console.log(options)
   return(
   <>
       <Line id="lineChart" options={options} data={data} width={100} height={100}/>
   </>
 )}
+
+export default LineChart

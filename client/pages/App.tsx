@@ -6,6 +6,9 @@ import '../stylesheets/style.scss';
 import PieChart from '../components/PieChart'
 import LineChart from '../components/LineChart'
 import { Dropdown } from 'react-bootstrap'
+import type { Chart, ChartData, ChartOptions} from 'chart.js'
+import { Data } from '../layouts/Sidebar';
+import { PieData } from '../../server/utils/types';
 
 // Should we attempt to receive zipped files and decompress?
 // for raw data, maybe!
@@ -16,9 +19,9 @@ const App = () => {
   // const [context, setContext] = useState('');
   const [rawMismatchData, setRawMismatchData] = useState('');
   const [pieChartData, setPieChartData] = useState([1,0]);
-  const [lineChartData, setLineChartData] = useState({"legacy": [], "candidate": []})
+  const [lineChartData, setLineChartData] = useState<{ legacy: Array<{x:string, y:string}>, candidate: Array<{x:string, y:string}>}>({"legacy": [], "candidate": []})
   const [onlyMismatch, setOnlyMismatch] = useState(false);
-  const [suggestionRenderList, setsuggestionRenderList] = useState("")
+  const [suggestionRenderList, setsuggestionRenderList] = useState(<div></div>)
 
 
   // On document load, we want to go grab unique experiments
@@ -37,19 +40,19 @@ const App = () => {
         console.log(err);
       })
   }
-  
+ 
   //autocomplete functionality for navbar experiment search
-  const autocomplete = async (value, array) => {
+  const autocomplete = async (value: string, array: Array<string>) => {
     let currentFocus
-    let suggestions = [];
+    const suggestions: React.ReactNode[] = [];
     //reset the list of suggestions on every update
     closeAllLists();
     //only iterate through experiment state for matches if experiment input is not null
-    if (document.querySelector(".experiment-input").value !== ""){
+    if ((document.querySelector(".experiment-input") as HTMLInputElement).value !== ""){
       currentFocus = -1;
       for (let i = 0; i < array.length; i++){
         if (array[i].slice(0, value.length).toUpperCase() === value.toUpperCase()){
-          suggestions.push(<div className="autocomplete-items" key={i} name={array[i]} onClick={(e) => {selectSuggestion(array[i])}}>{array[i]}</div>)
+          suggestions.push(<div className="autocomplete-items" key={i} onClick={(e) => {selectSuggestion(array[i])}}>{array[i]}</div>)
         }
       }
       //if there are no matches suggestion array will be empty. Push a "No Results" into the array
@@ -62,26 +65,26 @@ const App = () => {
   }
   
   //invokes when user clicks on a autofill suggestion
-  const selectSuggestion = (value) => {
+  const selectSuggestion = (value: string) => {
     setCurrExperiment(value);
     closeAllLists();
-    console.log(value)
-    document.querySelector(".experiment-input").value = value;
+    // console.log(value)
+    (document.querySelector(".experiment-input") as HTMLInputElement).value = value;
     updateChartsToExperiment();
   }
   
   const closeAllLists = () => {
-    if (document.querySelector(".autocomplete").querySelector(".suggestion-container")){
-      setsuggestionRenderList("");
+    if ((document.querySelector(".autocomplete") as HTMLElement).querySelector(".suggestion-container")){
+      setsuggestionRenderList(<div></div>);
     }
   }
 
-  const updateRenderList = (value, suggestions) => {
+  const updateRenderList = (value: string, suggestions: React.ReactNode[]) => {
     //update the suggestion list rendering variable to render our list of suggestions
       setsuggestionRenderList(
         (<div className="form-group suggestion-container">
             {suggestions}
-        </div>)
+        </div> as React.ReactElement<any>)
       )
   }
 
@@ -100,22 +103,22 @@ const App = () => {
           // - unless we want all the data aggregation to be done client-side.
           setRawMismatchData(data);
           
-          const getPieChartData = (data) => {
+          const getPieChartData = (data: PieData) => {
             //create shallow copy of rawMismatchData and parse down to only mismatch quantities
             const newPieChartData = [0,0];
             for(const el of data){
               if(el.mismatch) newPieChartData[0]++;
               else newPieChartData[1]++;
             }
-            console.log('new data:',newPieChartData);
+            console.log('new Pie data:',data);
             setPieChartData(newPieChartData);
           }
           getPieChartData(data);
 
-          const getLineChartData = (data) => {
+          const getLineChartData = (data: PieData) => {
             //dataset1 and dataset 2 iterate through the array of docs and set x: date and y: runtime
-            const dataSet1 = [];
-            const dataSet2 = [];
+            const dataSet1: Array<{x:string, y:string}> = [];
+            const dataSet2: Array<{x:string, y:string}> = [];
             for (const el of data){
               let legacy = {
                 x: el._id,
@@ -230,7 +233,7 @@ const App = () => {
     maintainAspectRatio: false
   };
 
-  const experimentsDropdown = [];
+  const experimentsDropdown: Array<React.ReactNode> = [];
   // const contextDropdown = [];
   for (let i = 0; i < experiments.length; i++) {
     experimentsDropdown.push(<Dropdown.Item  style ={{width:'100%'}}key={`experiment${i}`} value={experiments[i]} onClick = {(e) => {setCurrExperiment(experiments[i]);}}>{experiments[i]}</Dropdown.Item>);
@@ -248,12 +251,12 @@ const App = () => {
         experimentsDropdown={experimentsDropdown} 
         mismatch={onlyMismatch} 
         setMismatch={setOnlyMismatch} 
-        rawMismatchData={rawMismatchData}
+        rawMismatchData={rawMismatchData as unknown as Data}
         />
         <div className="dataVis">
           <DataTable 
           onlyMismatch={onlyMismatch} 
-          data={rawMismatchData} 
+          data={rawMismatchData as unknown as Data} 
           />
           <div className='graphs'> 
             <PieChart
@@ -264,8 +267,8 @@ const App = () => {
               options={{ maintainAspectRatio: false }}
             />
             <LineChart 
-            options={{ lineChartOptions }} 
-            data={lineChartDataSet} 
+            options={(lineChartOptions as unknown as ChartOptions)}  
+            data={lineChartDataSet as unknown as ChartData<'line'>} 
             />
           </div>
         </div>

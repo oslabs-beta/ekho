@@ -5,13 +5,13 @@ import DownloadCSV from "../components/downloadCSVbutton"
 import { DBBody } from "../../server/utils/types"
 interface SidebarProps {
   currExperiment: string
-  experimentsDropdown: Array<JSXElement>
+  experimentsDropdown: Array<React.ReactNode>
   mismatch: boolean
   setMismatch: (mismatch: boolean) => void
   rawMismatchData: Data
 }
 
-interface Data extends DBBody{
+export interface Data extends DBBody{
   forEach: (el: object, idx?: number) => void
 }
 

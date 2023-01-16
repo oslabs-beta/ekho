@@ -1,7 +1,7 @@
 import React from 'react';
 import reactDom from 'react-dom';
 
-import App from './pages/App.jsx';
+import App from './pages/App';
 
 // mount our React app to the index.html at root element. 
 // The || is because React Testing Library doesn't load index.html and therefore can't find #root

@@ -36,7 +36,7 @@ export type Experiment = {
     criteria: string[],
   }
 };
-export type DBBody = {
+export interface DBBody {
   experimentName: string,
   context: object,
   resultLegacy: string,
@@ -47,4 +47,19 @@ export type DBBody = {
   ignoredMismatch?: boolean,
   mismatchName?: string
   createdAt: Date
-};
+}
+
+export interface PieData extends Iterable<any>{
+  context: {
+    route: string
+  },
+createdAt: string,
+experimentName: string,
+legacyTime: number,
+mismatch: boolean,
+msTime: string,
+resultLegacy: string,
+resultMS: string,
+__v: number,
+_id: string,
+}

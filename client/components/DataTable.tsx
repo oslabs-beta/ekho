@@ -1,12 +1,21 @@
-import React from 'react';
-import Row from './Row.jsx';
+import React, { Context } from 'react';
+import Row from './TableRow';
+import { DBBody } from '../../server/utils/types'
 
-export default function DataTable(props) {
-  const rows = [];
-  const data = props.data;
+interface DataTableProps{
+  onlyMismatch: boolean
+  data: TableData
+}
+
+interface TableData extends DBBody{
+  forEach: (el: object, idx?: number) => void
+}
+
+const DataTable= ({ onlyMismatch, data }: DataTableProps) => {
+  const rows: Array<object> = [];
   if (data) {
-    data.forEach((el, idx) => {
-      if(props.onlyMismatch){
+    data.forEach((el: TableData, idx: number) => {
+      if(onlyMismatch){
         if(el.mismatch){
         rows.push(
         <Row 
@@ -66,3 +75,5 @@ export default function DataTable(props) {
   </div>
   )
 }
+
+export default DataTable

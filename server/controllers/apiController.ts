@@ -3,7 +3,7 @@
 import { RequestHandler } from 'express';
 import fetch from 'node-fetch';
 import createErr from '../utils/errorHandler';
-import experiments from '../utils/yamlParser';
+import getExperiments from '../utils/yamlParser';
 import criteriaDict from '../utils/criteria';
 import {
   Args,
@@ -58,6 +58,7 @@ const apiController: ApiControllerType = {
   },
 
   findExperiment: (req, res, next) => {
+    const experiments = getExperiments();
     try {
       let experiment: Experiment;
       for (let i = 0; i < experiments.length; i++) {
@@ -127,7 +128,7 @@ const apiController: ApiControllerType = {
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
-        ...(Object.hasOwn(args, 'body') && { body: JSON.stringify(args.body) }),
+        ...(Object.hasOwn(args, 'body') && (args.body) && { body: JSON.stringify(args.body) }),
       });
       const end = Date.now();
       const parsedResponse = await candidateResponse.json();
@@ -142,7 +143,6 @@ const apiController: ApiControllerType = {
 
   compareResults: (req, res, next) => {
     try {
-    // validate comparison
       res.locals.mismatch = JSON.stringify(req.body.result) !== JSON.stringify(res.locals.candidateResult);
       return next();
     } catch (err) {

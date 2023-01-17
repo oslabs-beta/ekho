@@ -54,7 +54,7 @@ const DataTable= ({ onlyMismatch, data }: DataTableProps) => {
 
   return (
   <div id="tabledata">
-    <table className="table table-bordered table-dark">
+    <table className="table table-bordered">
       <thead>
         <tr align-middle="true" >
           <th>Experiment</th>

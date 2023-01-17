@@ -36,8 +36,11 @@ server.post(
   apiController.structureURI,
   apiController.callCandidateMicroservice,
   apiController.compareResults,
+  apiController.checkIgnoreMismatchRules,
   dbController.publishResults,
-  (req: Request, res: Response) => console.log('trial complete'),
+  (req: Request, res: Response) => {
+    // console.log('trial complete');
+  },
 );
 
 /* -----------FRONTEND HANDLERS----------- */

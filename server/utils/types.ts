@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+// import { RequestHandler } from "express";
 
 export type ArgsBody = { [key: string]: unknown };
 
@@ -34,7 +34,7 @@ export type Experiment = {
   flaggedMismatchRules?: {
     name: string,
     criteria: string[],
-  } 
+  }
 };
 export interface DBBody {
   experimentName: string,

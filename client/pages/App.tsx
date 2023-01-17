@@ -177,12 +177,12 @@ const App = () => {
       label: 'Matches vs. Mismatches',
       data: pieChartData,
       backgroundColor: [
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(75, 192, 192, 0.2)'
+        'rgba(24, 238, 17, 1)',
+        'rgba(0, 84, 240, 1)'
       ],
       borderColor: [
-        'rgba(54, 162, 235, 1)',
-        'rgba(75, 192, 192, 1)'
+        'rgba(24, 238, 17, 1)',
+        'rgba(0, 84, 240, 1)'
       ],
       borderWidth: 1,
     },
@@ -194,14 +194,16 @@ const App = () => {
     labels: ['Control Data', 'Candidate Data'],
     datasets: [{
       label: 'Control Data',
-      borderColor: 'rgba(999, 162, 235, 1)',
+      backgroundColor: 'rgba(239, 45, 42, 1)',
+      borderColor: 'rgba(239, 45, 42, 1)',
       borderWidth: 1,
       radius: 0,
       data: lineChartData["legacy"],
     }, 
     {
       label: 'Candidate Data',
-      borderColor: 'rgba(75, 192, 192, 1)',
+      backgroundColor: 'rgba(0, 84, 240, 1)',
+      borderColor: 'rgba(0, 84, 240, 1)',
       borderWidth: 1,
       radius: 0,
       data: lineChartData["candidate"],
@@ -242,8 +244,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar suggestionList={suggestionRenderList} autocompleteFunc={autocomplete} experiments={experiments}/>
-      
+      <Navbar suggestionList={suggestionRenderList} autocompleteFunc={autocomplete} experiments={experiments}/>      
       {/*div that envelops the entire webpage except for navbar*/}
       <div className="body">
         <Sidebar 
